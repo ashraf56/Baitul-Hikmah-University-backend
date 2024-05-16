@@ -20,7 +20,7 @@ gardian:{
 })
 
 
-const StudentsModal = model<StudentsInfo>("StudentsModal" , Userschema)
+const StudentsModal = model<StudentsInfo>("Student" , Userschema)
 
 
 export default StudentsModal
