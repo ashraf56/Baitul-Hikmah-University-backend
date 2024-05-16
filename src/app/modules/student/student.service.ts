@@ -9,7 +9,10 @@ const createStudentintoDB = async (student: StudentsInfo) => {
     return result
 }
 
-
+const getStudentsFromDB = async ()=>{
+    const rss = await StudentsModal.find()
+    return rss
+}
 export const StudentService = {
-    createStudentintoDB
+    createStudentintoDB, getStudentsFromDB
 }
