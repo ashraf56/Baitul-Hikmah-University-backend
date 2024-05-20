@@ -10,16 +10,7 @@ const Userschema = new Schema<StudentsInfo>({
         required: [true, 'name is required here'],
         maxlength: 20,
         trim: true,
-        validate: {
-            validator: function (value: unknown) {
-                if (typeof value !== 'string') {
-                    return false; // Return false if the value is not a string
-                }
-                const namestr = value.charAt(0).toUpperCase() + value.slice(1);
-                return namestr === value;
-            },
-            message: '{VALUE} is not valid'
-        },
+       
     },
     adress: { type: String },
     contactnumber: { type: String, trim: true },
