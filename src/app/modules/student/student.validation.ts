@@ -4,6 +4,7 @@ const studentValidationSchema = Joi.object({
     id: Joi.string().required().messages({
         'any.required': 'ID is required',
     }),
+    password: Joi.string().required().max(10).trim(),
     name: Joi.string().required().max(20).trim(),
     adress: Joi.string().optional(),
     contactnumber: Joi.string().trim().optional(),
@@ -15,7 +16,8 @@ const studentValidationSchema = Joi.object({
     gardian: Joi.object({
         fathersName: Joi.string().trim().optional(),
         fathersNumber: Joi.string().trim().optional()
-    }).optional()
+    }).optional(),
+    isDeleted: Joi.boolean().optional()
 });
 
 

@@ -34,6 +34,24 @@ const createStudents = async (req: Request, res: Response) => {
 
 }
 
+const deletStudent = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const result = await StudentService.getdeletStudent(id)
+
+        res.status(200).json({
+            message: "data delete success",
+            data: result
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            message: "something error",
+            error: error
+        })
+    }
+}
+
 const getAllstudent = async (req: Request, res: Response) => {
 
     try {
@@ -52,5 +70,5 @@ const getAllstudent = async (req: Request, res: Response) => {
 
 
 export const StudentController = {
-    createStudents, getAllstudent
+    createStudents, getAllstudent, deletStudent
 }

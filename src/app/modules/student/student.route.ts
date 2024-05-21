@@ -5,6 +5,6 @@ const router = express.Router()
 // StudentController.createStudents it is a controller for createstudent route
 router.post('/createstudent', StudentController.createStudents)
 
-router.get('/' , StudentController.getAllstudent)
-
-export  const StudentRoute= router;
+router.get('/', StudentController.getAllstudent)
+router.delete('/:id', StudentController.deletStudent)
+export const StudentRoute = router;
