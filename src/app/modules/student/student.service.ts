@@ -1,14 +1,13 @@
-import { StudentsInfo } from "./student.interface";
 import StudentsModal from "./student.schema";
 
-const createStudentintoDB = async (student: StudentsInfo) => {
-    // it is used for create a data  from StudentsModal into DB 
+// const createStudentintoDB = async (student: StudentsInfo) => {
+//     // it is used for create a data  from StudentsModal into DB 
 
-    // const result = await StudentsModal.create(student) // built in static instamce method 
-    const result = new StudentsModal(student)
-    const res = result.save()
-    return res
-}
+//     // const result = await StudentsModal.create(student) // built in static instamce method 
+//     const result = new StudentsModal(student)
+//     const res = result.save()
+//     return res
+// }
 
 const getdeletStudent = async (id: string) => {
 
@@ -22,5 +21,5 @@ const getStudentsFromDB = async () => {
     return rss
 }
 export const StudentService = {
-    createStudentintoDB, getStudentsFromDB, getdeletStudent
+   getStudentsFromDB, getdeletStudent
 }

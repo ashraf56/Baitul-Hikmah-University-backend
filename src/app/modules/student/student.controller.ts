@@ -1,38 +1,37 @@
 import { Request, Response } from "express";
 import { StudentService } from "./student.service";
-import studentValidationSchema from "./student.validation";
 
 
-const createStudents = async (req: Request, res: Response) => {
-    try {
-        const student = req.body;
-        const { error, value } = studentValidationSchema.validate(student)
+// const createStudents = async (req: Request, res: Response) => {
+//     try {
+//         const student = req.body;
+//         const { error, value } = studentValidationSchema.validate(student)
 
 
-        // StudentService.createStudentintoDB it is service for createstudent controller 
-        const result = await StudentService.createStudentintoDB(value)
+//         // StudentService.createStudentintoDB it is service for createstudent controller 
+//         const result = await StudentService.createStudentintoDB(value)
 
-        if (error) {
-            res.status(500).json({
-                message: "validation  error",
-                error: error
-            })
-        }
+//         if (error) {
+//             res.status(500).json({
+//                 message: "validation  error",
+//                 error: error
+//             })
+//         }
 
-        res.status(200).json({
-            message: "data success",
-            data: result
-        })
-    } catch (error) {
+//         res.status(200).json({
+//             message: "data success",
+//             data: result
+//         })
+//     } catch (error) {
 
 
-        res.status(500).json({
-            message: "something error",
-            error: error
-        })
-    }
+//         res.status(500).json({
+//             message: "something error",
+//             error: error
+//         })
+//     }
 
-}
+// }
 
 const deletStudent = async (req: Request, res: Response) => {
     try {
@@ -70,5 +69,5 @@ const getAllstudent = async (req: Request, res: Response) => {
 
 
 export const StudentController = {
-    createStudents, getAllstudent, deletStudent
+    getAllstudent, deletStudent
 }
