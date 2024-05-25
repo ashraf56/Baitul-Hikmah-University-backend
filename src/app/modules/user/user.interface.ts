@@ -1,4 +1,4 @@
-interface UserInterface  {
+export interface UserInterface  {
 id:string;
 password:string;
 needsPasswordChange:boolean;
