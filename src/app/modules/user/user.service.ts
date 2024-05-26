@@ -4,26 +4,26 @@ import { UserInterface } from "./user.interface";
 import UserModel from "./user.model";
 
 
-const CreateUserDB =async (password:string,student:StudentsInfo) => {
+const CreateUserDB = async (password: string, student: StudentsInfo) => {
 
-const newUserdata : Partial<UserInterface>={}
+    const newUserdata: Partial<UserInterface> = {}
 
-newUserdata.password  = password || 'abc123'
+    newUserdata.password = password || 'abc123'
 
-newUserdata.role='student'
-newUserdata.id = '203010200'
-// it will create new user in the user colleciton
-const newUser = await UserModel.create(newUserdata)
+    newUserdata.role = 'student'
+    newUserdata.id = '203010200'
+    // it will create new user in the user colleciton
+    const newUser = await UserModel.create(newUserdata)
 
-if (Object.keys(newUser).length) {
-    student.id =newUser.id
-    student.userid= newUser._id
+    if (Object.keys(newUser).length) {
+        student.id = newUser.id
+        student.userid = newUser._id
 
-    // it will create student in the strudents collection
-const strudents = await StudentsModal.create(student)
+        // it will create student in the strudents collection
+        const strudents = await StudentsModal.create(student)
 
-return strudents
-}
+        return strudents
+    }
 
 
 }

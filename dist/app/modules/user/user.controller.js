@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const user_service_1 = require("./user.service");
-const createUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { password, student } = req.body;
         const newusers = yield user_service_1.UserService.CreateUserDB(password, student);
@@ -23,10 +23,7 @@ const createUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }
     catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message || " not success"
-        });
+        next(error);
     }
 });
 exports.UserController = {
