@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 export type Gardian = {
     fathersName: string;
     fathersNumber: string;
@@ -12,13 +14,13 @@ export type Username = {
 export interface StudentsInfo {
     id: string;
     password:string;
+    userid: Types.ObjectId;
     name: Username;
     adress: string;
     country: string;
     contactnumber: string;
-    avatar?: string;
     gardian?: Gardian;
     gender: "male" | "female";
-    isDeleted: boolean
+   
 
 }

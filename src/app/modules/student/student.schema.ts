@@ -1,16 +1,21 @@
 import { Schema, model } from 'mongoose';
 import { StudentsInfo } from './student.interface';
-import bcrypt from 'bcrypt'
 
 const Studentchema = new Schema<StudentsInfo>({
     id: { type: String, required: true, unique: true },
-    password: { type: String, required: [true, 'password is required here'], maxlength: 10 },
     name: {
         type: String,
         required: [true, 'name is required here'],
         maxlength: 20,
         trim: true,
 
+    },
+    password:{type:String},
+    userid: {
+        type: Schema.Types.ObjectId,
+        required: [true, 'userID is required'],
+        unique: true,
+        ref: 'UserModel'
     },
     adress: { type: String },
     contactnumber: { type: String, trim: true },
@@ -28,32 +33,28 @@ const Studentchema = new Schema<StudentsInfo>({
         fathersName: { type: String, trim: true },
         fathersNumber: { type: String, trim: true }
     },
-    isDeleted: {
-        type: Boolean,
-        default: false
-    }
 
 
 })
 
 // document middleware
 
-Studentchema.pre('save', async function (next) {
-    const saltNumber = 10
-    this.password = await bcrypt.hash(this.password, saltNumber)
-    next()
-})
+// Studentchema.pre('save', async function (next) {
+//     const saltNumber = 10
+//     this.password = await bcrypt.hash(this.password, saltNumber)
+//     next()
+// })
 
-Studentchema.post('save', function (doc, next) {
-    doc.password = ""
-    next()
-})
+// Studentchema.post('save', function (doc, next) {
+//     doc.password = ""
+//     next()
+// })
 
-//query midleware
-Studentchema.pre("find", function (next) {
-    this.find({ isDeleted: { $ne: true } })
-    next()
-})
+// //query midleware
+// Studentchema.pre("find", function (next) {
+//     this.find({ isDeleted: { $ne: true } })
+//     next()
+// })
 
 
 const StudentsModal = model<StudentsInfo>("Student", Studentchema)

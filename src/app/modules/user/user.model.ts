@@ -9,7 +9,7 @@ const UserSchema = new Schema<UserInterface>({
     }
     ,
     password: { type: String, required: true },
-    needsPasswordChange: { type: Boolean },
+    needsPasswordChange: { type: Boolean, default:true },
     role: {
         type: String,
         enum: ['student', 'faculty', 'admin']
@@ -18,7 +18,8 @@ const UserSchema = new Schema<UserInterface>({
         type: String,
         enum: {
             values: ['in-progress', 'blocked']
-        }
+        },
+        default:'in-progress'
     },
     isDeleted: {
         type: Boolean,
@@ -35,6 +36,6 @@ const UserSchema = new Schema<UserInterface>({
 
 
 
-const UserModel = model<UserInterface>("User", UserSchema)
+const UserModel = model<UserInterface>("user", UserSchema)
 
 export default UserModel
