@@ -12,6 +12,7 @@ export type Username = {
 }
 
 export interface StudentsInfo {
+    id: string;
     password:string;
     userid: Types.ObjectId;
     name: Username;

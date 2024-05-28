@@ -11,21 +11,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const user_service_1 = require("./user.service");
-const createUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { password, student } = req.body;
-        const newusers = yield user_service_1.UserService.CreateUserDB(password, student);
-        res.status(200).json({
-            success: true,
-            message: "success",
-            data: newusers
-        });
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    }
-    catch (error) {
-        next(error);
-    }
-});
+const catchAsync_1 = require("../../utils/catchAsync");
+const createUsers = (0, catchAsync_1.catchasync)(
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+(req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { password, student } = req.body;
+    const newusers = yield user_service_1.UserService.CreateUserDB(password, student);
+    res.status(200).json({
+        success: true,
+        message: "success",
+        data: newusers
+    });
+}));
 exports.UserController = {
     createUsers
 };

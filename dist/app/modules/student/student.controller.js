@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StudentController = void 0;
 const student_service_1 = require("./student.service");
+const catchAsync_1 = require("../../utils/catchAsync");
 // const createStudents = async (req: Request, res: Response) => {
 //     try {
 //         const student = req.body;
@@ -50,18 +51,12 @@ const deletStudent = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
 });
-const getAllstudent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const result = yield student_service_1.StudentService.getStudentsFromDB();
-        res.status(200).json({ result });
-    }
-    catch (error) {
-        res.status(500).json({
-            message: "something error",
-            error: error
-        });
-    }
-});
+const getAllstudent = (0, catchAsync_1.catchasync)(
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+(req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield student_service_1.StudentService.getStudentsFromDB();
+    res.status(200).json({ result });
+}));
 exports.StudentController = {
     getAllstudent, deletStudent
 };
