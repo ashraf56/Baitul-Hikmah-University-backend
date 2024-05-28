@@ -1,5 +1,6 @@
-import { Request, Response } from "express";
+import {   RequestHandler, } from "express";
 import { StudentService } from "./student.service";
+import { catchasync } from "../../utils/catchAsync";
 
 
 // const createStudents = async (req: Request, res: Response) => {
@@ -33,7 +34,8 @@ import { StudentService } from "./student.service";
 
 // }
 
-const deletStudent = async (req: Request, res: Response) => {
+ 
+const deletStudent:RequestHandler = async (req, res) => {
     try {
         const { id } = req.params;
         const result = await StudentService.getdeletStudent(id)
@@ -51,22 +53,16 @@ const deletStudent = async (req: Request, res: Response) => {
     }
 }
 
-const getAllstudent = async (req: Request, res: Response) => {
+const getAllstudent :RequestHandler= catchasync(
 
-    try {
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+    async (req, res, next) => {
 
-        const result = await StudentService.getStudentsFromDB()
-        res.status(200).json({ result })
-
-
-    } catch (error) {
-        res.status(500).json({
-            message: "something error",
-            error: error
-        })
+           const result = await StudentService.getStudentsFromDB()
+            res.status(200).json({ result })
+      
     }
-}
-
+)
 
 export const StudentController = {
     getAllstudent, deletStudent

@@ -1,25 +1,27 @@
+/* eslint-disable no-unused-vars */
 import { NextFunction, Request, Response } from "express";
 import { UserService } from "./user.service";
+import { catchasync } from "../../utils/catchAsync";
 
 
-const createUsers = async (req: Request, res: Response, next:NextFunction) => {
-    try {
-        const { password, student } = req.body;
-        const newusers = await UserService.CreateUserDB(password, student);
-
-        res.status(200).json({
-            success: true,
-            message: "success",
-            data: newusers
-
-        })
-
-
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-       next(error)
+const createUsers = catchasync(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async (req: Request, res: Response, next:NextFunction) => {
+     
+            const { password, student } = req.body;
+            const newusers = await UserService.CreateUserDB(password, student);
+    
+            res.status(200).json({
+                success: true,
+                message: "success",
+                data: newusers
+    
+            })
+    
+    
+        
     }
-}
+)
 
 
 
