@@ -1,17 +1,29 @@
-import { Request, Response } from "express"
+import { Request, Response, NextFunction } from "express"
 import { AnyZodObject } from "zod"
 
 
-const Validaterequest = (schema:AnyZodObject)=>{
-    return async (req:Request,res:Response,next:NewableFunction)=>{
+  const validateRequest =  (schema:AnyZodObject)=>{
+    return async (req:Request,res:Response,next:NextFunction)=>{
+      try {
+       
+        
         await schema.parseAsync(
             {
-                body:req.body
-            }
+                body:req.body,
+
+            } 
         )
+      
+        
         next()
+      } catch (error) {
+        console.log(error);
+        
+        next(error)
+      }
     }
 }
 
+export default validateRequest
 
-export default Validaterequest
+

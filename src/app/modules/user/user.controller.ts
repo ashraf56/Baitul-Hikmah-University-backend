@@ -9,6 +9,7 @@ const createUsers = catchasync(
     async (req: Request, res: Response, next:NextFunction) => {
      
             const { password, student } = req.body;
+            
             const newusers = await UserService.CreateUserDB(password, student);
     
             res.status(200).json({
