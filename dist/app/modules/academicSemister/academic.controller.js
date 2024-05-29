@@ -21,6 +21,34 @@ const createAcademicSemesterController = (0, catchAsync_1.catchasync)((req, res)
         data: result
     });
 }));
+const getAllAcademicSemesters = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academic_service_1.AcademicSemesterServices.getAllAcademicSemestersFromDB();
+    res.status(200).json({
+        success: true,
+        message: "Academic semester is retrieved succesfully",
+        data: result
+    });
+}));
+const getSingleAcademicSemester = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { semesterId } = req.params;
+    const result = yield academic_service_1.AcademicSemesterServices.getSingleAcademicSemesterFromDB(semesterId);
+    res.status(200).json({
+        success: true,
+        message: "Academic semester is retrieved succesfully'",
+        data: result
+    });
+}));
+const updateAcademicSemester = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { semesterId } = req.params;
+    const result = yield academic_service_1.AcademicSemesterServices.updateAcademicSemesterIntoDB(semesterId, req.body);
+    res.status(200).json({
+        success: true,
+        message: "Academic semester is retrieved succesfully'",
+        data: result
+    });
+}));
 exports.AcademicSemesterControllers = {
-    createAcademicSemesterController
+    createAcademicSemesterController,
+    getAllAcademicSemesters, getSingleAcademicSemester,
+    updateAcademicSemester
 };
