@@ -9,17 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const validateRequest = (schema) => {
-    return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            yield schema.parseAsync({
-                body: req.body,
-            });
-            next();
-        }
-        catch (error) {
-            next(error);
-        }
+exports.AcademicSemesterControllers = void 0;
+const catchAsync_1 = require("../../utils/catchAsync");
+const academic_service_1 = require("./academic.service");
+const createAcademicSemesterController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const acamedicData = req.body;
+    const result = yield academic_service_1.AcademicSemesterServices.createAcademicSemesterIntoDB(acamedicData);
+    res.status(200).json({
+        success: true,
+        message: "AcademicSemester successfully created",
+        data: result
     });
+}));
+exports.AcademicSemesterControllers = {
+    createAcademicSemesterController
 };
-exports.default = validateRequest;
