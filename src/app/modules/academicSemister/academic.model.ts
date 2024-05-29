@@ -4,40 +4,39 @@ import { AcademicSemesterCode, AcademicSemesterName, Months } from "./academic.c
 
 
 
-const academicSemisterSchema =new Schema<TAcademicSemester>({
+const academicSemisterSchema = new Schema<TAcademicSemester>({
 
-name:{
-    type:String,
-    required:true,
-    enum:AcademicSemesterName
+    name: {
+        type: String,
+        required: true,
+        enum: AcademicSemesterName
+    },
+    year: {
+        type: String,
+        required: true
+    },
+    code: {
+        type: String,
+        required: true,
+        enum: AcademicSemesterCode,
+    },
+    startMonth: {
+        type: String,
+        required: true,
+        enum: Months,
+    },
+    endMonth: {
+        type: String,
+        required: true,
+        enum: Months,
+    },
 },
-year:{
-    type:String,
-    required:true
-},
-code: {
-    type: String,
-    required: true,
-    enum: AcademicSemesterCode,
-  },
-  startMonth: {
-    type: String,
-    required: true,
-    enum: Months,
-  },
-  endMonth: {
-    type: String,
-    required: true,
-    enum: Months,
-  },
-},
-{
-  timestamps: true,
-},)
+    {
+        timestamps: true,
+    },)
 
 
 
 
-const AcademicSemesterModel = model<TAcademicSemester>('academicsemister',academicSemisterSchema)
+export const AcademicSemesterModel = model<TAcademicSemester>('academicsemister', academicSemisterSchema)
 
-export default AcademicSemesterModel

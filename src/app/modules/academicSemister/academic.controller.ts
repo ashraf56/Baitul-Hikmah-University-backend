@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import {  Request, Response } from "express";
 import { catchasync } from "../../utils/catchAsync";
 import { AcademicSemesterServices } from "./academic.service";
 
@@ -6,7 +6,7 @@ import { AcademicSemesterServices } from "./academic.service";
 
 
 const createAcademicSemesterController = catchasync(
-    async (req: Request, res: Response) => {
+    async (req: Request, res: Response,) => {
         const acamedicData = req.body;
         const result = await AcademicSemesterServices.createAcademicSemesterIntoDB(acamedicData)
 

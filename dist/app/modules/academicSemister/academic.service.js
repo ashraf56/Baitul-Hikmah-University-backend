@@ -8,14 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AcademicSemesterServices = void 0;
-const academic_model_1 = __importDefault(require("./academic.model"));
+const academic_constant_1 = require("./academic.constant");
+const academic_model_1 = require("./academic.model");
 const createAcademicSemesterIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield academic_model_1.default.create(payload);
+    // semister name is not equal to its code then --->
+    if (academic_constant_1.academicSemesterNameCodeMapper[payload.name] !== payload.code) {
+        throw new Error('Invalid Semester Code');
+    }
+    const result = yield academic_model_1.AcademicSemesterModel.create(payload);
     return result;
 });
 exports.AcademicSemesterServices = {
