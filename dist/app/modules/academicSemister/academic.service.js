@@ -20,6 +20,27 @@ const createAcademicSemesterIntoDB = (payload) => __awaiter(void 0, void 0, void
     const result = yield academic_model_1.AcademicSemesterModel.create(payload);
     return result;
 });
+const getAllAcademicSemestersFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academic_model_1.AcademicSemesterModel.find();
+    return result;
+});
+const getSingleAcademicSemesterFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academic_model_1.AcademicSemesterModel.findById(id);
+    return result;
+});
+const updateAcademicSemesterIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    if (payload.name &&
+        payload.code &&
+        academic_constant_1.academicSemesterNameCodeMapper[payload.name] !== payload.code) {
+        throw new Error('Invalid Semester Code');
+    }
+    const result = yield academic_model_1.AcademicSemesterModel.findOneAndUpdate({ _id: id }, payload, {
+        new: true,
+    });
+    return result;
+});
 exports.AcademicSemesterServices = {
-    createAcademicSemesterIntoDB
+    createAcademicSemesterIntoDB,
+    getAllAcademicSemestersFromDB, getSingleAcademicSemesterFromDB,
+    updateAcademicSemesterIntoDB
 };
