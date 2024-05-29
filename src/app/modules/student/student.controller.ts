@@ -1,40 +1,41 @@
-import { Request, Response } from "express";
+import { RequestHandler, } from "express";
 import { StudentService } from "./student.service";
-import studentValidationSchema from "./student.validation";
+import { catchasync } from "../../utils/catchAsync";
 
 
-const createStudents = async (req: Request, res: Response) => {
-    try {
-        const student = req.body;
-        const { error, value } = studentValidationSchema.validate(student)
+// const createStudents = async (req: Request, res: Response) => {
+//     try {
+//         const student = req.body;
+//         const { error, value } = studentValidationSchema.validate(student)
 
 
-        // StudentService.createStudentintoDB it is service for createstudent controller 
-        const result = await StudentService.createStudentintoDB(value)
+//         // StudentService.createStudentintoDB it is service for createstudent controller 
+//         const result = await StudentService.createStudentintoDB(value)
 
-        if (error) {
-            res.status(500).json({
-                message: "validation  error",
-                error: error
-            })
-        }
+//         if (error) {
+//             res.status(500).json({
+//                 message: "validation  error",
+//                 error: error
+//             })
+//         }
 
-        res.status(200).json({
-            message: "data success",
-            data: result
-        })
-    } catch (error) {
+//         res.status(200).json({
+//             message: "data success",
+//             data: result
+//         })
+//     } catch (error) {
 
 
-        res.status(500).json({
-            message: "something error",
-            error: error
-        })
-    }
+//         res.status(500).json({
+//             message: "something error",
+//             error: error
+//         })
+//     }
 
-}
+// }
 
-const deletStudent = async (req: Request, res: Response) => {
+
+const deletStudent: RequestHandler = async (req, res) => {
     try {
         const { id } = req.params;
         const result = await StudentService.getdeletStudent(id)
@@ -52,23 +53,17 @@ const deletStudent = async (req: Request, res: Response) => {
     }
 }
 
-const getAllstudent = async (req: Request, res: Response) => {
+const getAllstudent: RequestHandler = catchasync(
 
-    try {
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+    async (req, res, next) => {
 
         const result = await StudentService.getStudentsFromDB()
         res.status(200).json({ result })
 
-
-    } catch (error) {
-        res.status(500).json({
-            message: "something error",
-            error: error
-        })
     }
-}
-
+)
 
 export const StudentController = {
-    createStudents, getAllstudent, deletStudent
+    getAllstudent, deletStudent
 }

@@ -1,7 +1,7 @@
-import { Schema, model } from 'mongoose';
-import { StudentsInfo } from './student.interface';
-
-const Studentchema = new Schema<StudentsInfo>({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = require("mongoose");
+const Studentchema = new mongoose_1.Schema({
     id: { type: String, required: true, unique: true },
     email: { type: String, required: true, trim: true },
     name: {
@@ -9,11 +9,10 @@ const Studentchema = new Schema<StudentsInfo>({
         required: [true, 'name is required here'],
         maxlength: 20,
         trim: true,
-
     },
     password: { type: String },
     userid: {
-        type: Schema.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         required: [true, 'userID is required'],
         unique: true,
         ref: 'UserModel'
@@ -35,34 +34,24 @@ const Studentchema = new Schema<StudentsInfo>({
         fathersNumber: { type: String, trim: true }
     },
     admissionSemester: {
-        type: Schema.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         ref: 'AcademicSemesterModel',
     },
-
-
-})
-
+});
 // document middleware
-
 // Studentchema.pre('save', async function (next) {
 //     const saltNumber = 10
 //     this.password = await bcrypt.hash(this.password, saltNumber)
 //     next()
 // })
-
 // Studentchema.post('save', function (doc, next) {
 //     doc.password = ""
 //     next()
 // })
-
 // //query midleware
 // Studentchema.pre("find", function (next) {
 //     this.find({ isDeleted: { $ne: true } })
 //     next()
 // })
-
-
-const StudentsModal = model<StudentsInfo>("Student", Studentchema)
-
-
-export default StudentsModal
+const StudentsModal = (0, mongoose_1.model)("Student", Studentchema);
+exports.default = StudentsModal;
