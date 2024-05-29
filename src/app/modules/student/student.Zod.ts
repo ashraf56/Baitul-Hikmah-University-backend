@@ -12,7 +12,7 @@ export const createStudentsInfoZODSchema = z.object({
         password: z.string().optional(),
         student: z.object({
             name: z.string().trim().max(20, 'name cannot exceed 20 characters'),
-            email:z.string().trim(),
+            email:z.string().email(),
             adress: z.string().optional(),
             contactnumber: z.string().trim().optional(),
             country: z.string().trim().optional(),

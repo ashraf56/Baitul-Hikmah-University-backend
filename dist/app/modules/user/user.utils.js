@@ -8,10 +8,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.genarateSudentID = void 0;
+const user_model_1 = __importDefault(require("./user.model"));
+const findLaststudentID = () => __awaiter(void 0, void 0, void 0, function* () {
+    const lastStudent = yield user_model_1.default.findOne({
+        role: 'student'
+    }, {
+        id: 1,
+        _id: 0
+    })
+        .sort({
+        createdAt: -1
+    });
+    return (lastStudent === null || lastStudent === void 0 ? void 0 : lastStudent.id) ? lastStudent === null || lastStudent === void 0 ? void 0 : lastStudent.id.substring(6) : undefined;
+});
 const genarateSudentID = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const currentID = (0).toString();
+    const currentID = (yield findLaststudentID()) || (0).toString();
     let incrementedID = (Number(currentID) + 1).toString().padStart(4, '0');
     incrementedID = `${payload.year}${payload.code}${incrementedID}`;
     return incrementedID;

@@ -33,7 +33,6 @@ const CreateUserDB = (password, student) => __awaiter(void 0, void 0, void 0, fu
         student.userid = newUser._id;
         // it will create student in the strudents collection
         const strudents = yield student_schema_1.default.create(student);
-        console.log(strudents);
         return strudents;
     }
 });

@@ -34,7 +34,7 @@ const CreateUserDB = async (password: string, student: StudentsInfo) => {
 
         // it will create student in the strudents collection
         const strudents = await StudentsModal.create(student)
-   console.log(strudents);
+   
    
         return strudents
     }
