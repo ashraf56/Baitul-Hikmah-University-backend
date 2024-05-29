@@ -35,7 +35,19 @@ const academicSemisterSchema = new Schema<TAcademicSemester>({
         timestamps: true,
     },)
 
+// middleware function for business logic
+academicSemisterSchema.pre('save', async function (next) {
+    const issemisterExist = await AcademicSemesterModel.findOne({
+        year: this.year,
+        name: this.name
+    })
+    if (issemisterExist) {
+        throw new Error('Already exist')
+    }
 
+    next()
+
+})
 
 
 export const AcademicSemesterModel = model<TAcademicSemester>('academicsemister', academicSemisterSchema)
