@@ -24,10 +24,18 @@ const findLaststudentID = () => __awaiter(void 0, void 0, void 0, function* () {
         .sort({
         createdAt: -1
     });
-    return (lastStudent === null || lastStudent === void 0 ? void 0 : lastStudent.id) ? lastStudent === null || lastStudent === void 0 ? void 0 : lastStudent.id.substring(6) : undefined;
+    return (lastStudent === null || lastStudent === void 0 ? void 0 : lastStudent.id) ? lastStudent === null || lastStudent === void 0 ? void 0 : lastStudent.id : undefined;
 });
 const genarateSudentID = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const currentID = (yield findLaststudentID()) || (0).toString();
+    let currentID = (0).toString(); // 0000
+    const lastStudentID = yield findLaststudentID(); // 2030 01 0001
+    const lastsemistercode = lastStudentID === null || lastStudentID === void 0 ? void 0 : lastStudentID.substring(4, 6); // 01
+    const lastsemisterYear = lastStudentID === null || lastStudentID === void 0 ? void 0 : lastStudentID.substring(0, 4); //2030
+    const currentYear = payload.year;
+    const currentcode = payload.code;
+    if (lastStudentID && lastsemisterYear === currentYear && lastsemistercode === currentcode) {
+        currentID = lastStudentID === null || lastStudentID === void 0 ? void 0 : lastStudentID.substring(6); // 0001
+    }
     let incrementedID = (Number(currentID) + 1).toString().padStart(4, '0');
     incrementedID = `${payload.year}${payload.code}${incrementedID}`;
     return incrementedID;
