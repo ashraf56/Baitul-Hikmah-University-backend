@@ -13,13 +13,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
+const academic_model_1 = require("../academicSemister/academic.model");
 const student_schema_1 = __importDefault(require("../student/student.schema"));
 const user_model_1 = __importDefault(require("./user.model"));
+const user_utils_1 = require("./user.utils");
 const CreateUserDB = (password, student) => __awaiter(void 0, void 0, void 0, function* () {
     const newUserdata = {};
     newUserdata.password = password || 'abc123';
     newUserdata.role = 'student';
-    newUserdata.id = '203010200';
+    const admissionSemester = yield academic_model_1.AcademicSemesterModel.findById(student.admissionSemester);
+    if (!admissionSemester) {
+        throw new Error('Admission semester not found');
+    }
+    newUserdata.id = yield (0, user_utils_1.genarateSudentID)(admissionSemester);
     // it will create new user in the user colleciton
     const newUser = yield user_model_1.default.create(newUserdata);
     if (Object.keys(newUser).length) {
@@ -27,6 +33,7 @@ const CreateUserDB = (password, student) => __awaiter(void 0, void 0, void 0, fu
         student.userid = newUser._id;
         // it will create student in the strudents collection
         const strudents = yield student_schema_1.default.create(student);
+        console.log(strudents);
         return strudents;
     }
 });

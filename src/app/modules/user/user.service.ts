@@ -1,7 +1,10 @@
+import { TAcademicSemester } from "../academicSemister/academic.interface";
+import { AcademicSemesterModel } from "../academicSemister/academic.model";
 import { StudentsInfo } from "../student/student.interface";
 import StudentsModal from "../student/student.schema";
 import { UserInterface } from "./user.interface";
 import UserModel from "./user.model";
+import { genarateSudentID } from "./user.utils";
 
 
 const CreateUserDB = async (password: string, student: StudentsInfo) => {
@@ -11,7 +14,17 @@ const CreateUserDB = async (password: string, student: StudentsInfo) => {
     newUserdata.password = password || 'abc123'
 
     newUserdata.role = 'student'
-    newUserdata.id = '203010200'
+
+    const admissionSemester= await AcademicSemesterModel.findById(
+        student.admissionSemester
+      );
+      if (!admissionSemester) {
+        throw new Error( 'Admission semester not found');
+        }
+      
+    newUserdata.id= await  genarateSudentID(admissionSemester as TAcademicSemester)
+   
+   
     // it will create new user in the user colleciton
     const newUser = await UserModel.create(newUserdata)
 
@@ -21,7 +34,8 @@ const CreateUserDB = async (password: string, student: StudentsInfo) => {
 
         // it will create student in the strudents collection
         const strudents = await StudentsModal.create(student)
-
+   console.log(strudents);
+   
         return strudents
     }
 

@@ -11,12 +11,12 @@ exports.createStudentsInfoZODSchema = zod_1.z.object({
         password: zod_1.z.string().optional(),
         student: zod_1.z.object({
             name: zod_1.z.string().trim().max(20, 'name cannot exceed 20 characters'),
+            email: zod_1.z.string().trim(),
             adress: zod_1.z.string().optional(),
             contactnumber: zod_1.z.string().trim().optional(),
             country: zod_1.z.string().trim().optional(),
             gender: zod_1.z.enum(['male', 'female']).optional(),
             gardian: exports.GardianSchema.optional(),
-            admissionSemester: zod_1.z.string().optional(),
         })
     })
 });

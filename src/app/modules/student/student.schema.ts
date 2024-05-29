@@ -3,6 +3,7 @@ import { StudentsInfo } from './student.interface';
 
 const Studentchema = new Schema<StudentsInfo>({
     id: { type: String, required: true, unique: true },
+    email:{type:String,required:true,trim:true},
     name: {
         type: String,
         required: [true, 'name is required here'],
@@ -35,7 +36,7 @@ const Studentchema = new Schema<StudentsInfo>({
     },
     admissionSemester : {
         type: Schema.Types.ObjectId,
-        ref: 'AcademicSemester',
+        ref: 'AcademicSemesterModel',
       },
 
 

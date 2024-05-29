@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const Studentchema = new mongoose_1.Schema({
     id: { type: String, required: true, unique: true },
+    email: { type: String, required: true, trim: true },
     name: {
         type: String,
         required: [true, 'name is required here'],
@@ -34,7 +35,7 @@ const Studentchema = new mongoose_1.Schema({
     },
     admissionSemester: {
         type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'AcademicSemester',
+        ref: 'AcademicSemesterModel',
     },
 });
 // document middleware
