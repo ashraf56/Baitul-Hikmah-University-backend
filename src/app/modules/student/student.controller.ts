@@ -1,4 +1,4 @@
-import {   RequestHandler, } from "express";
+import { RequestHandler, } from "express";
 import { StudentService } from "./student.service";
 import { catchasync } from "../../utils/catchAsync";
 
@@ -34,8 +34,8 @@ import { catchasync } from "../../utils/catchAsync";
 
 // }
 
- 
-const deletStudent:RequestHandler = async (req, res) => {
+
+const deletStudent: RequestHandler = async (req, res) => {
     try {
         const { id } = req.params;
         const result = await StudentService.getdeletStudent(id)
@@ -53,14 +53,14 @@ const deletStudent:RequestHandler = async (req, res) => {
     }
 }
 
-const getAllstudent :RequestHandler= catchasync(
+const getAllstudent: RequestHandler = catchasync(
 
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     async (req, res, next) => {
 
-           const result = await StudentService.getStudentsFromDB()
-            res.status(200).json({ result })
-      
+        const result = await StudentService.getStudentsFromDB()
+        res.status(200).json({ result })
+
     }
 )
 

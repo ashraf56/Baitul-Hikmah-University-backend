@@ -9,7 +9,7 @@ const UserSchema = new Schema<UserInterface>({
     }
     ,
     password: { type: String, required: true },
-    needsPasswordChange: { type: Boolean, default:true },
+    needsPasswordChange: { type: Boolean, default: true },
     role: {
         type: String,
         enum: ['student', 'faculty', 'admin']
@@ -19,7 +19,7 @@ const UserSchema = new Schema<UserInterface>({
         enum: {
             values: ['in-progress', 'blocked']
         },
-        default:'in-progress'
+        default: 'in-progress'
     },
     isDeleted: {
         type: Boolean,

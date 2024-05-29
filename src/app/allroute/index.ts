@@ -6,22 +6,22 @@ import { AcademicSemesterRouter } from "../modules/academicSemister/academic.rou
 const router = Router();
 
 const moduleRoute = [
-    { 
-        path:'/users',
-        route:UserRouter
+    {
+        path: '/users',
+        route: UserRouter
     },
     {
-        path:'/students',
-        route:StudentRoute
+        path: '/students',
+        route: StudentRoute
     },
 
     {
-        path:'/academic',
+        path: '/academic',
         route: AcademicSemesterRouter
     }
 ]
 
 
-moduleRoute.forEach(r=> router.use(r.path,r.route) )
+moduleRoute.forEach(r => router.use(r.path, r.route))
 
 export default router;

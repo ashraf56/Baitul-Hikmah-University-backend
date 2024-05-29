@@ -6,22 +6,22 @@ import { catchasync } from "../../utils/catchAsync";
 
 const createUsers = catchasync(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async (req: Request, res: Response, next:NextFunction) => {
-     
-            const { password, student } = req.body;
-           
-            
-            const newusers = await UserService.CreateUserDB(password, student);
-    
-            res.status(200).json({
-                success: true,
-                message: "success",
-                data: newusers
-    
-            })
-    
-    
-        
+    async (req: Request, res: Response, next: NextFunction) => {
+
+        const { password, student } = req.body;
+
+
+        const newusers = await UserService.CreateUserDB(password, student);
+
+        res.status(200).json({
+            success: true,
+            message: "success",
+            data: newusers
+
+        })
+
+
+
     }
 )
 

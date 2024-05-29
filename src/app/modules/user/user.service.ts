@@ -15,16 +15,16 @@ const CreateUserDB = async (password: string, student: StudentsInfo) => {
 
     newUserdata.role = 'student'
 
-    const admissionSemester= await AcademicSemesterModel.findById(
+    const admissionSemester = await AcademicSemesterModel.findById(
         student.admissionSemester
-      );
-      if (!admissionSemester) {
-        throw new Error( 'Admission semester not found');
-        }
-      
-    newUserdata.id= await  genarateSudentID(admissionSemester as TAcademicSemester)
-   
-   
+    );
+    if (!admissionSemester) {
+        throw new Error('Admission semester not found');
+    }
+
+    newUserdata.id = await genarateSudentID(admissionSemester as TAcademicSemester)
+
+
     // it will create new user in the user colleciton
     const newUser = await UserModel.create(newUserdata)
 
@@ -34,8 +34,8 @@ const CreateUserDB = async (password: string, student: StudentsInfo) => {
 
         // it will create student in the strudents collection
         const strudents = await StudentsModal.create(student)
-   
-   
+
+
         return strudents
     }
 

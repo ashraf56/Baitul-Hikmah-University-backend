@@ -3,7 +3,7 @@ import { StudentsInfo } from './student.interface';
 
 const Studentchema = new Schema<StudentsInfo>({
     id: { type: String, required: true, unique: true },
-    email:{type:String,required:true,trim:true},
+    email: { type: String, required: true, trim: true },
     name: {
         type: String,
         required: [true, 'name is required here'],
@@ -11,7 +11,7 @@ const Studentchema = new Schema<StudentsInfo>({
         trim: true,
 
     },
-    password:{type:String},
+    password: { type: String },
     userid: {
         type: Schema.Types.ObjectId,
         required: [true, 'userID is required'],
@@ -34,10 +34,10 @@ const Studentchema = new Schema<StudentsInfo>({
         fathersName: { type: String, trim: true },
         fathersNumber: { type: String, trim: true }
     },
-    admissionSemester : {
+    admissionSemester: {
         type: Schema.Types.ObjectId,
         ref: 'AcademicSemesterModel',
-      },
+    },
 
 
 })

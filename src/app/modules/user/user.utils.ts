@@ -2,20 +2,20 @@ import { TAcademicSemester } from "../academicSemister/academic.interface";
 import UserModel from "./user.model";
 
 
-const findLaststudentID = async ()=>{
-const lastStudent = await UserModel.findOne({
-    role:'student'
-},{
-    id:1,
-    _id:0
+const findLaststudentID = async () => {
+    const lastStudent = await UserModel.findOne({
+        role: 'student'
+    }, {
+        id: 1,
+        _id: 0
 
-})
-.sort(
-    {
-        createdAt:-1
-    }
-)
-return lastStudent?.id ? lastStudent?.id.substring(6) : undefined
+    })
+        .sort(
+            {
+                createdAt: -1
+            }
+        )
+    return lastStudent?.id ? lastStudent?.id.substring(6) : undefined
 }
 
 

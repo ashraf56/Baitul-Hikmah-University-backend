@@ -10,8 +10,8 @@ const router = express.Router()
 
 
 router.post('/create-student',
-validateRequest(createStudentsInfoZODSchema),
- UserController.createUsers)
+    validateRequest(createStudentsInfoZODSchema),
+    UserController.createUsers)
 
 
 export const UserRouter = router

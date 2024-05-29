@@ -21,5 +21,5 @@ const getStudentsFromDB = async () => {
     return rss
 }
 export const StudentService = {
-   getStudentsFromDB, getdeletStudent
+    getStudentsFromDB, getdeletStudent
 }

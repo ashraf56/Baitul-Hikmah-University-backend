@@ -13,8 +13,8 @@ export type Username = {
 
 export interface StudentsInfo {
     id: string;
-    email:string;
-    password:string;
+    email: string;
+    password: string;
     userid: Types.ObjectId;
     name: Username;
     adress: string;
@@ -23,6 +23,6 @@ export interface StudentsInfo {
     gardian?: Gardian;
     gender: "male" | "female";
     admissionSemester: Types.ObjectId;
-   
+
 
 }
