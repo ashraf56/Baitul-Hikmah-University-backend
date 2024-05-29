@@ -63,7 +63,7 @@ const genarateSudentID = (payload) => __awaiter(void 0, void 0, void 0, function
   
        incrementedID will be 2
       incrementedID = `${2032}${03}${2}`
-      the id will be 2032030002
+      the id will be 2032030002 df
   
       */
     if (lastStudentID && lastsemisterYear === currentYear && lastsemistercode === currentcode) {
