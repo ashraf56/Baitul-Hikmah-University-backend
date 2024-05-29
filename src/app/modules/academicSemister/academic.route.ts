@@ -11,3 +11,6 @@ router.post('/create-semister',
 validateRequest(AcademicSemesterValidation.createAcdemicSemesterValidationSchema),
 AcademicSemesterControllers.createAcademicSemesterController
 )
+
+
+export const AcademicSemesterRouter = router
