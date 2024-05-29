@@ -16,7 +16,9 @@ export const createStudentsInfoZODSchema = z.object({
             contactnumber: z.string().trim().optional(),
             country: z.string().trim().optional(),
             gender: z.enum(['male', 'female']).optional(),
-            gardian: GardianSchema.optional()
+            gardian: GardianSchema.optional(),
+            admissionSemester: z.string().optional(),
+
         })
     })
 });

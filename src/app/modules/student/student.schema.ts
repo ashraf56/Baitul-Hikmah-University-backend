@@ -33,6 +33,10 @@ const Studentchema = new Schema<StudentsInfo>({
         fathersName: { type: String, trim: true },
         fathersNumber: { type: String, trim: true }
     },
+    admissionSemester : {
+        type: Schema.Types.ObjectId,
+        ref: 'AcademicSemester',
+      },
 
 
 })

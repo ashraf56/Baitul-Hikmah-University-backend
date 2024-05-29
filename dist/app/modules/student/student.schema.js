@@ -32,6 +32,10 @@ const Studentchema = new mongoose_1.Schema({
         fathersName: { type: String, trim: true },
         fathersNumber: { type: String, trim: true }
     },
+    admissionSemester: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'AcademicSemester',
+    },
 });
 // document middleware
 // Studentchema.pre('save', async function (next) {

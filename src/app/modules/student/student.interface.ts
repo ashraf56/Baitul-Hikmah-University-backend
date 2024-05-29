@@ -21,6 +21,7 @@ export interface StudentsInfo {
     contactnumber: string;
     gardian?: Gardian;
     gender: "male" | "female";
+    admissionSemester: Types.ObjectId;
    
 
 }
