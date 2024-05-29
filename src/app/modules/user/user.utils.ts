@@ -66,7 +66,7 @@ export const genarateSudentID = async (payload: TAcademicSemester) => {
   
        incrementedID will be 2 
       incrementedID = `${2032}${03}${2}`
-      the id will be 2032030002
+      the id will be 2032030002 df
   
       */
 
