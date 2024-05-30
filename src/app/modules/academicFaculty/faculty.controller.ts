@@ -18,7 +18,7 @@ const createAcdemicFacultyController = catchasync(
 )
 
 const getAllAcademicFacultyController = catchasync(
-    async(req,res)=>{
+    async (req, res) => {
         const allfaculty = await AcademicFacultyServices.getAllAcademicFacultyFromDB()
         res.status(200).json({
             success: true,
@@ -26,12 +26,25 @@ const getAllAcademicFacultyController = catchasync(
             data: allfaculty
         })
 
-        
+
     }
 )
 
+const getSingleAcademicFacultyController = catchasync(
+    async (req, res) => {
+        const { id } = req.params;
+        const singlefaculty = await AcademicFacultyServices.getSingleAcademicFacultyFromDB(id)
+        res.status(200).json({
+            success: true,
+            message: "single faculty retrive successfully",
+            data: singlefaculty
+        })
+
+    }
+)
 
 export const AcademicFacultyControllers = {
     createAcdemicFacultyController,
-    getAllAcademicFacultyController
+    getAllAcademicFacultyController,
+    getSingleAcademicFacultyController
 }
