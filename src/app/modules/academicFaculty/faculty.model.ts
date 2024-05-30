@@ -3,9 +3,9 @@ import { AcademicFacultyInterface } from "./faculty.interface";
 
 const AcademicFacultySchema = new Schema<AcademicFacultyInterface>({
 
-name:{
-    type:String , required: true
-}
+    name: {
+        type: String, required: true
+    }
 
 
 })
