@@ -7,3 +7,4 @@ const router = Router()
 
 router.post('/create-faculty', AcademicFacultyControllers.createAcdemicFacultyController)
 router.get('/',AcademicFacultyControllers.getAllAcademicFacultyController)
+router.get('/:id', AcademicFacultyControllers.getSingleAcademicFacultyController)
