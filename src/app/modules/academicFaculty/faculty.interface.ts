@@ -1,5 +1,5 @@
 
- export interface AcademicFacultyInterface {
+export interface AcademicFacultyInterface {
 
     name: string
 }
