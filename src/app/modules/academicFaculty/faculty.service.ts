@@ -10,10 +10,14 @@ return result
 
 }
 
+const getAllAcademicFacultyFromDB = async ()=>{
+    const res = await AcademicFacultyModel.find()
+    return res;
+}
 
 
 
 
 export const AcademicFacultyServices = {
-    createAcdemicFacultyDB
+    createAcdemicFacultyDB, getAllAcademicFacultyFromDB
 }
