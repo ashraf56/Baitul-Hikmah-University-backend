@@ -43,8 +43,25 @@ const getSingleAcademicFacultyController = catchasync(
     }
 )
 
+const updateAcademicFacultyController = catchasync(
+    async (req, res) => {
+        const { id } = req.params;
+        const { payload } = req.body;
+
+        const updateddata = await AcademicFacultyServices.updateAcademicFacultyIntoDB(id, payload)
+
+        res.status(200).json({
+            success: true,
+            message: "Academic semester is retrieved succesfully'",
+            data: updateddata
+        })
+    }
+)
+
+
 export const AcademicFacultyControllers = {
     createAcdemicFacultyController,
     getAllAcademicFacultyController,
-    getSingleAcademicFacultyController
+    getSingleAcademicFacultyController,
+    updateAcademicFacultyController
 }
