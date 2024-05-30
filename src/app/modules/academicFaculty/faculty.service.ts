@@ -22,10 +22,10 @@ const getSingleAcademicFacultyFromDB = async (id: string) => {
 
 }
 
-const updateAcademicFacultyIntoDB = async (id:string,payload:Partial<AcademicFacultyInterface>)=>{
+const updateAcademicFacultyIntoDB = async (id: string, payload: Partial<AcademicFacultyInterface>) => {
 
-const result = await AcademicFacultyModel.findByIdAndUpdate({_id:id},payload,{new:true})
-return result
+    const result = await AcademicFacultyModel.findByIdAndUpdate({ _id: id }, payload, { new: true })
+    return result
 
 }
 
