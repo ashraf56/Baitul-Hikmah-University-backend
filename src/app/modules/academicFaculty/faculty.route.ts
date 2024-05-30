@@ -9,3 +9,7 @@ router.post('/create-faculty', AcademicFacultyControllers.createAcdemicFacultyCo
 router.get('/',AcademicFacultyControllers.getAllAcademicFacultyController)
 router.get('/:id', AcademicFacultyControllers.getSingleAcademicFacultyController)
 router.patch('/:id', AcademicFacultyControllers.updateAcademicFacultyController)
+
+
+
+export const AcademicFacultyRouter = router;
