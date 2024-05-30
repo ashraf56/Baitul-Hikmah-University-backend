@@ -5,9 +5,9 @@ const zod_1 = require("zod");
 const createAcdemicFacultyValidationSchema = zod_1.z.object({
     body: zod_1.z.object({
         name: zod_1.z.string({
-            invalid_type_error: 'Password must be string',
-        })
-    })
+            invalid_type_error: 'Academic faculty must be string',
+        }),
+    }),
 });
 exports.AcdemicFacultyValidation = {
     createAcdemicFacultyValidationSchema

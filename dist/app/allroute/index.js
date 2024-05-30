@@ -22,7 +22,7 @@ const moduleRoute = [
     {
         path: '/faculty',
         route: faculty_route_1.AcademicFacultyRouter
-    },
+    }
 ];
 moduleRoute.forEach(r => router.use(r.path, r.route));
 exports.default = router;

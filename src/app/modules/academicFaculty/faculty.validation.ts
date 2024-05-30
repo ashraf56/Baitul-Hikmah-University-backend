@@ -3,9 +3,9 @@ import { z } from "zod";
 const createAcdemicFacultyValidationSchema = z.object({
     body: z.object({
         name: z.string({
-            invalid_type_error: 'Password must be string',
-        })
-    })
+          invalid_type_error: 'Academic faculty must be string',
+        }),
+      }),
 })
 
 

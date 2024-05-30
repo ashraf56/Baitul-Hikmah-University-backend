@@ -13,8 +13,8 @@ exports.AcademicFacultyControllers = void 0;
 const catchAsync_1 = require("../../utils/catchAsync");
 const faculty_service_1 = require("./faculty.service");
 const createAcdemicFacultyController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { faculty } = req.body;
-    const result = yield faculty_service_1.AcademicFacultyServices.createAcdemicFacultyDB(faculty);
+    const payload = req.body;
+    const result = yield faculty_service_1.AcademicFacultyServices.createAcdemicFacultyDB(payload);
     res.status(200).json({
         success: true,
         message: "new faculty created",

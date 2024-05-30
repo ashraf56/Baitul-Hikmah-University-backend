@@ -5,8 +5,8 @@ import { AcademicFacultyServices } from "./faculty.service";
 const createAcdemicFacultyController = catchasync(
     async (req, res) => {
 
-        const { faculty } = req.body;
-        const result = await AcademicFacultyServices.createAcdemicFacultyDB(faculty)
+        const  payload  = req.body;
+        const result = await AcademicFacultyServices.createAcdemicFacultyDB(payload)
 
         res.status(200).json({
             success: true,
