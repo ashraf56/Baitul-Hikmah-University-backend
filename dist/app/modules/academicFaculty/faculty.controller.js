@@ -41,7 +41,6 @@ const getSingleAcademicFacultyController = (0, catchAsync_1.catchasync)((req, re
 const updateAcademicFacultyController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const payload = req.body;
-    console.log(id, payload);
     const updateddata = yield faculty_service_1.AcademicFacultyServices.updateAcademicFacultyIntoDB(id, payload);
     res.status(200).json({
         success: true,

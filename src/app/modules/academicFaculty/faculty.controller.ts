@@ -47,7 +47,7 @@ const updateAcademicFacultyController = catchasync(
     async (req, res) => {
         const { id } = req.params;
         const  payload  = req.body;
-       console.log(id , payload);
+       
        
         const updateddata = await AcademicFacultyServices.updateAcademicFacultyIntoDB(id, payload)
 
