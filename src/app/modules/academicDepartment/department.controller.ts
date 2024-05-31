@@ -37,12 +37,8 @@ const getSingleAcademicDepartmentController = catchasync(async (req, res) => {
   });
   
   const updateAcademicDeartmentController = catchasync(async (req, res) => {
-    const { departmentId } = req.params;
-    const result =
-      await academicDepartmentService.updateAcademicDepartmentIntoDB(
-        departmentId,
-        req.body,
-      );
+    const { id } = req.params;
+    const result = await academicDepartmentService.updateAcademicDepartmentIntoDB( id,req.body);
   
       res.status(200).json({
         success: true,

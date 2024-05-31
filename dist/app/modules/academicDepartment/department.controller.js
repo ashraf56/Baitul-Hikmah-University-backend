@@ -39,8 +39,8 @@ const getSingleAcademicDepartmentController = (0, catchAsync_1.catchasync)((req,
     });
 }));
 const updateAcademicDeartmentController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { departmentId } = req.params;
-    const result = yield department_service_1.academicDepartmentService.updateAcademicDepartmentIntoDB(departmentId, req.body);
+    const { id } = req.params;
+    const result = yield department_service_1.academicDepartmentService.updateAcademicDepartmentIntoDB(id, req.body);
     res.status(200).json({
         success: true,
         message: 'Academic department is updated succesfully',
