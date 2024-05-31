@@ -1,4 +1,4 @@
-import StudentsModal from "./student.schema";
+import Student from "./student.schema";
 
 // const createStudentintoDB = async (student: StudentsInfo) => {
 //     // it is used for create a data  from StudentsModal into DB 
@@ -11,13 +11,13 @@ import StudentsModal from "./student.schema";
 
 const getdeletStudent = async (id: string) => {
 
-    const res = await StudentsModal.updateOne({ id }, { isDeleted: true })
+    const res = await Student.updateOne({ id }, { isDeleted: true })
 
     return res
 }
 
 const getStudentsFromDB = async () => {
-    const rss = await StudentsModal.find()
+    const rss = await Student.find().populate('admissionSemester')
     return rss
 }
 export const StudentService = {

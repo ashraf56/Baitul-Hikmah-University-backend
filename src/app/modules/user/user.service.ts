@@ -1,9 +1,9 @@
 import { TAcademicSemester } from "../academicSemister/academic.interface";
-import { AcademicSemesterModel } from "../academicSemister/academic.model";
+import { AcademicSemester } from "../academicSemister/academic.model";
 import { StudentsInfo } from "../student/student.interface";
-import StudentsModal from "../student/student.schema";
+import Student from "../student/student.schema";
 import { UserInterface } from "./user.interface";
-import UserModel from "./user.model";
+import User from "./user.model";
 import { genarateSudentID } from "./user.utils";
 
 
@@ -15,7 +15,7 @@ const CreateUserDB = async (password: string, student: StudentsInfo) => {
 
     newUserdata.role = 'student'
 
-    const admissionSemester = await AcademicSemesterModel.findById(
+    const admissionSemester = await AcademicSemester.findById(
         student.admissionSemester
     );
     if (!admissionSemester) {
@@ -26,14 +26,14 @@ const CreateUserDB = async (password: string, student: StudentsInfo) => {
 
 
     // it will create new user in the user colleciton
-    const newUser = await UserModel.create(newUserdata)
+    const newUser = await User.create(newUserdata)
 
     if (Object.keys(newUser).length) {
         student.id = newUser.id
         student.userid = newUser._id
 
         // it will create student in the strudents collection
-        const strudents = await StudentsModal.create(student)
+        const strudents = await Student.create(student)
 
 
         return strudents

@@ -26,7 +26,7 @@ const getdeletStudent = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return res;
 });
 const getStudentsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const rss = yield student_schema_1.default.find();
+    const rss = yield student_schema_1.default.find().populate('admissionSemester');
     return rss;
 });
 exports.StudentService = {

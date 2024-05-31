@@ -36,6 +36,6 @@ const UserSchema = new Schema<UserInterface>({
 
 
 
-const UserModel = model<UserInterface>("user", UserSchema)
+const User = model<UserInterface>("User", UserSchema)
 
-export default UserModel
+export default User

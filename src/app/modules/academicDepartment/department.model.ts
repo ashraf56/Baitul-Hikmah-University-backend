@@ -10,14 +10,14 @@ const academicDepartmentSChema = new Schema<AcademicDepartmentInterface>({
     },
     academicFaculty: {
         type: Schema.Types.ObjectId,
-        ref: "AcademicFacultyModel"
+        ref: "AcademicFaculty"
 
     }
 })
 
 
 academicDepartmentSChema.pre('save', async function (next) {
-    const isExsitdep = await academicDepartmentModel.findOne(
+    const isExsitdep = await AcademicDepartment.findOne(
         { name: this.name }
     )
 
@@ -31,13 +31,13 @@ academicDepartmentSChema.pre('save', async function (next) {
 academicDepartmentSChema.pre('findOneAndUpdate',async function (next) {
     const quey = this.getQuery()
 
-    const isDepartmentExist = await academicDepartmentModel.findOne(quey)
+    const isDepartmentExist = await AcademicDepartment.findOne(quey)
     if (!isDepartmentExist) {
         throw new Error ('this department is not exist')
     }
     next()
 })
 
-const academicDepartmentModel = model<AcademicDepartmentInterface>('AcademicDepartment', academicDepartmentSChema)
+const AcademicDepartment = model<AcademicDepartmentInterface>('AcademicDepartment', academicDepartmentSChema)
 
-export default academicDepartmentModel
+export default AcademicDepartment

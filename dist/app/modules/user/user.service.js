@@ -21,7 +21,7 @@ const CreateUserDB = (password, student) => __awaiter(void 0, void 0, void 0, fu
     const newUserdata = {};
     newUserdata.password = password || 'abc123';
     newUserdata.role = 'student';
-    const admissionSemester = yield academic_model_1.AcademicSemesterModel.findById(student.admissionSemester);
+    const admissionSemester = yield academic_model_1.AcademicSemester.findById(student.admissionSemester);
     if (!admissionSemester) {
         throw new Error('Admission semester not found');
     }

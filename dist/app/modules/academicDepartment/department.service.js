@@ -19,7 +19,7 @@ const createAcademicDepartmentintoDB = (payload) => __awaiter(void 0, void 0, vo
     return insertDep;
 });
 const getAllAcademicDepartmentsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield department_model_1.default.find();
+    const result = yield department_model_1.default.find().populate('academicFaculty');
     return result;
 });
 const getSingleAcademicDepartmentFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {

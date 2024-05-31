@@ -18,12 +18,12 @@ const academicDepartmentSChema = new mongoose_1.Schema({
     },
     academicFaculty: {
         type: mongoose_1.Schema.Types.ObjectId,
-        ref: "AcademicFacultyModel"
+        ref: "AcademicFaculty"
     }
 });
 academicDepartmentSChema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        const isExsitdep = yield academicDepartmentModel.findOne({ name: this.name });
+        const isExsitdep = yield AcademicDepartment.findOne({ name: this.name });
         if (isExsitdep) {
             throw new Error('You can not add same department again');
         }
@@ -33,12 +33,12 @@ academicDepartmentSChema.pre('save', function (next) {
 academicDepartmentSChema.pre('findOneAndUpdate', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const quey = this.getQuery();
-        const isDepartmentExist = yield academicDepartmentModel.findOne(quey);
+        const isDepartmentExist = yield AcademicDepartment.findOne(quey);
         if (!isDepartmentExist) {
             throw new Error('this department is not exist');
         }
         next();
     });
 });
-const academicDepartmentModel = (0, mongoose_1.model)('AcademicDepartment', academicDepartmentSChema);
-exports.default = academicDepartmentModel;
+const AcademicDepartment = (0, mongoose_1.model)('AcademicDepartment', academicDepartmentSChema);
+exports.default = AcademicDepartment;

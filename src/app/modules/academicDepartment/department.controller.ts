@@ -16,6 +16,8 @@ const createAcademicDepartmentController = catchasync(
 )
 const getAllAcademicDepartmentController = catchasync(async (req, res) => {
     const result = await academicDepartmentService.getAllAcademicDepartmentsFromDB();
+    
+    
     res.status(200).json({
         success: true,
         message: "academic departments are retrieved successfully",

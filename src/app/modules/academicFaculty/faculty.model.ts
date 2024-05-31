@@ -12,6 +12,6 @@ const AcademicFacultySchema = new Schema<AcademicFacultyInterface>({
 
 
 
-const AcademicFacultyModel = model<AcademicFacultyInterface>('AcademicFaculty', AcademicFacultySchema)
+const AcademicFaculty = model<AcademicFacultyInterface>('AcademicFaculty', AcademicFacultySchema)
 
-export default AcademicFacultyModel
+export default AcademicFaculty

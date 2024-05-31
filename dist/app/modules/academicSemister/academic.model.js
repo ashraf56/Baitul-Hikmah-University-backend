@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AcademicSemesterModel = void 0;
+exports.AcademicSemester = void 0;
 const mongoose_1 = require("mongoose");
 const academic_constant_1 = require("./academic.constant");
 const academicSemisterSchema = new mongoose_1.Schema({
@@ -43,7 +43,7 @@ const academicSemisterSchema = new mongoose_1.Schema({
 // middleware function for business logic
 academicSemisterSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        const issemisterExist = yield exports.AcademicSemesterModel.findOne({
+        const issemisterExist = yield exports.AcademicSemester.findOne({
             year: this.year,
             name: this.name
         });
@@ -53,4 +53,4 @@ academicSemisterSchema.pre('save', function (next) {
         next();
     });
 });
-exports.AcademicSemesterModel = (0, mongoose_1.model)('academicsemister', academicSemisterSchema);
+exports.AcademicSemester = (0, mongoose_1.model)('AcademicSemester', academicSemisterSchema);
