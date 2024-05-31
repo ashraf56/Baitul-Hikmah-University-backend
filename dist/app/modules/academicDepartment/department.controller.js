@@ -30,8 +30,8 @@ const getAllAcademicDepartmentController = (0, catchAsync_1.catchasync)((req, re
     });
 }));
 const getSingleAcademicDepartmentController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { departmentId } = req.params;
-    const result = yield department_service_1.academicDepartmentService.getSingleAcademicDepartmentFromDB(departmentId);
+    const { id } = req.params;
+    const result = yield department_service_1.academicDepartmentService.getSingleAcademicDepartmentFromDB(id);
     res.status(200).json({
         success: true,
         message: "academic departments is retrieved successfully",

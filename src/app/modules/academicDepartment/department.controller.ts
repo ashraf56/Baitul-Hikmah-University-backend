@@ -25,11 +25,9 @@ const getAllAcademicDepartmentController = catchasync(async (req, res) => {
 });
 
 const getSingleAcademicDepartmentController = catchasync(async (req, res) => {
-    const { departmentId } = req.params;
-    const result =
-      await academicDepartmentService.getSingleAcademicDepartmentFromDB(
-        departmentId,
-      );
+    const {id}  = req.params;
+    
+    const result = await academicDepartmentService.getSingleAcademicDepartmentFromDB( id );
   
       res.status(200).json({
         success: true,
