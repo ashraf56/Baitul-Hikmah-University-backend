@@ -11,3 +11,7 @@ router.post('/create-department',
 validateRequest(academicDepartmentValidation.createAcademicDepartmentValidationSchema),
 academicDepartmentCOntrollers.createAcademicDepartmentController
 )
+
+
+
+export const AcademicDepartmentRouter = router
