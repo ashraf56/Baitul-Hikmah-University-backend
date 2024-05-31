@@ -25,11 +25,35 @@ const getAllAcademicDepartmentController = (0, catchAsync_1.catchasync)((req, re
     const result = yield department_service_1.academicDepartmentService.getAllAcademicDepartmentsFromDB();
     res.status(200).json({
         success: true,
-        message: "cademic departments are retrieved successfully",
+        message: "academic departments are retrieved successfully",
         data: result
     });
 }));
+const getSingleAcademicDepartmentController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { departmentId } = req.params;
+    const result = yield department_service_1.academicDepartmentService.getSingleAcademicDepartmentFromDB(departmentId);
+    res.status(200).json({
+        success: true,
+        message: "academic departments is retrieved successfully",
+        data: result
+    });
+}));
+//   const updateAcademicDeartment = catchAsync(async (req, res) => {
+//     const { departmentId } = req.params;
+//     const result =
+//       await AcademicDepartmentServices.updateAcademicDepartmentIntoDB(
+//         departmentId,
+//         req.body,
+//       );
+//     sendResponse(res, {
+//       statusCode: httpStatus.OK,
+//       success: true,
+//       message: 'Academic department is updated succesfully',
+//       data: result,
+//     });
+//   });
 exports.academicDepartmentCOntrollers = {
     createAcademicDepartmentController,
-    getAllAcademicDepartmentController
+    getAllAcademicDepartmentController,
+    getSingleAcademicDepartmentController
 };
