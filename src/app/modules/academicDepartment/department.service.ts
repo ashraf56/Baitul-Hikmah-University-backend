@@ -8,8 +8,14 @@ const createAcademicDepartmentintoDB = async (payload: AcademicDepartmentInterfa
 
 }
 
+const getAllAcademicDepartmentsFromDB = async () => {
+    const result = await academicDepartmentModel.find();
+    return result;
+  };
+  
 
 
 export const academicDepartmentService = {
-    createAcademicDepartmentintoDB
+    createAcademicDepartmentintoDB,
+    getAllAcademicDepartmentsFromDB
 }

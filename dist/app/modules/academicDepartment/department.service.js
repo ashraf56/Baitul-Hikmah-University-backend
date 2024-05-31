@@ -18,6 +18,11 @@ const createAcademicDepartmentintoDB = (payload) => __awaiter(void 0, void 0, vo
     const insertDep = yield department_model_1.default.create(payload);
     return insertDep;
 });
+const getAllAcademicDepartmentsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield department_model_1.default.find();
+    return result;
+});
 exports.academicDepartmentService = {
-    createAcademicDepartmentintoDB
+    createAcademicDepartmentintoDB,
+    getAllAcademicDepartmentsFromDB
 };
