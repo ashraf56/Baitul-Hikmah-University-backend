@@ -17,10 +17,19 @@ const createAcademicDepartmentController = (0, catchAsync_1.catchasync)((req, re
     const departmentdata = yield department_service_1.academicDepartmentService.createAcademicDepartmentintoDB(payload);
     res.status(200).json({
         success: true,
-        message: "new faculty created",
+        message: "new department created",
         data: departmentdata
     });
 }));
+const getAllAcademicDepartmentController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield department_service_1.academicDepartmentService.getAllAcademicDepartmentsFromDB();
+    res.status(200).json({
+        success: true,
+        message: "cademic departments are retrieved successfully",
+        data: result
+    });
+}));
 exports.academicDepartmentCOntrollers = {
-    createAcademicDepartmentController
+    createAcademicDepartmentController,
+    getAllAcademicDepartmentController
 };
