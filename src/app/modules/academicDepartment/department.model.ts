@@ -16,7 +16,17 @@ const academicDepartmentSChema = new Schema<AcademicDepartmentInterface>({
 })
 
 
+academicDepartmentSChema.pre('save', async function (next) {
+    const isExsitdep = await academicDepartmentModel.findOne(
+        { name: this.name }
+    )
 
+    if (isExsitdep) {
+        throw new Error('You can not add same department again')
+    }
+    next()
+
+})
 
 const academicDepartmentModel = model<AcademicDepartmentInterface>('AcademicDepartment', academicDepartmentSChema)
 
