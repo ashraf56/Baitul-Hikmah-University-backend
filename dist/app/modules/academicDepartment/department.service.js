@@ -26,8 +26,14 @@ const getSingleAcademicDepartmentFromDB = (id) => __awaiter(void 0, void 0, void
     const result = yield department_model_1.default.findById(id);
     return result;
 });
+const updateAcademicDepartmentIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield department_model_1.default.findOneAndUpdate({ _id: id }, payload, {
+        new: true,
+    });
+    return result;
+});
 exports.academicDepartmentService = {
     createAcademicDepartmentintoDB,
     getAllAcademicDepartmentsFromDB,
-    getSingleAcademicDepartmentFromDB
+    getSingleAcademicDepartmentFromDB, updateAcademicDepartmentIntoDB
 };
