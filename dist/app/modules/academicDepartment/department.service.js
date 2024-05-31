@@ -22,7 +22,12 @@ const getAllAcademicDepartmentsFromDB = () => __awaiter(void 0, void 0, void 0, 
     const result = yield department_model_1.default.find();
     return result;
 });
+const getSingleAcademicDepartmentFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield department_model_1.default.findById(id);
+    return result;
+});
 exports.academicDepartmentService = {
     createAcademicDepartmentintoDB,
-    getAllAcademicDepartmentsFromDB
+    getAllAcademicDepartmentsFromDB,
+    getSingleAcademicDepartmentFromDB
 };
