@@ -28,6 +28,16 @@ academicDepartmentSChema.pre('save', async function (next) {
 
 })
 
+academicDepartmentSChema.pre('findOneAndUpdate',async function (next) {
+    const quey = this.getQuery()
+
+    const isDepartmentExist = await academicDepartmentModel.findOne(quey)
+    if (!isDepartmentExist) {
+        throw new Error ('this department is not exist')
+    }
+    next()
+})
+
 const academicDepartmentModel = model<AcademicDepartmentInterface>('AcademicDepartment', academicDepartmentSChema)
 
 export default academicDepartmentModel

@@ -30,5 +30,15 @@ academicDepartmentSChema.pre('save', function (next) {
         next();
     });
 });
+academicDepartmentSChema.pre('findOneAndUpdate', function (next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const quey = this.getQuery();
+        const isDepartmentExist = yield academicDepartmentModel.findOne(quey);
+        if (!isDepartmentExist) {
+            throw new Error('this department is not exist');
+        }
+        next();
+    });
+});
 const academicDepartmentModel = (0, mongoose_1.model)('AcademicDepartment', academicDepartmentSChema);
 exports.default = academicDepartmentModel;
