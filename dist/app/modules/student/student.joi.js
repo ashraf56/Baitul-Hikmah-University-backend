@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const joi_1 = __importDefault(require("joi"));
-const studentValidationSchema = joi_1.default.object({
+const studentjoi = joi_1.default.object({
     id: joi_1.default.string().required().messages({
         'any.required': 'ID is required',
     }),
@@ -23,4 +23,4 @@ const studentValidationSchema = joi_1.default.object({
     }).optional(),
     isDeleted: joi_1.default.boolean().optional()
 });
-exports.default = studentValidationSchema;
+exports.default = studentjoi;
