@@ -7,7 +7,6 @@ exports.StudentRoute = void 0;
 const express_1 = __importDefault(require("express"));
 const student_controller_1 = require("./student.controller");
 const router = express_1.default.Router();
-// StudentController.createStudents it is a controller for createstudent route
 router.get('/', student_controller_1.StudentController.getAllstudent);
 router.delete('/:id', student_controller_1.StudentController.deletStudentController);
 exports.StudentRoute = router;
