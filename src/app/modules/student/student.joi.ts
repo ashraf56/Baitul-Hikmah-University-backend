@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-const studentValidationSchema = Joi.object({
+const studentjoi = Joi.object({
     id: Joi.string().required().messages({
         'any.required': 'ID is required',
     }),
@@ -21,4 +21,4 @@ const studentValidationSchema = Joi.object({
 });
 
 
-export default studentValidationSchema;
+export default studentjoi;
