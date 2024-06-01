@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
 const academic_model_1 = require("../academicSemister/academic.model");
 const student_schema_1 = __importDefault(require("../student/student.schema"));
 const user_model_1 = __importDefault(require("./user.model"));
@@ -25,15 +26,30 @@ const CreateUserDB = (password, student) => __awaiter(void 0, void 0, void 0, fu
     if (!admissionSemester) {
         throw new Error('Admission semester not found');
     }
-    newUserdata.id = yield (0, user_utils_1.genarateSudentID)(admissionSemester);
-    // it will create new user in the user colleciton
-    const newUser = yield user_model_1.default.create(newUserdata);
-    if (Object.keys(newUser).length) {
-        student.id = newUser.id;
-        student.userid = newUser._id;
+    const session = yield mongoose_1.default.startSession();
+    try {
+        session.startTransaction();
+        newUserdata.id = yield (0, user_utils_1.genarateSudentID)(admissionSemester);
+        // it will create new user in the user colleciton
+        const newUser = yield user_model_1.default.create([newUserdata], { session });
+        if (!newUser.length) {
+            throw new Error('Failed to create user');
+        }
+        student.id = newUser[0].id;
+        student.userid = newUser[0]._id;
         // it will create student in the strudents collection
-        const strudents = yield student_schema_1.default.create(student);
-        return strudents;
+        const students = yield student_schema_1.default.create([student], { session });
+        if (!students.length) {
+            throw new Error('Failed to create student');
+        }
+        yield session.commitTransaction();
+        yield session.endSession();
+        return students;
+    }
+    catch (error) {
+        yield session.abortTransaction();
+        yield session.endSession();
+        throw new Error('Failed to complete transition');
     }
 });
 exports.UserService = {

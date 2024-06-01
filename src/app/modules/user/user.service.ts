@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { TAcademicSemester } from "../academicSemister/academic.interface";
 import { AcademicSemester } from "../academicSemister/academic.model";
 import { StudentsInfo } from "../student/student.interface";
@@ -22,21 +23,36 @@ const CreateUserDB = async (password: string, student: StudentsInfo) => {
         throw new Error('Admission semester not found');
     }
 
-    newUserdata.id = await genarateSudentID(admissionSemester as TAcademicSemester)
+    const session = await mongoose.startSession()
+
+    try {
+        session.startTransaction()
+        newUserdata.id = await genarateSudentID(admissionSemester as TAcademicSemester)
 
 
-    // it will create new user in the user colleciton
-    const newUser = await User.create(newUserdata)
+        // it will create new user in the user colleciton
+        const newUser = await User.create([newUserdata], { session })
 
-    if (Object.keys(newUser).length) {
-        student.id = newUser.id
-        student.userid = newUser._id
+        if (!newUser.length) {
+            throw new Error('Failed to create user')
+        }
 
+        student.id = newUser[0].id
+        student.userid = newUser[0]._id
         // it will create student in the strudents collection
-        const strudents = await Student.create(student)
+        const students = await Student.create([student], { session })
+        if (!students.length) {
+            throw new Error('Failed to create student')
+        }
+        await session.commitTransaction()
+        await session.endSession()
+        return students
 
+    } catch (error) {
+        await session.abortTransaction()
+        await session.endSession()
+        throw new Error('Failed to complete transition')
 
-        return strudents
     }
 
 
