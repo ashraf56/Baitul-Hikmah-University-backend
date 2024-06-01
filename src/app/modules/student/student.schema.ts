@@ -16,7 +16,7 @@ const Studentchema = new Schema<StudentsInfo>({
         type: Schema.Types.ObjectId,
         required: [true, 'userID is required'],
         unique: true,
-        ref: 'UserModel'
+        ref: 'User'
     },
     adress: { type: String },
     contactnumber: { type: String, trim: true },
@@ -36,8 +36,12 @@ const Studentchema = new Schema<StudentsInfo>({
     },
     admissionSemester: {
         type: Schema.Types.ObjectId,
-        ref: 'AcademicSemesterModel',
+        ref: 'AcademicSemester',
     },
+    isDeleted:{
+        type:Boolean,
+        default:false
+    }
 
 
 })
@@ -62,7 +66,7 @@ const Studentchema = new Schema<StudentsInfo>({
 // })
 
 
-const StudentsModal = model<StudentsInfo>("Student", Studentchema)
+const Student = model<StudentsInfo>("Student", Studentchema)
 
 
-export default StudentsModal
+export default Student

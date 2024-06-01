@@ -17,15 +17,15 @@ const createAcademicSemesterIntoDB = (payload) => __awaiter(void 0, void 0, void
     if (academic_constant_1.academicSemesterNameCodeMapper[payload.name] !== payload.code) {
         throw new Error('Invalid Semester Code');
     }
-    const result = yield academic_model_1.AcademicSemesterModel.create(payload);
+    const result = yield academic_model_1.AcademicSemester.create(payload);
     return result;
 });
 const getAllAcademicSemestersFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield academic_model_1.AcademicSemesterModel.find();
+    const result = yield academic_model_1.AcademicSemester.find();
     return result;
 });
 const getSingleAcademicSemesterFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield academic_model_1.AcademicSemesterModel.findById(id);
+    const result = yield academic_model_1.AcademicSemester.findById(id);
     return result;
 });
 const updateAcademicSemesterIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -34,7 +34,7 @@ const updateAcademicSemesterIntoDB = (id, payload) => __awaiter(void 0, void 0, 
         academic_constant_1.academicSemesterNameCodeMapper[payload.name] !== payload.code) {
         throw new Error('Invalid Semester Code');
     }
-    const result = yield academic_model_1.AcademicSemesterModel.findOneAndUpdate({ _id: id }, payload, {
+    const result = yield academic_model_1.AcademicSemester.findOneAndUpdate({ _id: id }, payload, {
         new: true,
     });
     return result;

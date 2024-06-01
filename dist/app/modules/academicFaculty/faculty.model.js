@@ -6,5 +6,5 @@ const AcademicFacultySchema = new mongoose_1.Schema({
         type: String, required: true
     }
 });
-const AcademicFacultyModel = (0, mongoose_1.model)('AcademicFaculty', AcademicFacultySchema);
-exports.default = AcademicFacultyModel;
+const AcademicFaculty = (0, mongoose_1.model)('AcademicFaculty', AcademicFacultySchema);
+exports.default = AcademicFaculty;

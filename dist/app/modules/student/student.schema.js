@@ -15,7 +15,7 @@ const Studentchema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.ObjectId,
         required: [true, 'userID is required'],
         unique: true,
-        ref: 'UserModel'
+        ref: 'User'
     },
     adress: { type: String },
     contactnumber: { type: String, trim: true },
@@ -35,8 +35,12 @@ const Studentchema = new mongoose_1.Schema({
     },
     admissionSemester: {
         type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'AcademicSemesterModel',
+        ref: 'AcademicSemester',
     },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    }
 });
 // document middleware
 // Studentchema.pre('save', async function (next) {
@@ -53,5 +57,5 @@ const Studentchema = new mongoose_1.Schema({
 //     this.find({ isDeleted: { $ne: true } })
 //     next()
 // })
-const StudentsModal = (0, mongoose_1.model)("Student", Studentchema);
-exports.default = StudentsModal;
+const Student = (0, mongoose_1.model)("Student", Studentchema);
+exports.default = Student;

@@ -37,7 +37,7 @@ const academicSemisterSchema = new Schema<TAcademicSemester>({
 
 // middleware function for business logic
 academicSemisterSchema.pre('save', async function (next) {
-    const issemisterExist = await AcademicSemesterModel.findOne({
+    const issemisterExist = await AcademicSemester.findOne({
         year: this.year,
         name: this.name
     })
@@ -50,5 +50,5 @@ academicSemisterSchema.pre('save', async function (next) {
 })
 
 
-export const AcademicSemesterModel = model<TAcademicSemester>('academicsemister', academicSemisterSchema)
+export const AcademicSemester = model<TAcademicSemester>('AcademicSemester', academicSemisterSchema)
 
