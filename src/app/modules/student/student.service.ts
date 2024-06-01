@@ -11,12 +11,12 @@ import User from "../user/user.model";
 //     return res
 // }
 
-const getdeletStudent = async (id: string) => {
+// const getdeletStudent = async (id: string) => {
 
-    const res = await Student.updateOne({ id }, { isDeleted: true })
+//     const res = await Student.updateOne({ id }, { isDeleted: true })
 
-    return res
-}
+//     return res
+// }
 
 const getStudentsFromDB = async () => {
     const rss = await Student.find().populate('admissionSemester')
@@ -55,5 +55,5 @@ const deleteStudentFromDB = async (id: string) => {
 
 
 export const StudentService = {
-    getStudentsFromDB, getdeletStudent, deleteStudentFromDB
+    getStudentsFromDB, deleteStudentFromDB
 }

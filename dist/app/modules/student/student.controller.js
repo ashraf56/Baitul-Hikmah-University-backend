@@ -35,22 +35,14 @@ const catchAsync_1 = require("../../utils/catchAsync");
 //         })
 //     }
 // }
-const deletStudent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { id } = req.params;
-        const result = yield student_service_1.StudentService.getdeletStudent(id);
-        res.status(200).json({
-            message: "data delete success",
-            data: result
-        });
-    }
-    catch (error) {
-        res.status(500).json({
-            message: "something error",
-            error: error
-        });
-    }
-});
+const deletStudentController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield student_service_1.StudentService.deleteStudentFromDB(id);
+    res.status(200).json({
+        message: "Student deleted success",
+        data: result
+    });
+}));
 const getAllstudent = (0, catchAsync_1.catchasync)(
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -58,5 +50,5 @@ const getAllstudent = (0, catchAsync_1.catchasync)(
     res.status(200).json({ result });
 }));
 exports.StudentController = {
-    getAllstudent, deletStudent
+    getAllstudent, deletStudentController
 };

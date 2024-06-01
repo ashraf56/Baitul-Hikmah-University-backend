@@ -23,10 +23,10 @@ const user_model_1 = __importDefault(require("../user/user.model"));
 //     const res = result.save()
 //     return res
 // }
-const getdeletStudent = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const res = yield student_schema_1.default.updateOne({ id }, { isDeleted: true });
-    return res;
-});
+// const getdeletStudent = async (id: string) => {
+//     const res = await Student.updateOne({ id }, { isDeleted: true })
+//     return res
+// }
 const getStudentsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
     const rss = yield student_schema_1.default.find().populate('admissionSemester');
     return rss;
@@ -54,5 +54,5 @@ const deleteStudentFromDB = (id) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.StudentService = {
-    getStudentsFromDB, getdeletStudent, deleteStudentFromDB
+    getStudentsFromDB, deleteStudentFromDB
 };
