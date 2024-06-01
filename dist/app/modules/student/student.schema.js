@@ -37,6 +37,10 @@ const Studentchema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'AcademicSemester',
     },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    }
 });
 // document middleware
 // Studentchema.pre('save', async function (next) {

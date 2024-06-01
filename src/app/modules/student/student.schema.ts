@@ -38,6 +38,10 @@ const Studentchema = new Schema<StudentsInfo>({
         type: Schema.Types.ObjectId,
         ref: 'AcademicSemester',
     },
+    isDeleted:{
+        type:Boolean,
+        default:false
+    }
 
 
 })
