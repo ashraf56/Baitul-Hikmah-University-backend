@@ -35,23 +35,16 @@ import { catchasync } from "../../utils/catchAsync";
 // }
 
 
-const deletStudent: RequestHandler = async (req, res) => {
-    try {
+const deletStudentController = catchasync(
+    async (req, res) => {
         const { id } = req.params;
-        const result = await StudentService.getdeletStudent(id)
-
+        const result = await StudentService.deleteStudentFromDB(id)
         res.status(200).json({
-            message: "data delete success",
+            message: "Student deleted success",
             data: result
         })
-
-    } catch (error) {
-        res.status(500).json({
-            message: "something error",
-            error: error
-        })
     }
-}
+)
 
 const getAllstudent: RequestHandler = catchasync(
 
@@ -65,5 +58,5 @@ const getAllstudent: RequestHandler = catchasync(
 )
 
 export const StudentController = {
-    getAllstudent, deletStudent
+    getAllstudent, deletStudentController
 }
