@@ -5,7 +5,9 @@ import { ErrorRequestHandler } from "express";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const GlobalErrorhandller:ErrorRequestHandler = ((error, req, res, next) => {
 
-    return res.status(500).json({
+    const statuscode = error.statuscode || 500
+
+    return res.status(statuscode).json({
         success: false,
         message: error.message || "something error",
         error: error
