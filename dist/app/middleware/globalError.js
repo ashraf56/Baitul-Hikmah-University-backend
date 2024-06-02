@@ -5,9 +5,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const GlobalErrorhandller = ((error, req, res, next) => {
-    return res.status(500).json({
+    const statuscode = error.statuscode || 500;
+    const message = error.message || "something error";
+    return res.status(statuscode).json({
         success: false,
-        message: error.message || "something error",
+        message,
         error: error
     });
 });

@@ -6,10 +6,10 @@ import { ErrorRequestHandler } from "express";
 const GlobalErrorhandller:ErrorRequestHandler = ((error, req, res, next) => {
 
     const statuscode = error.statuscode || 500
-
+ const  message = error.message || "something error"
     return res.status(statuscode).json({
         success: false,
-        message: error.message || "something error",
+       message,
         error: error
     })
 
