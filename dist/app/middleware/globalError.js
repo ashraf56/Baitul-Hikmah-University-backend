@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const zod_1 = require("zod");
+const handlezodvalidationerror_1 = __importDefault(require("../errors/handlezodvalidationerror"));
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -14,21 +18,8 @@ const GlobalErrorhandller = ((error, req, res, next) => {
             message: "something error "
         }
     ];
-    const handleZodErrorsource = (error) => {
-        const errorsource = error.issues.map((issue) => {
-            return {
-                path: issue === null || issue === void 0 ? void 0 : issue.path[(issue === null || issue === void 0 ? void 0 : issue.path.length) - 1],
-                message: issue.message
-            };
-        });
-        return {
-            statuscode,
-            message: "our validation error",
-            errorsource
-        };
-    };
     if (error instanceof zod_1.ZodError) {
-        const simplifiederror = handleZodErrorsource(error);
+        const simplifiederror = (0, handlezodvalidationerror_1.default)(error);
         statuscode = simplifiederror === null || simplifiederror === void 0 ? void 0 : simplifiederror.statuscode;
         message = simplifiederror === null || simplifiederror === void 0 ? void 0 : simplifiederror.message;
         errorsource = simplifiederror === null || simplifiederror === void 0 ? void 0 : simplifiederror.errorsource;
