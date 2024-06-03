@@ -2,6 +2,7 @@ import { ErrorRequestHandler } from "express";
 import { ZodError } from "zod";
 import { ErrorSource } from "../publicInterface/Terrorsource";
 import handlezodvalidationerror from "../errors/handlezodvalidationerror";
+import config from "../config";
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -31,8 +32,9 @@ const GlobalErrorhandller: ErrorRequestHandler = ((error, req, res, next) => {
     return res.status(statuscode).json({
         success: false,
         message,
-        errorsource
-    })
+        errorsource,
+        stack: config.node_Env === 'development' ? error?.stack : null
+     })
 
 
 

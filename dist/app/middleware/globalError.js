@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const zod_1 = require("zod");
 const handlezodvalidationerror_1 = __importDefault(require("../errors/handlezodvalidationerror"));
+const config_1 = __importDefault(require("../config"));
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -27,7 +28,8 @@ const GlobalErrorhandller = ((error, req, res, next) => {
     return res.status(statuscode).json({
         success: false,
         message,
-        errorsource
+        errorsource,
+        stack: config_1.default.node_Env === 'development' ? error === null || error === void 0 ? void 0 : error.stack : null
     });
 });
 exports.default = GlobalErrorhandller;
