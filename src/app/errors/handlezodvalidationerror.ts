@@ -1,8 +1,8 @@
 import { ZodError, ZodIssue } from "zod";
-import { ErrorSource } from "../publicInterface/Terrorsource";
+import { ErrorSource, TGenericErrorResponse } from "../publicInterface/Terrorsource";
 
 
-const handlezodvalidationerror = (error:ZodError) => {
+const handlezodvalidationerror = (error:ZodError) :TGenericErrorResponse => {
     const errorsource: ErrorSource = error.issues.map((issue: ZodIssue) => {
         return {
             path: issue?.path[issue?.path.length - 1],
