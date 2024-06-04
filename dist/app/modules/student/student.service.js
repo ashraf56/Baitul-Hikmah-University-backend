@@ -39,7 +39,7 @@ const getStudentsFromDB = (query) => __awaiter(void 0, void 0, void 0, function*
             [feild]: { $regex: searchinfo, $options: 'i' }
         }))
     });
-    const removeFeildfromQuery = ['searchinfo', 'sort', 'limit'];
+    const removeFeildfromQuery = ['searchinfo', 'sort', 'limit', 'page', 'skip', 'fields'];
     removeFeildfromQuery.forEach((el) => delete queryObject[el]);
     const filterQuery = searchQuery.find(queryObject).populate('admissionSemester');
     let sort = '-createdAt';
@@ -47,12 +47,26 @@ const getStudentsFromDB = (query) => __awaiter(void 0, void 0, void 0, function*
         sort = query.sort;
     }
     const sortQuery = filterQuery.sort(sort);
+    // PAGINATION FUNCTIONALITY:
     let limit = 3;
+    let page = 1;
+    let skip = 0;
     if (query.limit) {
         limit = query.limit;
     }
-    const limitQuery = yield sortQuery.limit(limit);
-    return limitQuery;
+    if (query.page) {
+        page = Number(query.page);
+        skip = (page - 1) * limit;
+    }
+    const paginateQuery = sortQuery.skip(skip);
+    const limitQuery = paginateQuery.limit(limit);
+    // FIELDS LIMITING FUNCTIONALITY:
+    let fields = '-__v';
+    if (query.fields) {
+        fields = query.fields.split(',').join(' ');
+    }
+    const fieldQuery = yield limitQuery.select(fields);
+    return fieldQuery;
 });
 const deleteStudentFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const session = yield (0, mongoose_1.startSession)();

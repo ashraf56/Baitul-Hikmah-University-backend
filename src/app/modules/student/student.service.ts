@@ -34,7 +34,7 @@ const getStudentsFromDB = async (query: Record<string, unknown>) => {
 
     })
 
-    const removeFeildfromQuery = ['searchinfo', 'sort', 'limit']
+    const removeFeildfromQuery = ['searchinfo', 'sort', 'limit', 'page', 'skip', 'fields']
     removeFeildfromQuery.forEach((el) => delete queryObject[el])
 
     const filterQuery = searchQuery.find(queryObject).populate('admissionSemester')
@@ -43,15 +43,35 @@ const getStudentsFromDB = async (query: Record<string, unknown>) => {
         sort = query.sort as string
     }
     const sortQuery = filterQuery.sort(sort)
-    let limit = 3
+    // PAGINATION FUNCTIONALITY:
+    let limit = 3;
+    let page = 1;
+    let skip = 0
+
     if (query.limit) {
         limit = query.limit as number;
     }
+    if (query.page) {
+        page = Number(query.page);
+        skip = (page - 1) * limit;
+    }
+    const paginateQuery = sortQuery.skip(skip);
 
-    const limitQuery = await sortQuery.limit(limit);
+    const limitQuery = paginateQuery.limit(limit);
+
+    // FIELDS LIMITING FUNCTIONALITY:
+    let fields = '-__v'
+    if (query.fields) {
+        fields = (query.fields as string).split(',').join(' ');
+
+    }
 
 
-    return limitQuery
+    const fieldQuery = await limitQuery.select(fields);
+
+    return fieldQuery;
+
+
 }
 
 const deleteStudentFromDB = async (id: string) => {
