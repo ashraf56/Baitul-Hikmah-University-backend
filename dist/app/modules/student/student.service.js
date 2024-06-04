@@ -28,16 +28,31 @@ const user_model_1 = __importDefault(require("../user/user.model"));
 //     return res
 // }
 const getStudentsFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const queryObject = Object.assign({}, query);
     let searchinfo = '';
     if (query === null || query === void 0 ? void 0 : query.searchinfo) {
         searchinfo = query === null || query === void 0 ? void 0 : query.searchinfo;
     }
-    const rss = yield student_schema_1.default.find({
+    // searchQuery
+    const searchQuery = student_schema_1.default.find({
         $or: ['email', 'name'].map((feild) => ({
             [feild]: { $regex: searchinfo, $options: 'i' }
         }))
-    }).populate('admissionSemester');
-    return rss;
+    });
+    const removeFeildfromQuery = ['searchinfo', 'sort', 'limit'];
+    removeFeildfromQuery.forEach((el) => delete queryObject[el]);
+    const filterQuery = searchQuery.find(queryObject).populate('admissionSemester');
+    let sort = '-createdAt';
+    if (query.sort) {
+        sort = query.sort;
+    }
+    const sortQuery = filterQuery.sort(sort);
+    let limit = 3;
+    if (query.limit) {
+        limit = query.limit;
+    }
+    const limitQuery = yield sortQuery.limit(limit);
+    return limitQuery;
 });
 const deleteStudentFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const session = yield (0, mongoose_1.startSession)();

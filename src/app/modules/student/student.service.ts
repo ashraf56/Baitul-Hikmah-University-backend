@@ -19,19 +19,39 @@ import User from "../user/user.model";
 // }
 
 const getStudentsFromDB = async (query: Record<string, unknown>) => {
+    const queryObject = { ...query }
+
     let searchinfo = ''
     if (query?.searchinfo) {
         searchinfo = query?.searchinfo as string
     }
-
-    const rss = await Student.find({
+    // searchQuery
+    const searchQuery = Student.find({
         $or: ['email', 'name'].map((feild) => ({
 
             [feild]: { $regex: searchinfo, $options: 'i' }
         }))
 
-    }).populate('admissionSemester')
-    return rss
+    })
+
+    const removeFeildfromQuery = ['searchinfo', 'sort', 'limit']
+    removeFeildfromQuery.forEach((el) => delete queryObject[el])
+
+    const filterQuery = searchQuery.find(queryObject).populate('admissionSemester')
+    let sort = '-createdAt'
+    if (query.sort) {
+        sort = query.sort as string
+    }
+    const sortQuery = filterQuery.sort(sort)
+    let limit = 3
+    if (query.limit) {
+        limit = query.limit as number;
+    }
+
+    const limitQuery = await sortQuery.limit(limit);
+
+
+    return limitQuery
 }
 
 const deleteStudentFromDB = async (id: string) => {

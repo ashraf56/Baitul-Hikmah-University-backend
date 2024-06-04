@@ -3,7 +3,7 @@ import { StudentsInfo } from './student.interface';
 
 const Studentchema = new Schema<StudentsInfo>({
     id: { type: String, required: true, unique: true },
-    email: { type: String, required: true, trim: true },
+    email: { type: String, required: true, trim: true, unique:true },
     name: {
         type: String,
         required: [true, 'name is required here'],
@@ -44,6 +44,8 @@ const Studentchema = new Schema<StudentsInfo>({
     }
 
 
+},{
+    timestamps:true
 })
 
 // document middleware
