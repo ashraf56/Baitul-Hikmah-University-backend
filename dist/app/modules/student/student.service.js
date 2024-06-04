@@ -27,8 +27,16 @@ const user_model_1 = __importDefault(require("../user/user.model"));
 //     const res = await Student.updateOne({ id }, { isDeleted: true })
 //     return res
 // }
-const getStudentsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const rss = yield student_schema_1.default.find().populate('admissionSemester');
+const getStudentsFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    let searchinfo = '';
+    if (query === null || query === void 0 ? void 0 : query.searchinfo) {
+        searchinfo = query === null || query === void 0 ? void 0 : query.searchinfo;
+    }
+    const rss = yield student_schema_1.default.find({
+        $or: ['email', 'name'].map((feild) => ({
+            [feild]: { $regex: searchinfo, $options: 'i' }
+        }))
+    }).populate('admissionSemester');
     return rss;
 });
 const deleteStudentFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {

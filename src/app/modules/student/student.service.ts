@@ -18,8 +18,19 @@ import User from "../user/user.model";
 //     return res
 // }
 
-const getStudentsFromDB = async () => {
-    const rss = await Student.find().populate('admissionSemester')
+const getStudentsFromDB = async (query: Record<string, unknown>) => {
+    let searchinfo = ''
+    if (query?.searchinfo) {
+        searchinfo = query?.searchinfo as string
+    }
+
+    const rss = await Student.find({
+        $or: ['email', 'name'].map((feild) => ({
+
+            [feild]: { $regex: searchinfo, $options: 'i' }
+        }))
+
+    }).populate('admissionSemester')
     return rss
 }
 

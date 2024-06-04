@@ -51,7 +51,7 @@ const getAllstudent: RequestHandler = catchasync(
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     async (req, res, next) => {
 
-        const result = await StudentService.getStudentsFromDB()
+        const result = await StudentService.getStudentsFromDB(req.query)
         res.status(200).json({ result })
 
     }
