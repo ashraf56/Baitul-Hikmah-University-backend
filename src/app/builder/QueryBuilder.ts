@@ -55,6 +55,18 @@ class QueryBuilder<T> {
 
         this.modelsQuery = this.modelsQuery.skip(skip).limit(limit)
     }
+
+    fields() {
+        const fields =
+          (this?.query?.fields as string)?.split(',')?.join(' ') || '-__v';
+    
+        this.modelsQuery = this.modelsQuery.select(fields);
+        return this;
+      }
+
+
+
+
 }
 
 
