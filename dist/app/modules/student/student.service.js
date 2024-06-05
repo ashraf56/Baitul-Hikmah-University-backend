@@ -16,19 +16,8 @@ exports.StudentService = void 0;
 const mongoose_1 = require("mongoose");
 const student_schema_1 = __importDefault(require("./student.schema"));
 const user_model_1 = __importDefault(require("../user/user.model"));
-const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const student_constant_1 = require("./student.constant");
-// const createStudentintoDB = async (student: StudentsInfo) => {
-//     // it is used for create a data  from StudentsModal into DB 
-//     // const result = await StudentsModal.create(student) // built in static instamce method 
-//     const result = new StudentsModal(student)
-//     const res = result.save()
-//     return res
-// }
-// const getdeletStudent = async (id: string) => {
-//     const res = await Student.updateOne({ id }, { isDeleted: true })
-//     return res
-// }
+const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const getStudentsFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
     // const queryObject = { ...query }
     // let searchinfo = ''
@@ -70,9 +59,14 @@ const getStudentsFromDB = (query) => __awaiter(void 0, void 0, void 0, function*
     // }
     // const fieldQuery = await limitQuery.select(fields);
     // return fieldQuery;
-    const studentQuery = new QueryBuilder_1.default(student_schema_1.default.find(), query).search(student_constant_1.searchablefeild)
-        .filter().sort().fields().paginate();
-    return studentQuery;
+    const studentQuery = new QueryBuilder_1.default(student_schema_1.default.find(), query)
+        .search(student_constant_1.searchablefeild)
+        .filter()
+        .sort()
+        .paginate()
+        .fields();
+    const result = yield studentQuery.modelQuery;
+    return result;
 });
 const deleteStudentFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const session = yield (0, mongoose_1.startSession)();

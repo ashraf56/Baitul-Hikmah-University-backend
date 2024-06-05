@@ -1,14 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class QueryBuilder {
-    constructor(modelsQuery, query) {
-        this.modelsQuery = modelsQuery;
+    constructor(modelQuery, query) {
+        this.modelQuery = modelQuery;
         this.query = query;
     }
     search(searchablefeild) {
-        const searchinfo = this === null || this === void 0 ? void 0 : this.query.searchinfo;
+        var _a;
+        const searchinfo = (_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.searchinfo;
         if (searchinfo) {
-            this.modelsQuery = this.modelsQuery.find({
+            this.modelQuery = this.modelQuery.find({
                 $or: searchablefeild.map((feild) => ({
                     [feild]: { $regex: searchinfo, $options: 'i' }
                 }))
@@ -17,15 +18,16 @@ class QueryBuilder {
         return this;
     }
     filter() {
-        const queryObject = Object.assign({}, this.query);
+        const queryObject = Object.assign({}, this === null || this === void 0 ? void 0 : this.query);
         const removeFeildfromQuery = ['searchinfo', 'sort', 'limit', 'page', 'skip', 'fields'];
         removeFeildfromQuery.forEach((el) => delete queryObject[el]);
-        this.modelsQuery = this.modelsQuery.find(queryObject);
+        this.modelQuery = this.modelQuery.find(queryObject);
         return this;
     }
     sort() {
-        const sort = this.query.sort || '-createdAt';
-        this.modelsQuery = this.modelsQuery.sort(sort);
+        var _a;
+        const sort = ((_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.sort) || '-createdAt';
+        this.modelQuery = this.modelQuery.sort(sort);
         return this;
     }
     paginate() {
@@ -33,12 +35,13 @@ class QueryBuilder {
         const limit = Number((_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.limit) || 10;
         const page = Number((_b = this === null || this === void 0 ? void 0 : this.query) === null || _b === void 0 ? void 0 : _b.page) || 1;
         const skip = (page - 1) * limit;
-        this.modelsQuery = this.modelsQuery.skip(skip).limit(limit);
+        this.modelQuery = this.modelQuery.skip(skip).limit(limit);
+        return this;
     }
     fields() {
         var _a, _b, _c;
         const fields = ((_c = (_b = (_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.fields) === null || _b === void 0 ? void 0 : _b.split(',')) === null || _c === void 0 ? void 0 : _c.join(' ')) || '-__v';
-        this.modelsQuery = this.modelsQuery.select(fields);
+        this.modelQuery = this.modelQuery.select(fields);
         return this;
     }
 }

@@ -1,24 +1,9 @@
 import { startSession } from "mongoose";
 import Student from "./student.schema";
 import User from "../user/user.model";
-import QueryBuilder from "../../builder/QueryBuilder";
 import { searchablefeild } from "./student.constant";
+import QueryBuilder from "../../builder/QueryBuilder";
 
-// const createStudentintoDB = async (student: StudentsInfo) => {
-//     // it is used for create a data  from StudentsModal into DB 
-
-//     // const result = await StudentsModal.create(student) // built in static instamce method 
-//     const result = new StudentsModal(student)
-//     const res = result.save()
-//     return res
-// }
-
-// const getdeletStudent = async (id: string) => {
-
-//     const res = await Student.updateOne({ id }, { isDeleted: true })
-
-//     return res
-// }
 
 const getStudentsFromDB = async (query: Record<string, unknown>) => {
     // const queryObject = { ...query }
@@ -76,13 +61,22 @@ const getStudentsFromDB = async (query: Record<string, unknown>) => {
     // return fieldQuery;
 
 
-    const studentQuery = new QueryBuilder(Student.find(), query).search(searchablefeild)
-        .filter().sort().fields().paginate()
+    
+  const studentQuery = new QueryBuilder(
+    Student.find(),
+    query,
+  )
+    .search(searchablefeild)
+    .filter()
+    .sort()
+    .paginate()
+    .fields()
+    
 
+   
 
-
-
-    return studentQuery
+  const result = await studentQuery.modelQuery
+  return result;
 
 
 
