@@ -38,5 +38,15 @@ class QueryBuilder<T> {
     }
 
 
+     sort() {
+        const sort = this.query.sort || '-createdAt'
+       
+        this.modelsQuery = this.modelsQuery.sort(sort as string)
+
+        return this
+    }
 
 }
+
+
+export default QueryBuilder
