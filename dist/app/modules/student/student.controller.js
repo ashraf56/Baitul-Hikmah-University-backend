@@ -46,7 +46,7 @@ const deletStudentController = (0, catchAsync_1.catchasync)((req, res) => __awai
 const getAllstudent = (0, catchAsync_1.catchasync)(
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield student_service_1.StudentService.getStudentsFromDB();
+    const result = yield student_service_1.StudentService.getStudentsFromDB(req.query);
     res.status(200).json({ result });
 }));
 exports.StudentController = {

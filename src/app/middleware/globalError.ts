@@ -1,5 +1,8 @@
 import { ErrorRequestHandler } from "express";
 import { ZodError } from "zod";
+import { ErrorSource } from "../publicInterface/Terrorsource";
+import handlezodvalidationerror from "../errors/handlezodvalidationerror";
+import config from "../config";
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -9,31 +12,29 @@ const GlobalErrorhandller: ErrorRequestHandler = ((error, req, res, next) => {
     let statuscode = error.statuscode || 500
     let message = error.message || "something error"
 
-    type ErrorSource = {
-        path: '',
-        message: string
-    }[];
 
-    const errorsource: ErrorSource = [
+    let errorsource: ErrorSource = [
         {
             path: '',
             message: "something error "
         }
     ]
 
-    if (error instanceof ZodError) {
-        {
-            statuscode = 401
-            message = "amader validation error"
 
-        }
+
+    if (error instanceof ZodError) {
+        const simplifiederror = handlezodvalidationerror(error);
+        statuscode = simplifiederror?.statuscode;
+        message = simplifiederror?.message;
+        errorsource = simplifiederror?.errorsource
     }
 
     return res.status(statuscode).json({
         success: false,
         message,
-        error: error
-    })
+        errorsource,
+        stack: config.node_Env === 'development' ? error?.stack : null
+     })
 
 
 
