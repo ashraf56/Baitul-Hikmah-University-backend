@@ -16,6 +16,8 @@ exports.StudentService = void 0;
 const mongoose_1 = require("mongoose");
 const student_schema_1 = __importDefault(require("./student.schema"));
 const user_model_1 = __importDefault(require("../user/user.model"));
+const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
+const student_constant_1 = require("./student.constant");
 // const createStudentintoDB = async (student: StudentsInfo) => {
 //     // it is used for create a data  from StudentsModal into DB 
 //     // const result = await StudentsModal.create(student) // built in static instamce method 
@@ -28,45 +30,49 @@ const user_model_1 = __importDefault(require("../user/user.model"));
 //     return res
 // }
 const getStudentsFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const queryObject = Object.assign({}, query);
-    let searchinfo = '';
-    if (query === null || query === void 0 ? void 0 : query.searchinfo) {
-        searchinfo = query === null || query === void 0 ? void 0 : query.searchinfo;
-    }
-    // searchQuery
-    const searchQuery = student_schema_1.default.find({
-        $or: ['email', 'name'].map((feild) => ({
-            [feild]: { $regex: searchinfo, $options: 'i' }
-        }))
-    });
-    const removeFeildfromQuery = ['searchinfo', 'sort', 'limit', 'page', 'skip', 'fields'];
-    removeFeildfromQuery.forEach((el) => delete queryObject[el]);
-    const filterQuery = searchQuery.find(queryObject).populate('admissionSemester');
-    let sort = '-createdAt';
-    if (query.sort) {
-        sort = query.sort;
-    }
-    const sortQuery = filterQuery.sort(sort);
-    // PAGINATION FUNCTIONALITY:
-    let limit = 3;
-    let page = 1;
-    let skip = 0;
-    if (query.limit) {
-        limit = query.limit;
-    }
-    if (query.page) {
-        page = Number(query.page);
-        skip = (page - 1) * limit;
-    }
-    const paginateQuery = sortQuery.skip(skip);
-    const limitQuery = paginateQuery.limit(limit);
-    // FIELDS LIMITING FUNCTIONALITY:
-    let fields = '-__v';
-    if (query.fields) {
-        fields = query.fields.split(',').join(' ');
-    }
-    const fieldQuery = yield limitQuery.select(fields);
-    return fieldQuery;
+    // const queryObject = { ...query }
+    // let searchinfo = ''
+    // if (query?.searchinfo) {
+    //     searchinfo = query?.searchinfo as string
+    // }
+    // // searchQuery
+    // const searchablefeild = ['email', 'name']
+    // const searchQuery = Student.find({
+    //     $or: searchablefeild.map((feild) => ({
+    //         [feild]: { $regex: searchinfo, $options: 'i' }
+    //     }))
+    // })
+    // const removeFeildfromQuery = ['searchinfo', 'sort', 'limit', 'page', 'skip', 'fields']
+    // removeFeildfromQuery.forEach((el) => delete queryObject[el])
+    // const filterQuery = searchQuery.find(queryObject).populate('admissionSemester')
+    // let sort = '-createdAt'
+    // if (query.sort) {
+    //     sort = query.sort as string
+    // }
+    // const sortQuery = filterQuery.sort(sort)
+    // // PAGINATION FUNCTIONALITY:
+    // let limit = 3;
+    // let page = 1;
+    // let skip = 0
+    // if (query.limit) {
+    //     limit = query.limit as number;
+    // }
+    // if (query.page) {
+    //     page = Number(query.page);
+    //     skip = (page - 1) * limit;
+    // }
+    // const paginateQuery = sortQuery.skip(skip);
+    // const limitQuery = paginateQuery.limit(limit);
+    // // FIELDS LIMITING FUNCTIONALITY:
+    // let fields = '-__v'
+    // if (query.fields) {
+    //     fields = (query.fields as string).split(',').join(' ');
+    // }
+    // const fieldQuery = await limitQuery.select(fields);
+    // return fieldQuery;
+    const studentQuery = new QueryBuilder_1.default(student_schema_1.default.find(), query).search(student_constant_1.searchablefeild)
+        .filter().sort().fields().paginate();
+    return studentQuery;
 });
 const deleteStudentFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const session = yield (0, mongoose_1.startSession)();
