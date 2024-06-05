@@ -26,8 +26,10 @@ const getStudentsFromDB = async (query: Record<string, unknown>) => {
         searchinfo = query?.searchinfo as string
     }
     // searchQuery
+    const searchablefeild = ['email', 'name']
+
     const searchQuery = Student.find({
-        $or: ['email', 'name'].map((feild) => ({
+        $or: searchablefeild.map((feild) => ({
 
             [feild]: { $regex: searchinfo, $options: 'i' }
         }))
