@@ -1,4 +1,4 @@
-import { TAcademicSemester } from "../academicSemister/academic.interface";
+import { TAcademicSemester } from "../academicSemister/academicsemister.interface";
 import User from "./user.model";
 
 
@@ -28,14 +28,14 @@ export const genarateSudentID = async (payload: TAcademicSemester) => {
     // here is checking point for last student id. first time it's value will be undefined, when no student created. 
     const lastStudentID = await findLaststudentID(); // 2030 01 0001
 
-    
-   /* here is destructuring last semister code and year from lastStudentID.eg:
-    if no student exist
-    const lastsemistercode = undefined
-    const lastsemisterYear = undefined
-    if student exist then
-    const lastsemistercode = 03
-    const lastsemisterYear = 2032 */
+
+    /* here is destructuring last semister code and year from lastStudentID.eg:
+     if no student exist
+     const lastsemistercode = undefined
+     const lastsemisterYear = undefined
+     if student exist then
+     const lastsemistercode = 03
+     const lastsemisterYear = 2032 */
 
 
     const lastsemistercode = lastStudentID?.substring(4, 6)// 01

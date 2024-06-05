@@ -1,5 +1,5 @@
 import { catchasync } from "../../utils/catchAsync";
-import { AcademicFacultyServices } from "./faculty.service";
+import { AcademicFacultyServices } from "./academicfaculty.service";
 
 
 const createAcdemicFacultyController = catchasync(
