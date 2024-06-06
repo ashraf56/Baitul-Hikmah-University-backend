@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 import { Facultyinterface, TUserName } from "./faculty.interface";
 import { BloodGroup, Gender } from "./faculty.constant";
 
@@ -96,3 +96,10 @@ const Facultyshcema = new Schema<Facultyinterface>({
       }
 
 )
+
+
+
+
+
+export const  Faculty = model<Facultyinterface>('Faculty',Facultyshcema)
+
