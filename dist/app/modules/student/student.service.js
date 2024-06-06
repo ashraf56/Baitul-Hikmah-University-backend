@@ -90,6 +90,9 @@ const deleteStudentFromDB = (id) => __awaiter(void 0, void 0, void 0, function* 
         throw new Error('Failed to delete student');
     }
 });
+const updatestudentDataintoDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    // see modeule 13.12 video
+});
 exports.StudentService = {
-    getStudentsFromDB, deleteStudentFromDB
+    getStudentsFromDB, deleteStudentFromDB, updatestudentDataintoDB
 };

@@ -111,8 +111,10 @@ const deleteStudentFromDB = async (id: string) => {
     }
 }
 
-
+const updatestudentDataintoDB = async()=>{
+    // see modeule 13.12 video
+}
 
 export const StudentService = {
-    getStudentsFromDB, deleteStudentFromDB
+    getStudentsFromDB, deleteStudentFromDB,updatestudentDataintoDB
 }
