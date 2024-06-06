@@ -5,7 +5,10 @@ import { StudentsInfo } from "../student/student.interface";
 import Student from "../student/student.schema";
 import { UserInterface } from "./user.interface";
 import User from "./user.model";
-import { genarateSudentID } from "./user.utils";
+import { genarateSudentID, generateFacultyId } from "./user.utils";
+import { Facultyinterface } from "../faculty/faculty.interface";
+import AcademicDepartment from "../academicDepartment/department.model";
+import { Faculty } from "../faculty/faculty.model";
 
 
 const CreateUserDB = async (password: string, student: StudentsInfo) => {
@@ -60,6 +63,62 @@ const CreateUserDB = async (password: string, student: StudentsInfo) => {
 
 
 
+
+
+
+
+const CreateFacultyDB = async (password: string, payload: Facultyinterface) => {
+
+    const newUserdata: Partial<UserInterface> = {}
+
+    newUserdata.password = password || 'abc123'
+
+    newUserdata.role = 'faculty'
+
+    const  academicDepartment = await AcademicDepartment.findById(
+        payload.academicDepartment
+    );
+    if (!academicDepartment) {
+        throw new Error('academic Department  not found');
+    }
+
+    const session = await mongoose.startSession()
+
+    try {
+        session.startTransaction()
+        newUserdata.id = await generateFacultyId()
+
+
+        // it will create new user in the user colleciton
+        const newUser = await User.create([newUserdata], { session })
+
+        if (!newUser.length) {
+            throw new Error('Failed to create user')
+        }
+
+        payload.id = newUser[0].id
+        payload.user = newUser[0]._id
+        // it will create student in the strudents collection
+        const faculties = await Faculty.create([payload], { session })
+        if (!faculties.length) {
+            throw new Error('Failed to create student')
+        }
+        await session.commitTransaction()
+        await session.endSession()
+        return faculties
+
+    } catch (error) {
+        await session.abortTransaction()
+        await session.endSession()
+        throw new Error('Failed to complete transition')
+
+    }
+
+
+}
+
+
+
 export const UserService = {
-    CreateUserDB
+    CreateUserDB, CreateFacultyDB
 }
