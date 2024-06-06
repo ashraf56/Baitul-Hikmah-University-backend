@@ -19,7 +19,7 @@ export type TUserName = {
   };
 
 
-export type TFaculty = {
+export type Facultyinterface = {
     id: string;
     user: Types.ObjectId;
     designation: string;
