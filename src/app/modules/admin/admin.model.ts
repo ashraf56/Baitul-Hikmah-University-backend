@@ -90,7 +90,21 @@ const AdminSchema = new Schema<Admininterface>(  {
   },)
 
 
-
+  AdminSchema.pre('find', function (next) {
+    this.find({ isDeleted: { $ne: true } });
+    next();
+  });
+  
+  AdminSchema.pre('findOne', function (next) {
+    this.find({ isDeleted: { $ne: true } });
+    next();
+  });
+  
+  AdminSchema.pre('aggregate', function (next) {
+    this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+    next();
+  });
+  
 
 
   export const Admin = model<Admininterface>('Admin', AdminSchema)
