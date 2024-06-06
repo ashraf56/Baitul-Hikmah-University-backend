@@ -3,6 +3,7 @@ import { Faculty } from "./faculty.model";
 import { Facultyinterface } from "./faculty.interface";
 import { FacultySearchableFields } from "./faculty.constant";
 import QueryBuilder from "../../builder/QueryBuilder";
+import User from "../user/user.model";
 
 const getAllFacultiesFromDB = async (query: Record<string, unknown>) => {
     const facultyQuery = new QueryBuilder(
