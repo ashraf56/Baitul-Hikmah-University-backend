@@ -31,7 +31,7 @@ const createFaculty = catchasync(
         const { password, payload } = req.body;
 
 
-        const newfaculty = await UserService.CreateUserDB(password, payload);
+        const newfaculty = await UserService.CreateFacultyDB(password, payload);
 
         res.status(200).json({
             success: true,
@@ -47,6 +47,28 @@ const createFaculty = catchasync(
 
 
 
+const createAdmin = catchasync(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async (req: Request, res: Response, next: NextFunction) => {
+
+        const { password, payload } = req.body;
+
+
+        const newfaculty = await UserService.createAdminIntoDB(password, payload);
+
+        res.status(200).json({
+            success: true,
+            message: "success",
+            data: newfaculty
+
+        })
+
+
+
+    }
+)
+
+
 export const UserController = {
-    createUsers,createFaculty
+    createUsers,createFaculty,createAdmin
 }
