@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { AcademicSemesterCode, AcademicSemesterName, Months } from './academic.constant';
+import { AcademicSemesterCode, AcademicSemesterName, Months } from './academicsemister.constant';
 
 
 const createAcdemicSemesterValidationSchema = z.object({

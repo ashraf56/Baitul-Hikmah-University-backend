@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { TAcademicSemester } from "../academicSemister/academic.interface";
-import { AcademicSemester } from "../academicSemister/academic.model";
+import { TAcademicSemester } from "../academicSemister/academicsemister.interface";
+import { AcademicSemester } from "../academicSemister/academicsemister.model";
 import { StudentsInfo } from "../student/student.interface";
 import Student from "../student/student.schema";
 import { UserInterface } from "./user.interface";

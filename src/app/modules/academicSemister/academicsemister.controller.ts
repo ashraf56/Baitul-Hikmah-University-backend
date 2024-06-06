@@ -1,6 +1,6 @@
 import {  Request, Response } from "express";
 import { catchasync } from "../../utils/catchAsync";
-import { AcademicSemesterServices } from "./academic.service";
+import { AcademicSemesterServices } from "./academicsemister.service";
 
 
 

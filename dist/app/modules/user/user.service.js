@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
-const academic_model_1 = require("../academicSemister/academic.model");
+const academicsemister_model_1 = require("../academicSemister/academicsemister.model");
 const student_schema_1 = __importDefault(require("../student/student.schema"));
 const user_model_1 = __importDefault(require("./user.model"));
 const user_utils_1 = require("./user.utils");
@@ -22,7 +22,7 @@ const CreateUserDB = (password, student) => __awaiter(void 0, void 0, void 0, fu
     const newUserdata = {};
     newUserdata.password = password || 'abc123';
     newUserdata.role = 'student';
-    const admissionSemester = yield academic_model_1.AcademicSemester.findById(student.admissionSemester);
+    const admissionSemester = yield academicsemister_model_1.AcademicSemester.findById(student.admissionSemester);
     if (!admissionSemester) {
         throw new Error('Admission semester not found');
     }

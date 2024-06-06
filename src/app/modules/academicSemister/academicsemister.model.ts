@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
-import { TAcademicSemester } from "./academic.interface";
-import { AcademicSemesterCode, AcademicSemesterName, Months } from "./academic.constant";
+import { TAcademicSemester } from "./academicsemister.interface";
+import { AcademicSemesterCode, AcademicSemesterName, Months } from "./academicsemister.constant";
 
 
 
