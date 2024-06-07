@@ -19,11 +19,11 @@ const moduleRoute = [
         route: student_route_1.StudentRoute
     },
     {
-        path: '/academic',
+        path: '/academicsemister',
         route: academicsemister_route_1.AcademicSemesterRouter
     },
     {
-        path: '/academic-faculty',
+        path: '/academicfaculty',
         route: academicfaculty_route_1.AcademicFacultyRouter
     },
     {

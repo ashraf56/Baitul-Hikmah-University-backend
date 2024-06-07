@@ -106,6 +106,8 @@ const CreateFacultyDB = async (password: string, payload: Facultyinterface) => {
         }
         await session.commitTransaction()
         await session.endSession()
+       
+        
         return faculties
 
     } catch (error) {

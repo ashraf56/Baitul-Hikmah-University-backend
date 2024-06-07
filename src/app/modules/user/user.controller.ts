@@ -26,11 +26,12 @@ const createUsers = catchasync(
 )
 const createFaculty = catchasync(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req, res, next) => {
 
         const { password, payload } = req.body;
 
-
+      console.log( req.body);
+      
         const newfaculty = await UserService.CreateFacultyDB(password, payload);
 
         res.status(200).json({

@@ -60,7 +60,7 @@ const Facultyshcema = new mongoose_1.Schema({
         type: String,
         required: [true, 'Emergency contact number is required'],
     },
-    bloogGroup: {
+    bloodgGroup: {
         type: String,
         enum: {
             values: faculty_constant_1.BloodGroup,
