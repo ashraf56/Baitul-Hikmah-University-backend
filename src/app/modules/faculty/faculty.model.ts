@@ -62,7 +62,7 @@ const Facultyshcema = new Schema<Facultyinterface>({
           type: String,
           required: [true, 'Emergency contact number is required'],
         },
-        bloodgGroup: {
+        bloodGroup: {
           type: String,
           enum: {
             values: BloodGroup,

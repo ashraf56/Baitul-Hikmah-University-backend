@@ -29,7 +29,7 @@ export type Facultyinterface = {
     email: string;
     contactNo: string;
     emergencyContactNo: string;
-    bloodgGroup?: TBloodGroup;
+    bloodGroup?: TBloodGroup;
     presentAddress: string;
     permanentAddress: string;
     profileImg?: string;

@@ -48,7 +48,7 @@ exports.updateFacultyValidationSchema = zod_1.z.object({
             email: zod_1.z.string().email().optional(),
             contactNo: zod_1.z.string().optional(),
             emergencyContactNo: zod_1.z.string().optional(),
-            bloodgGroup: zod_1.z.enum([...faculty_constant_1.BloodGroup]).optional(),
+            bloodGroup: zod_1.z.enum([...faculty_constant_1.BloodGroup]).optional(),
             presentAddress: zod_1.z.string().optional(),
             permanentAddress: zod_1.z.string().optional(),
             profileImg: zod_1.z.string().optional(),
