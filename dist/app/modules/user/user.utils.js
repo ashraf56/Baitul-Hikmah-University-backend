@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.genarateSudentID = void 0;
+exports.generateAdminId = exports.findLastAdminId = exports.generateFacultyId = exports.findLastFacultyId = exports.genarateSudentID = void 0;
 const user_model_1 = __importDefault(require("./user.model"));
 const findLaststudentID = () => __awaiter(void 0, void 0, void 0, function* () {
     const lastStudent = yield user_model_1.default.findOne({
@@ -74,3 +74,55 @@ const genarateSudentID = (payload) => __awaiter(void 0, void 0, void 0, function
     return incrementedID;
 });
 exports.genarateSudentID = genarateSudentID;
+// Faculty ID
+const findLastFacultyId = () => __awaiter(void 0, void 0, void 0, function* () {
+    const lastFaculty = yield user_model_1.default.findOne({
+        role: 'faculty',
+    }, {
+        id: 1,
+        _id: 0,
+    })
+        .sort({
+        createdAt: -1,
+    })
+        .lean();
+    return (lastFaculty === null || lastFaculty === void 0 ? void 0 : lastFaculty.id) ? lastFaculty.id.substring(2) : undefined;
+});
+exports.findLastFacultyId = findLastFacultyId;
+const generateFacultyId = () => __awaiter(void 0, void 0, void 0, function* () {
+    let currentId = (0).toString();
+    const lastFacultyId = yield (0, exports.findLastFacultyId)();
+    if (lastFacultyId) {
+        currentId = lastFacultyId.substring(2);
+    }
+    let incrementId = (Number(currentId) + 1).toString().padStart(4, '0');
+    incrementId = `F-${incrementId}`;
+    return incrementId;
+});
+exports.generateFacultyId = generateFacultyId;
+// Admin ID
+const findLastAdminId = () => __awaiter(void 0, void 0, void 0, function* () {
+    const lastAdmin = yield user_model_1.default.findOne({
+        role: 'admin',
+    }, {
+        id: 1,
+        _id: 0,
+    })
+        .sort({
+        createdAt: -1,
+    })
+        .lean();
+    return (lastAdmin === null || lastAdmin === void 0 ? void 0 : lastAdmin.id) ? lastAdmin.id.substring(2) : undefined;
+});
+exports.findLastAdminId = findLastAdminId;
+const generateAdminId = () => __awaiter(void 0, void 0, void 0, function* () {
+    let currentId = (0).toString();
+    const lastAdminId = yield (0, exports.findLastAdminId)();
+    if (lastAdminId) {
+        currentId = lastAdminId.substring(2);
+    }
+    let incrementId = (Number(currentId) + 1).toString().padStart(4, '0');
+    incrementId = `A-${incrementId}`;
+    return incrementId;
+});
+exports.generateAdminId = generateAdminId;
