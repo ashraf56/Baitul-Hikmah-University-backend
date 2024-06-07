@@ -25,7 +25,7 @@ exports.createFacultyValidationSchema = zod_1.z.object({
             email: zod_1.z.string().email(),
             contactNo: zod_1.z.string(),
             emergencyContactNo: zod_1.z.string(),
-            bloogGroup: zod_1.z.enum([...faculty_constant_1.BloodGroup]),
+            bloodGroup: zod_1.z.enum([...faculty_constant_1.BloodGroup]),
             presentAddress: zod_1.z.string(),
             permanentAddress: zod_1.z.string(),
             academicDepartment: zod_1.z.string(),
