@@ -1,3 +1,4 @@
+import QueryBuilder from "../../builder/QueryBuilder";
 import { CourseInterface } from "./course.interface";
 import Course from "./course.model";
 
@@ -10,8 +11,16 @@ const createCourseIntoDB = async (payload:CourseInterface)=>{
 
 }
 
+const  getAllCourseFromdb = async(query:Record<string,unknown>)=>{
+
+    const courseQuery = new QueryBuilder(Course.find(),query)
+
+return courseQuery
+}
+
 
 
 export const CourseServices = {
-    createCourseIntoDB
+    createCourseIntoDB,
+    getAllCourseFromdb
 }

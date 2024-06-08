@@ -13,11 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseServices = void 0;
+const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const course_model_1 = __importDefault(require("./course.model"));
 const createCourseIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const reslt = yield course_model_1.default.create(payload);
     return reslt;
 });
+const getAllCourseFromdb = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const courseQuery = new QueryBuilder_1.default(course_model_1.default.find(), query);
+    return courseQuery;
+});
 exports.CourseServices = {
-    createCourseIntoDB
+    createCourseIntoDB,
+    getAllCourseFromdb
 };
