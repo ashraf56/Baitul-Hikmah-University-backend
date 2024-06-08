@@ -28,8 +28,15 @@ const getSingleCourseFromDB = (id) => __awaiter(void 0, void 0, void 0, function
     const result = yield course_model_1.default.findById(id).populate('preRequisiteCourses.course');
     return result;
 });
+const deleteCourseFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield course_model_1.default.findByIdAndUpdate(id, { isDeleted: true }, {
+        new: true,
+    });
+    return result;
+});
 exports.CourseServices = {
     createCourseIntoDB,
     getAllCourseFromdb,
-    getSingleCourseFromDB
+    getSingleCourseFromDB,
+    deleteCourseFromDB
 };
