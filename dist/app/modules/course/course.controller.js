@@ -21,6 +21,15 @@ const createCourseController = (0, catchAsync_1.catchasync)((req, res) => __awai
         data: coursedata
     });
 }));
+const getAllCourseController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield course_service_1.CourseServices.getAllCourseFromdb(req.query);
+    res.status(200).json({
+        success: true,
+        message: "Courses are retrieved successfully",
+        data: result
+    });
+}));
 exports.CourseControllers = {
-    createCourseController
+    createCourseController,
+    getAllCourseController
 };
