@@ -14,8 +14,8 @@ const createCourseIntoDB = async (payload:CourseInterface)=>{
 const  getAllCourseFromdb = async(query:Record<string,unknown>)=>{
 
     const courseQuery = new QueryBuilder(Course.find(),query)
-
-return courseQuery
+const result = await courseQuery.modelQuery
+return result
 }
 
 

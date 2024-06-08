@@ -21,7 +21,8 @@ const createCourseIntoDB = (payload) => __awaiter(void 0, void 0, void 0, functi
 });
 const getAllCourseFromdb = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const courseQuery = new QueryBuilder_1.default(course_model_1.default.find(), query);
-    return courseQuery;
+    const result = yield courseQuery.modelQuery;
+    return result;
 });
 exports.CourseServices = {
     createCourseIntoDB,
