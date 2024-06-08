@@ -30,9 +30,11 @@ const createFaculty = catchasync(
 
         const { password, payload } = req.body;
 
-      
+       
+       
         const newfaculty = await UserService.CreateFacultyDB(password, payload);
-
+      
+       
         res.status(200).json({
             success: true,
             message: "success",
