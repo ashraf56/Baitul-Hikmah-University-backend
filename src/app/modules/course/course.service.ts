@@ -1,4 +1,5 @@
 import QueryBuilder from "../../builder/QueryBuilder";
+import { CourseSearchableFields } from "./course.contant";
 import { CourseInterface } from "./course.interface";
 import Course from "./course.model";
 
@@ -13,7 +14,8 @@ const createCourseIntoDB = async (payload: CourseInterface) => {
 
 const getAllCourseFromdb = async (query: Record<string, unknown>) => {
 
-    const courseQuery = new QueryBuilder(Course.find(), query)
+    const courseQuery = new QueryBuilder(Course.find(), query).search(CourseSearchableFields)
+    .filter().sort().paginate().fields()
     const result = await courseQuery.modelQuery
     return result
 }
