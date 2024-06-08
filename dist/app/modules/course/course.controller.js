@@ -38,8 +38,18 @@ const getSingleCourseController = (0, catchAsync_1.catchasync)((req, res) => __a
         data: result
     });
 }));
+const deleteCourseController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield course_service_1.CourseServices.deleteCourseFromDB(id);
+    res.status(200).json({
+        success: true,
+        message: "Course is Deleted successfully",
+        data: result
+    });
+}));
 exports.CourseControllers = {
     createCourseController,
     getAllCourseController,
-    getSingleCourseController
+    getSingleCourseController,
+    deleteCourseController
 };
