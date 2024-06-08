@@ -29,7 +29,21 @@ const getAllCourseController = catchasync(async (req, res) => {
 
 });
 
+const getSingleCourseController = catchasync(async (req, res) => {
+    const { id } = req.params;
+    const result = await CourseServices.getSingleCourseFromDB(id)
+
+    res.status(200).json({
+        success: true,
+        message: "Course is retrieved successfully",
+        data: result
+    })
+  });
+
+
+
 export const CourseControllers = {
     createCourseController,
-    getAllCourseController
+    getAllCourseController,
+     getSingleCourseController
 }
