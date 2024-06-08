@@ -8,6 +8,7 @@ const academicfaculty_route_1 = require("../modules/academicFaculty/academicfacu
 const department_route_1 = require("../modules/academicDepartment/department.route");
 const faculty_route_1 = require("../modules/faculty/faculty.route");
 const admin_route_1 = require("../modules/admin/admin.route");
+const course_route_1 = require("../modules/course/course.route");
 const router = (0, express_1.Router)();
 const moduleRoute = [
     {
@@ -37,6 +38,10 @@ const moduleRoute = [
     {
         path: '/admin',
         route: admin_route_1.AddminRouter
+    },
+    {
+        path: '/course',
+        route: course_route_1.CourseRouter
     }
 ];
 moduleRoute.forEach(r => router.use(r.path, r.route));
