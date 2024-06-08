@@ -30,7 +30,6 @@ const createFaculty = catchasync(
 
         const { password, payload } = req.body;
 
-      console.log( req.body);
       
         const newfaculty = await UserService.CreateFacultyDB(password, payload);
 

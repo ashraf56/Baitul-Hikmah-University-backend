@@ -28,7 +28,7 @@ exports.createFacultyValidationSchema = zod_1.z.object({
             bloodGroup: zod_1.z.enum([...faculty_constant_1.BloodGroup]),
             presentAddress: zod_1.z.string(),
             permanentAddress: zod_1.z.string(),
-            academicDepartment: zod_1.z.string(),
+            academicdepartment: zod_1.z.string(),
             profileImg: zod_1.z.string().optional(),
         }),
     }),

@@ -27,7 +27,6 @@ const createFaculty = (0, catchAsync_1.catchasync)(
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { password, payload } = req.body;
-    console.log(req.body);
     const newfaculty = yield user_service_1.UserService.CreateFacultyDB(password, payload);
     res.status(200).json({
         success: true,

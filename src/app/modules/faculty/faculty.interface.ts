@@ -33,6 +33,6 @@ export type Facultyinterface = {
     presentAddress: string;
     permanentAddress: string;
     profileImg?: string;
-    academicDepartment: Types.ObjectId;
+    academicdepartment: Types.ObjectId;
     isDeleted: boolean;
   };

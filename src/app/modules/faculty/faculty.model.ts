@@ -78,10 +78,10 @@ const Facultyshcema = new Schema<Facultyinterface>({
           required: [true, 'Permanent address is required'],
         },
         profileImg: { type: String },
-        academicDepartment: {
+        academicdepartment: {
           type: Schema.Types.ObjectId,
-          required: [true, 'User id is required'],
-          ref: 'User',
+          required: [true, 'AcademicDepartment is required'],
+          ref: 'AcademicDepartment',
         },
         isDeleted: {
           type: Boolean,
