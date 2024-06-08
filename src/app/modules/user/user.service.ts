@@ -75,14 +75,16 @@ const CreateFacultyDB = async (password: string, payload: Facultyinterface) => {
     newUserdata.password = password || 'abc123'
 
     newUserdata.role = 'faculty'
-
+ 
+ 
     const  academicdepartment = await AcademicDepartment.findById(
-        payload.academicdepartment
+        payload.academicdepartment,
     );
    
     
     if (!academicdepartment) {
         throw new Error('academic Department  not found');
+
     }
 
     const session = await mongoose.startSession()

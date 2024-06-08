@@ -28,11 +28,12 @@ const createFaculty = catchasync(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async (req, res, next) => {
 
-        const { password, payload } = req.body;
+        const { password, faculty } = req.body;
 
+
+    
        
-       
-        const newfaculty = await UserService.CreateFacultyDB(password, payload);
+        const newfaculty = await UserService.CreateFacultyDB(password, faculty);
       
        
         res.status(200).json({

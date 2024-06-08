@@ -26,8 +26,8 @@ const createUsers = (0, catchAsync_1.catchasync)(
 const createFaculty = (0, catchAsync_1.catchasync)(
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { password, payload } = req.body;
-    const newfaculty = yield user_service_1.UserService.CreateFacultyDB(password, payload);
+    const { password, faculty } = req.body;
+    const newfaculty = yield user_service_1.UserService.CreateFacultyDB(password, faculty);
     res.status(200).json({
         success: true,
         message: "success",

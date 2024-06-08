@@ -21,7 +21,7 @@ const createCourseIntoDB = (payload) => __awaiter(void 0, void 0, void 0, functi
     return reslt;
 });
 const getAllCourseFromdb = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const courseQuery = new QueryBuilder_1.default(course_model_1.default.find(), query).search(course_contant_1.CourseSearchableFields)
+    const courseQuery = new QueryBuilder_1.default(course_model_1.default.find().populate('preRequisiteCourses.course'), query).search(course_contant_1.CourseSearchableFields)
         .filter().sort().paginate().fields();
     const result = yield courseQuery.modelQuery;
     return result;
