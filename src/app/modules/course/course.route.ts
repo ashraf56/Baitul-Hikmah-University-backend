@@ -6,19 +6,14 @@ import { CourseControllers } from "./course.controller";
 const router = Router();
 
 router.post(
-  '/create-course',
-  validateRequest(CourseValidations.createCourseValidationSchema),
-  CourseControllers.createCourseController,
+    '/create-course',
+    validateRequest(CourseValidations.createCourseValidationSchema),
+    CourseControllers.createCourseController,
 );
 
 router.get('/:id', CourseControllers.getSingleCourseController);
 
-
-
 router.delete('/:id', CourseControllers.deleteCourseController);
-
-
-
 
 router.get('/', CourseControllers.getAllCourseController);
 
