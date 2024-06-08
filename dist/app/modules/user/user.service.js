@@ -59,8 +59,8 @@ const CreateFacultyDB = (password, payload) => __awaiter(void 0, void 0, void 0,
     const newUserdata = {};
     newUserdata.password = password || 'abc123';
     newUserdata.role = 'faculty';
-    const academicDepartment = yield department_model_1.default.findById(payload.academicDepartment);
-    if (!academicDepartment) {
+    const academicdepartment = yield department_model_1.default.findById(payload.academicdepartment);
+    if (!academicdepartment) {
         throw new Error('academic Department  not found');
     }
     const session = yield mongoose_1.default.startSession();

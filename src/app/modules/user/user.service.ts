@@ -76,10 +76,12 @@ const CreateFacultyDB = async (password: string, payload: Facultyinterface) => {
 
     newUserdata.role = 'faculty'
 
-    const  academicDepartment = await AcademicDepartment.findById(
-        payload.academicDepartment
+    const  academicdepartment = await AcademicDepartment.findById(
+        payload.academicdepartment
     );
-    if (!academicDepartment) {
+   
+    
+    if (!academicdepartment) {
         throw new Error('academic Department  not found');
     }
 
@@ -92,7 +94,8 @@ const CreateFacultyDB = async (password: string, payload: Facultyinterface) => {
 
         // it will create new user in the user colleciton
         const newUser = await User.create([newUserdata], { session })
-
+       
+        
         if (!newUser.length) {
             throw new Error('Failed to create user')
         }
@@ -106,6 +109,9 @@ const CreateFacultyDB = async (password: string, payload: Facultyinterface) => {
         }
         await session.commitTransaction()
         await session.endSession()
+       
+       
+        
         return faculties
 
     } catch (error) {

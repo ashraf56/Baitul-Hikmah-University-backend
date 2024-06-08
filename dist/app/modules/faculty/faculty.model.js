@@ -60,7 +60,7 @@ const Facultyshcema = new mongoose_1.Schema({
         type: String,
         required: [true, 'Emergency contact number is required'],
     },
-    bloogGroup: {
+    bloodGroup: {
         type: String,
         enum: {
             values: faculty_constant_1.BloodGroup,
@@ -76,10 +76,10 @@ const Facultyshcema = new mongoose_1.Schema({
         required: [true, 'Permanent address is required'],
     },
     profileImg: { type: String },
-    academicDepartment: {
+    academicdepartment: {
         type: mongoose_1.Schema.Types.ObjectId,
-        required: [true, 'User id is required'],
-        ref: 'User',
+        required: [true, 'AcademicDepartment is required'],
+        ref: 'AcademicDepartment',
     },
     isDeleted: {
         type: Boolean,

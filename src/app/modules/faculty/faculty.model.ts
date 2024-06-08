@@ -62,7 +62,7 @@ const Facultyshcema = new Schema<Facultyinterface>({
           type: String,
           required: [true, 'Emergency contact number is required'],
         },
-        bloogGroup: {
+        bloodGroup: {
           type: String,
           enum: {
             values: BloodGroup,
@@ -78,10 +78,10 @@ const Facultyshcema = new Schema<Facultyinterface>({
           required: [true, 'Permanent address is required'],
         },
         profileImg: { type: String },
-        academicDepartment: {
+        academicdepartment: {
           type: Schema.Types.ObjectId,
-          required: [true, 'User id is required'],
-          ref: 'User',
+          required: [true, 'AcademicDepartment is required'],
+          ref: 'AcademicDepartment',
         },
         isDeleted: {
           type: Boolean,
