@@ -49,6 +49,9 @@ const updateCourseintoDB = async (id:string,payload:Partial<CourseInterface>)=>{
 
   const updateCourseinfo = await Course.findByIdAndUpdate(id,remaingCOurse, {new:true,runValidators:true})
 
+
+
+  
 return updateCourseinfo
 }
 
