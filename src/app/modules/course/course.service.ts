@@ -40,9 +40,24 @@ const deleteCourseFromDB = async (id: string) => {
     return result;
   };
 
+
+const updateCourseintoDB = async (id:string,payload:Partial<CourseInterface>)=>{
+
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const { preRequisiteCourses , ...remaingCOurse}= payload
+
+
+  const updateCourseinfo = await Course.findByIdAndUpdate(id,remaingCOurse, {new:true,runValidators:true})
+
+return updateCourseinfo
+}
+
+
+
 export const CourseServices = {
     createCourseIntoDB,
     getAllCourseFromdb,
     getSingleCourseFromDB,
+    updateCourseintoDB,
     deleteCourseFromDB
 }
