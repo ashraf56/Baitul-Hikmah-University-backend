@@ -80,7 +80,6 @@ const Facultyshcema = new Schema<Facultyinterface>({
         profileImg: { type: String },
         academicdepartment: {
           type: Schema.Types.ObjectId,
-          required: [true, 'AcademicDepartment is required'],
           ref: 'AcademicDepartment',
         },
         isDeleted: {

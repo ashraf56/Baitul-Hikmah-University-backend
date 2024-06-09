@@ -78,7 +78,6 @@ const Facultyshcema = new mongoose_1.Schema({
     profileImg: { type: String },
     academicdepartment: {
         type: mongoose_1.Schema.Types.ObjectId,
-        required: [true, 'AcademicDepartment is required'],
         ref: 'AcademicDepartment',
     },
     isDeleted: {
