@@ -142,7 +142,7 @@ const AssignCourseFaculty = async (id: string, payload: Partial<CourseFacultyInt
 }
 
 
-const DeleteCourseFacultyDB = async(id: string, payload: Partial<CourseFacultyInterface>)=>{
+const removeCourseFacultyDB = async(id: string, payload: Partial<CourseFacultyInterface>)=>{
 
   const reslt = await CourseFaculty.findByIdAndUpdate(
     id,
@@ -168,5 +168,5 @@ export const CourseServices = {
   updateCourseintoDB,
   deleteCourseFromDB,
   AssignCourseFaculty,
-  DeleteCourseFacultyDB
+  removeCourseFacultyDB
 }

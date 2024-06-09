@@ -103,7 +103,7 @@ const AssignCourseFaculty = (id, payload) => __awaiter(void 0, void 0, void 0, f
     });
     return reslt;
 });
-const DeleteCourseFacultyDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const removeCourseFacultyDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const reslt = yield course_model_1.CourseFaculty.findByIdAndUpdate(id, {
         $pull: { faculties: { $in: payload } }
     }, {
@@ -118,5 +118,5 @@ exports.CourseServices = {
     updateCourseintoDB,
     deleteCourseFromDB,
     AssignCourseFaculty,
-    DeleteCourseFacultyDB
+    removeCourseFacultyDB
 };
