@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import QueryBuilder from "../../builder/QueryBuilder";
 import { CourseSearchableFields } from "./course.contant";
 import { CourseInterface } from "./course.interface";
-import Course from "./course.model";
+import { Course } from "./course.model";
 
 
 
