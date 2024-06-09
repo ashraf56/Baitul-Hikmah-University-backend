@@ -48,9 +48,17 @@ const deleteCourseFromDB = (id) => __awaiter(void 0, void 0, void 0, function* (
     return result;
 });
 const updateCourseintoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const { preRequisiteCourses } = payload, remaingCOurse = __rest(payload, ["preRequisiteCourses"]);
     const updateCourseinfo = yield course_model_1.default.findByIdAndUpdate(id, remaingCOurse, { new: true, runValidators: true });
+    if (preRequisiteCourses && preRequisiteCourses.length > 0) {
+        // it will return truthy value of isDeleted feild
+        const deletedPreCourse = preRequisiteCourses.filter((el) => el.course && el.isDeleted)
+            .map(el => el.course);
+        const deletedPreCourseresult = yield course_model_1.default.findByIdAndUpdate(id, {
+            $pull: { preRequisiteCourses: { course: { $in: deletedPreCourse } } }
+        });
+        return deletedPreCourseresult;
+    }
     return updateCourseinfo;
 });
 exports.CourseServices = {
