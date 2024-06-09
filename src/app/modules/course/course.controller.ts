@@ -81,7 +81,21 @@ const AssignCourseFacultyController = catchasync(
 
         res.status(200).json({
             success: true,
-            message: "Assign Course is successfully done",
+            message: "Assign faculty into Course is successfully done",
+            data: assignRes
+        })
+    }
+)
+const RemoveCourseFacultyController = catchasync(
+    async (req,res)=> {
+        const {courseID}= req.params;
+        const {faculties} = req.body;
+
+        const assignRes = await CourseServices.removeCourseFacultyDB(courseID,faculties)
+
+        res.status(200).json({
+            success: true,
+            message: "Remove faculty from Course  is successfully done",
             data: assignRes
         })
     }
@@ -94,5 +108,6 @@ export const CourseControllers = {
     getSingleCourseController,
     deleteCourseController,
     getUpdateCourseController,
-    AssignCourseFacultyController
+    AssignCourseFacultyController,
+    RemoveCourseFacultyController
 }
