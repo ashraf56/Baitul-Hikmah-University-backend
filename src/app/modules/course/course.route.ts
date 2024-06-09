@@ -20,7 +20,7 @@ router.patch('/:id', validateRequest(CourseValidations.updateCourseValidationSch
     CourseControllers.getUpdateCourseController)
 
 
-    // Course Faculty route
+// Course Faculty route
 router.delete('/:courseID/remove-course',
     validateRequest(CourseValidations.facultiesWithCourseValidationSchema),
     CourseControllers.RemoveCourseFacultyController
