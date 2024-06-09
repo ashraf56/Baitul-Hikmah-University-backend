@@ -52,9 +52,33 @@ const deleteCourseController = catchasync(
             data: result
         })
     });
+
+
+
+const getUpdateCourseController = catchasync(
+    async (req,res) => {
+
+const {id}= req.params;
+const payload = req.body
+
+const result = await CourseServices.updateCourseintoDB(id,payload);
+
+res.status(200).json({
+    success: true,
+    message: "Course is Updated successfully",
+    data: result
+})
+    }
+)
+
+
+
+
+
 export const CourseControllers = {
     createCourseController,
     getAllCourseController,
     getSingleCourseController,
-    deleteCourseController
+    deleteCourseController,
+    getUpdateCourseController
 }

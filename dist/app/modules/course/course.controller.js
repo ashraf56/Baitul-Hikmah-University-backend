@@ -47,9 +47,20 @@ const deleteCourseController = (0, catchAsync_1.catchasync)((req, res) => __awai
         data: result
     });
 }));
+const getUpdateCourseController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const payload = req.body;
+    const result = yield course_service_1.CourseServices.updateCourseintoDB(id, payload);
+    res.status(200).json({
+        success: true,
+        message: "Course is Updated successfully",
+        data: result
+    });
+}));
 exports.CourseControllers = {
     createCourseController,
     getAllCourseController,
     getSingleCourseController,
-    deleteCourseController
+    deleteCourseController,
+    getUpdateCourseController
 };
