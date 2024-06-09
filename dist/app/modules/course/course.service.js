@@ -93,10 +93,20 @@ const updateCourseintoDB = (id, payload) => __awaiter(void 0, void 0, void 0, fu
         throw new Error('Failed to update course!');
     }
 });
+const AssignCourseFaculty = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const reslt = yield course_model_1.CourseFaculty.findByIdAndUpdate(id, {
+        $addToSet: { faculties: { $each: payload } }
+    }, {
+        upsert: true,
+        new: true
+    });
+    return reslt;
+});
 exports.CourseServices = {
     createCourseIntoDB,
     getAllCourseFromdb,
     getSingleCourseFromDB,
     updateCourseintoDB,
-    deleteCourseFromDB
+    deleteCourseFromDB,
+    AssignCourseFaculty
 };

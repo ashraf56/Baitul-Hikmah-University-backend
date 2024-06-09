@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import QueryBuilder from "../../builder/QueryBuilder";
 import { CourseSearchableFields } from "./course.contant";
-import { CourseInterface } from "./course.interface";
-import { Course } from "./course.model";
+import { CourseFacultyInterface, CourseInterface } from "./course.interface";
+import { Course, CourseFaculty } from "./course.model";
 
 
 
@@ -118,12 +118,26 @@ return result;
   }
 
 
-
-
  
+}
 
 
- 
+
+
+const AssignCourseFaculty = async (id:string, payload:Partial<CourseFacultyInterface>)=>{
+
+const reslt = await CourseFaculty.findByIdAndUpdate(
+  id,
+  {
+    $addToSet:{faculties:{$each:payload}}
+  },
+  {
+    upsert:true,
+    new:true
+  }
+)
+return reslt
+
 }
 
 
@@ -133,5 +147,6 @@ export const CourseServices = {
   getAllCourseFromdb,
   getSingleCourseFromDB,
   updateCourseintoDB,
-  deleteCourseFromDB
+  deleteCourseFromDB,
+  AssignCourseFaculty
 }
