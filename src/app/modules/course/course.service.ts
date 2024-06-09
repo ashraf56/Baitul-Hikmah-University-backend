@@ -53,90 +53,91 @@ const updateCourseintoDB = async (id: string, payload: Partial<CourseInterface>)
     const updateCourseinfo = await Course.findByIdAndUpdate(
       id,
       remaingCOurse,
-      { new: true, runValidators: true , session}
+      { new: true, runValidators: true, session }
     )
 
 
-if (!updateCourseinfo) {
-  throw new Error("Failed to update course!")
-}
- if (preRequisiteCourses && preRequisiteCourses.length > 0) {
-    // it will return truthy value of isDeleted feild
-    const deletedPreCourse = preRequisiteCourses.filter((el) => el.course && el.isDeleted)
-      .map(el => el.course)
+    if (!updateCourseinfo) {
+      throw new Error("Failed to update course!")
+    }
+    if (preRequisiteCourses && preRequisiteCourses.length > 0) {
+      // it will return truthy value of isDeleted feild
+      const deletedPreCourse = preRequisiteCourses.filter((el) => el.course && el.isDeleted)
+        .map(el => el.course)
 
-    const deletedPreCourseresult = await Course.findByIdAndUpdate(
-      id,
-      {
-        $pull: { preRequisiteCourses: { course: { $in: deletedPreCourse } } }
-      },
-      {
-        new: true,
-        runValidators: true, session
+      const deletedPreCourseresult = await Course.findByIdAndUpdate(
+        id,
+        {
+          $pull: { preRequisiteCourses: { course: { $in: deletedPreCourse } } }
+        },
+        {
+          new: true,
+          runValidators: true, session
+        }
+      )
+      if (!deletedPreCourseresult) {
+        throw new Error('Failed to update course!')
       }
-    )
-  if (!deletedPreCourseresult) {
-    throw new Error ('Failed to update course!')
-  }
 
-    const newPreCourse = preRequisiteCourses.filter((el) => el.course && !el.isDeleted)
-    const newPreCourseresult = await Course.findByIdAndUpdate(
-      id,
-      {
-        $addToSet: { preRequisiteCourses: { $each: newPreCourse } }
-      },
-      {
-        new: true,
-        runValidators: true,
-        session
+      const newPreCourse = preRequisiteCourses.filter((el) => el.course && !el.isDeleted)
+      const newPreCourseresult = await Course.findByIdAndUpdate(
+        id,
+        {
+          $addToSet: { preRequisiteCourses: { $each: newPreCourse } }
+        },
+        {
+          new: true,
+          runValidators: true,
+          session
+        }
+      )
+
+
+      if (!newPreCourseresult) {
+        throw new Error('Failed to update course!')
       }
-    )
-   
-    
-if (!newPreCourseresult) {
-      throw new Error ('Failed to update course!')
-}
 
-  }
- await session.commitTransaction()
- await session.endSession()
+    }
+    await session.commitTransaction()
+    await session.endSession()
 
 
- const result = await Course.findById(id).populate(
-  'preRequisiteCourses.course',
-);
+    const result = await Course.findById(id).populate(
+      'preRequisiteCourses.course',
+    );
 
-return result;
+    return result;
 
 
 
   } catch (error) {
     await session.abortTransaction();
     await session.endSession();
-    throw new Error ('Failed to update course!')
+    throw new Error('Failed to update course!')
 
   }
 
 
- 
+
 }
 
 
 
 
-const AssignCourseFaculty = async (id:string, payload:Partial<CourseFacultyInterface>)=>{
+const AssignCourseFaculty = async (id: string, payload: Partial<CourseFacultyInterface>) => {
 
-const reslt = await CourseFaculty.findByIdAndUpdate(
-  id,
-  {
-    $addToSet:{faculties:{$each:payload}}
-  },
-  {
-    upsert:true,
-    new:true
-  }
-)
-return reslt
+  const reslt = await CourseFaculty.findByIdAndUpdate(
+    id,
+    {
+      course: id,
+      $addToSet: { faculties: { $each: payload } }
+    },
+    {
+      upsert: true,
+      new: true
+    }
+  )
+  return reslt
 
 }
 

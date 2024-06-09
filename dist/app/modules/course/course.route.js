@@ -12,6 +12,7 @@ const router = (0, express_1.Router)();
 router.post('/create-course', (0, validateRequest_1.default)(course_validation_1.CourseValidations.createCourseValidationSchema), course_controller_1.CourseControllers.createCourseController);
 router.get('/:id', course_controller_1.CourseControllers.getSingleCourseController);
 router.delete('/:id', course_controller_1.CourseControllers.deleteCourseController);
+router.put('/:courseID/assign-course', (0, validateRequest_1.default)(course_validation_1.CourseValidations.facultiesWithCourseValidationSchema), course_controller_1.CourseControllers.AssignCourseFacultyController);
 router.get('/', course_controller_1.CourseControllers.getAllCourseController);
 router.patch('/:id', (0, validateRequest_1.default)(course_validation_1.CourseValidations.updateCourseValidationSchema), course_controller_1.CourseControllers.getUpdateCourseController);
 exports.CourseRouter = router;
