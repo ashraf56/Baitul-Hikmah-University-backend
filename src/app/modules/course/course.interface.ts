@@ -17,3 +17,11 @@ export interface CourseInterface {
     preRequisiteCourses: [TPreRequisiteCourses];
 
 }
+
+
+
+export interface CourseFacultyInterface {
+    course: Types.ObjectId;
+    faculties:[Types.ObjectId]
+
+}

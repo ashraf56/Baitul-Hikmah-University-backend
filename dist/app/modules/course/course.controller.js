@@ -47,9 +47,42 @@ const deleteCourseController = (0, catchAsync_1.catchasync)((req, res) => __awai
         data: result
     });
 }));
+const getUpdateCourseController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const payload = req.body;
+    const result = yield course_service_1.CourseServices.updateCourseintoDB(id, payload);
+    res.status(200).json({
+        success: true,
+        message: "Course is Updated successfully",
+        data: result
+    });
+}));
+const AssignCourseFacultyController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { courseID } = req.params;
+    const { faculties } = req.body;
+    const assignRes = yield course_service_1.CourseServices.AssignCourseFaculty(courseID, faculties);
+    res.status(200).json({
+        success: true,
+        message: "Assign faculty into Course is successfully done",
+        data: assignRes
+    });
+}));
+const RemoveCourseFacultyController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { courseID } = req.params;
+    const { faculties } = req.body;
+    const assignRes = yield course_service_1.CourseServices.removeCourseFacultyDB(courseID, faculties);
+    res.status(200).json({
+        success: true,
+        message: "Remove faculty from Course  is successfully done",
+        data: assignRes
+    });
+}));
 exports.CourseControllers = {
     createCourseController,
     getAllCourseController,
     getSingleCourseController,
-    deleteCourseController
+    deleteCourseController,
+    getUpdateCourseController,
+    AssignCourseFacultyController,
+    RemoveCourseFacultyController
 };

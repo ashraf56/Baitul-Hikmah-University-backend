@@ -52,9 +52,62 @@ const deleteCourseController = catchasync(
             data: result
         })
     });
+
+
+
+const getUpdateCourseController = catchasync(
+    async (req,res) => {
+
+const {id}= req.params;
+const payload = req.body
+
+const result = await CourseServices.updateCourseintoDB(id,payload);
+
+res.status(200).json({
+    success: true,
+    message: "Course is Updated successfully",
+    data: result
+})
+    }
+)
+
+
+const AssignCourseFacultyController = catchasync(
+    async (req,res)=> {
+        const {courseID}= req.params;
+        const {faculties} = req.body;
+
+        const assignRes = await CourseServices.AssignCourseFaculty(courseID,faculties)
+
+        res.status(200).json({
+            success: true,
+            message: "Assign faculty into Course is successfully done",
+            data: assignRes
+        })
+    }
+)
+const RemoveCourseFacultyController = catchasync(
+    async (req,res)=> {
+        const {courseID}= req.params;
+        const {faculties} = req.body;
+
+        const assignRes = await CourseServices.removeCourseFacultyDB(courseID,faculties)
+
+        res.status(200).json({
+            success: true,
+            message: "Remove faculty from Course  is successfully done",
+            data: assignRes
+        })
+    }
+)
+
+
 export const CourseControllers = {
     createCourseController,
     getAllCourseController,
     getSingleCourseController,
-    deleteCourseController
+    deleteCourseController,
+    getUpdateCourseController,
+    AssignCourseFacultyController,
+    RemoveCourseFacultyController
 }
