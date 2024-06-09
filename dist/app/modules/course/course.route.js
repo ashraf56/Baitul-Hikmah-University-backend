@@ -13,4 +13,5 @@ router.post('/create-course', (0, validateRequest_1.default)(course_validation_1
 router.get('/:id', course_controller_1.CourseControllers.getSingleCourseController);
 router.delete('/:id', course_controller_1.CourseControllers.deleteCourseController);
 router.get('/', course_controller_1.CourseControllers.getAllCourseController);
+router.patch('/:id', (0, validateRequest_1.default)(course_validation_1.CourseValidations.updateCourseValidationSchema), course_controller_1.CourseControllers.getUpdateCourseController);
 exports.CourseRouter = router;
