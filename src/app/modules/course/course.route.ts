@@ -21,4 +21,9 @@ router.get('/', CourseControllers.getAllCourseController);
 router.patch('/:id', validateRequest(CourseValidations.updateCourseValidationSchema),
     CourseControllers.getUpdateCourseController)
 
+    router.delete('/:courseID/remove-course' ,
+        validateRequest(CourseValidations.facultiesWithCourseValidationSchema),
+        CourseControllers.RemoveCourseFacultyController
+    )
+
 export const CourseRouter = router;

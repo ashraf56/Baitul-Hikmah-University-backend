@@ -83,5 +83,6 @@ exports.CourseControllers = {
     getSingleCourseController,
     deleteCourseController,
     getUpdateCourseController,
-    AssignCourseFacultyController
+    AssignCourseFacultyController,
+    RemoveCourseFacultyController
 };
