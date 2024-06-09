@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import QueryBuilder from "../../builder/QueryBuilder";
 import { CourseSearchableFields } from "./course.contant";
 import { CourseInterface } from "./course.interface";
@@ -45,10 +46,21 @@ const updateCourseintoDB = async (id: string, payload: Partial<CourseInterface>)
 
   const { preRequisiteCourses, ...remaingCOurse } = payload
 
+  const session = await mongoose.startSession()
+  try {
 
-  const updateCourseinfo = await Course.findByIdAndUpdate(id, remaingCOurse, { new: true, runValidators: true })
+    session.startTransaction()
+    const updateCourseinfo = await Course.findByIdAndUpdate(
+      id,
+      remaingCOurse,
+      { new: true, runValidators: true , session}
+    )
 
-  if (preRequisiteCourses && preRequisiteCourses.length > 0) {
+
+if (!updateCourseinfo) {
+  throw new Error("Failed to update course!")
+}
+ if (preRequisiteCourses && preRequisiteCourses.length > 0) {
     // it will return truthy value of isDeleted feild
     const deletedPreCourse = preRequisiteCourses.filter((el) => el.course && el.isDeleted)
       .map(el => el.course)
@@ -57,14 +69,61 @@ const updateCourseintoDB = async (id: string, payload: Partial<CourseInterface>)
       id,
       {
         $pull: { preRequisiteCourses: { course: { $in: deletedPreCourse } } }
+      },
+      {
+        new: true,
+        runValidators: true, session
       }
     )
-    return deletedPreCourseresult
+  if (!deletedPreCourseresult) {
+    throw new Error ('Failed to update course!')
+  }
+
+    const newPreCourse = preRequisiteCourses.filter((el) => el.course && !el.isDeleted)
+    const newPreCourseresult = await Course.findByIdAndUpdate(
+      id,
+      {
+        $addToSet: { preRequisiteCourses: { $each: newPreCourse } }
+      },
+      {
+        new: true,
+        runValidators: true,
+        session
+      }
+    )
+   
+    
+if (!newPreCourseresult) {
+      throw new Error ('Failed to update course!')
+}
+
+  }
+ await session.commitTransaction()
+ await session.endSession()
+
+
+ const result = await Course.findById(id).populate(
+  'preRequisiteCourses.course',
+);
+
+return result;
+
+
+
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new Error ('Failed to update course!')
 
   }
 
 
-  return updateCourseinfo
+
+
+ 
+
+
+ 
 }
 
 

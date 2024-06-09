@@ -24,6 +24,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseServices = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const course_contant_1 = require("./course.contant");
 const course_model_1 = __importDefault(require("./course.model"));
@@ -49,17 +50,48 @@ const deleteCourseFromDB = (id) => __awaiter(void 0, void 0, void 0, function* (
 });
 const updateCourseintoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { preRequisiteCourses } = payload, remaingCOurse = __rest(payload, ["preRequisiteCourses"]);
-    const updateCourseinfo = yield course_model_1.default.findByIdAndUpdate(id, remaingCOurse, { new: true, runValidators: true });
-    if (preRequisiteCourses && preRequisiteCourses.length > 0) {
-        // it will return truthy value of isDeleted feild
-        const deletedPreCourse = preRequisiteCourses.filter((el) => el.course && el.isDeleted)
-            .map(el => el.course);
-        const deletedPreCourseresult = yield course_model_1.default.findByIdAndUpdate(id, {
-            $pull: { preRequisiteCourses: { course: { $in: deletedPreCourse } } }
-        });
-        return deletedPreCourseresult;
+    const session = yield mongoose_1.default.startSession();
+    try {
+        session.startTransaction();
+        const updateCourseinfo = yield course_model_1.default.findByIdAndUpdate(id, remaingCOurse, { new: true, runValidators: true, session });
+        if (!updateCourseinfo) {
+            throw new Error("Failed to update course!");
+        }
+        if (preRequisiteCourses && preRequisiteCourses.length > 0) {
+            // it will return truthy value of isDeleted feild
+            const deletedPreCourse = preRequisiteCourses.filter((el) => el.course && el.isDeleted)
+                .map(el => el.course);
+            const deletedPreCourseresult = yield course_model_1.default.findByIdAndUpdate(id, {
+                $pull: { preRequisiteCourses: { course: { $in: deletedPreCourse } } }
+            }, {
+                new: true,
+                runValidators: true, session
+            });
+            if (!deletedPreCourseresult) {
+                throw new Error('Failed to update course!');
+            }
+            const newPreCourse = preRequisiteCourses.filter((el) => el.course && !el.isDeleted);
+            const newPreCourseresult = yield course_model_1.default.findByIdAndUpdate(id, {
+                $addToSet: { preRequisiteCourses: { $each: newPreCourse } }
+            }, {
+                new: true,
+                runValidators: true,
+                session
+            });
+            if (!newPreCourseresult) {
+                throw new Error('Failed to update course!');
+            }
+        }
+        yield session.commitTransaction();
+        yield session.endSession();
+        const result = yield course_model_1.default.findById(id).populate('preRequisiteCourses.course');
+        return result;
     }
-    return updateCourseinfo;
+    catch (error) {
+        yield session.abortTransaction();
+        yield session.endSession();
+        throw new Error('Failed to update course!');
+    }
 });
 exports.CourseServices = {
     createCourseIntoDB,
