@@ -72,7 +72,20 @@ res.status(200).json({
 )
 
 
+const AssignCourseFacultyController = catchasync(
+    async (req,res)=> {
+        const {courseID}= req.params;
+        const {faculties} = req.body;
 
+        const assignRes = await CourseServices.AssignCourseFaculty(courseID,faculties)
+
+        res.status(200).json({
+            success: true,
+            message: "Assign Course is successfully done",
+            data: assignRes
+        })
+    }
+)
 
 
 export const CourseControllers = {
@@ -80,5 +93,6 @@ export const CourseControllers = {
     getAllCourseController,
     getSingleCourseController,
     deleteCourseController,
-    getUpdateCourseController
+    getUpdateCourseController,
+    AssignCourseFacultyController
 }

@@ -57,10 +57,21 @@ const getUpdateCourseController = (0, catchAsync_1.catchasync)((req, res) => __a
         data: result
     });
 }));
+const AssignCourseFacultyController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { courseID } = req.params;
+    const { faculties } = req.body;
+    const assignRes = yield course_service_1.CourseServices.AssignCourseFaculty(courseID, faculties);
+    res.status(200).json({
+        success: true,
+        message: "Assign Course is successfully done",
+        data: assignRes
+    });
+}));
 exports.CourseControllers = {
     createCourseController,
     getAllCourseController,
     getSingleCourseController,
     deleteCourseController,
-    getUpdateCourseController
+    getUpdateCourseController,
+    AssignCourseFacultyController
 };
