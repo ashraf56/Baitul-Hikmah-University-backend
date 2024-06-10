@@ -8,8 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.semisterRagistrationService = void 0;
+const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const academicsemister_model_1 = require("../academicSemister/academicsemister.model");
 const semisterRagistration_model_1 = require("./semisterRagistration.model");
 const createSemesterRegistrationDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -25,6 +29,16 @@ const createSemesterRegistrationDB = (payload) => __awaiter(void 0, void 0, void
     const result = yield semisterRagistration_model_1.SemesterRegistration.create(payload);
     return result;
 });
+const getAllSemesterRegistrationsFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const semesterRegistrationQuery = new QueryBuilder_1.default(semisterRagistration_model_1.SemesterRegistration.find().populate('academicSemester'), query)
+        .filter()
+        .sort()
+        .paginate()
+        .fields();
+    const result = yield semesterRegistrationQuery.modelQuery;
+    return result;
+});
 exports.semisterRagistrationService = {
-    createSemesterRegistrationDB
+    createSemesterRegistrationDB,
+    getAllSemesterRegistrationsFromDB
 };

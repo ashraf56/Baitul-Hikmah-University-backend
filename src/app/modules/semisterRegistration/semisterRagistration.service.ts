@@ -1,3 +1,4 @@
+import QueryBuilder from "../../builder/QueryBuilder";
 import { AcademicSemester } from "../academicSemister/academicsemister.model";
 import { SemesterRegistrationInterface } from "./semisterRagistration.interface";
 import { SemesterRegistration } from "./semisterRagistration.model";
@@ -28,8 +29,23 @@ if (isSemesterRegistrationExists) {
   return result;
 
 }
-
+const getAllSemesterRegistrationsFromDB = async (
+    query: Record<string, unknown>,
+  ) => {
+    const semesterRegistrationQuery = new QueryBuilder(
+      SemesterRegistration.find().populate('academicSemester'),
+      query,
+    )
+      .filter()
+      .sort()
+      .paginate()
+      .fields();
+  
+    const result = await semesterRegistrationQuery.modelQuery;
+    return result;
+  };
 
 export const semisterRagistrationService = {
-    createSemesterRegistrationDB
+    createSemesterRegistrationDB,
+    getAllSemesterRegistrationsFromDB
 }

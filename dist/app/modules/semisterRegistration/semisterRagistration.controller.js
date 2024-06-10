@@ -21,6 +21,15 @@ const createSemesterRegistrationController = (0, catchAsync_1.catchasync)((req, 
         data: result,
     });
 }));
+const getAllSemesterRegistrationsController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield semisterRagistration_service_1.semisterRagistrationService.getAllSemesterRegistrationsFromDB(req.query);
+    res.status(200).json({
+        success: true,
+        message: 'Semester Registration is retrieved successfully !',
+        data: result,
+    });
+}));
 exports.SemesterRegistrationController = {
-    createSemesterRegistrationController
+    createSemesterRegistrationController,
+    getAllSemesterRegistrationsController
 };
