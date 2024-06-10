@@ -1,5 +1,6 @@
 import QueryBuilder from "../../builder/QueryBuilder";
 import { AcademicSemester } from "../academicSemister/academicsemister.model";
+import { RegistrationStatus } from "./semisterRagistration.constants";
 import { SemesterRegistrationInterface } from "./semisterRagistration.interface";
 import { SemesterRegistration } from "./semisterRagistration.model";
 
@@ -11,7 +12,19 @@ import { SemesterRegistration } from "./semisterRagistration.model";
 const createSemesterRegistrationDB = async (payload:SemesterRegistrationInterface)=>{
 
 const academicSemester = payload.academicSemester
+const isThereAnyUpcomingOrOngoingSEmester =
+await SemesterRegistration.findOne({
+  $or: [
+    { status: RegistrationStatus.UPCOMING },
+    { status: RegistrationStatus.ONGOING },
+  ],
+});
 
+if (isThereAnyUpcomingOrOngoingSEmester) {
+throw new Error(
+  `There is aready an ${isThereAnyUpcomingOrOngoingSEmester.status} registered semester !`,
+);
+}
 const isAcademicSemesterExists = await AcademicSemester.findById(academicSemester) 
 
 if (!isAcademicSemesterExists) {
