@@ -10,7 +10,6 @@ import { OfferedCourse } from "./OfferedCourse.model";
 
 const createOfferedCourseIntoDB = async (payload: OfferedCourseInterface) => {
 
- 
     const isSemesterRegistrationExists = await SemesterRegistration.findById(payload.semesterRegistration)
     if (!isSemesterRegistrationExists) {
         throw new Error('semesterRegistration not found')
@@ -23,28 +22,36 @@ const createOfferedCourseIntoDB = async (payload: OfferedCourseInterface) => {
 
     }
 
-    const  isacademicDepartment =await AcademicDepartment.findById(payload.academicDepartment)
+    const isacademicDepartment = await AcademicDepartment.findById(payload.academicDepartment)
 
     if (!isacademicDepartment) {
-        throw new Error ('academicDepartment not found')
+        throw new Error('academicDepartment not found')
 
     }
-    const  isacourse =await Course.findById(payload.course)
+    const isacourse = await Course.findById(payload.course)
 
     if (!isacourse) {
-        throw new Error ('course not found')
+        throw new Error('course not found')
 
     }
-    const isfaculty =await Faculty.findById(payload.faculty)
+    const isfaculty = await Faculty.findById(payload.faculty)
 
     if (!isfaculty) {
-        throw new Error ('faculty not found')
+        throw new Error('faculty not found')
 
     }
 
-const result = await OfferedCourse.create({...payload,academicSemester})
+    // if academic dep is not belog into the academic faculty 
+    const { academicDepartment, academicFaculty } = payload
+    const isAcademicDepartment_belog_to_academicFaculty = await AcademicDepartment.findOne({ academicDepartment, academicFaculty })
+    if (!isAcademicDepartment_belog_to_academicFaculty) {
+        throw new Error(`${isacademicDepartment.name} is not belog into ${isacademicFaculty.name}`)
 
-return result
+    }
+
+    const result = await OfferedCourse.create({ ...payload, academicSemester })
+
+    return result
 }
 
 
