@@ -20,7 +20,7 @@ const faculty_model_1 = require("../faculty/faculty.model");
 const semisterRagistration_model_1 = require("../semisterRegistration/semisterRagistration.model");
 const OfferedCourse_model_1 = require("./OfferedCourse.model");
 const createOfferedCourseIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const { academicDepartment, academicFaculty, section, semesterRegistration, course } = payload;
+    const { academicDepartment, academicFaculty, section, semesterRegistration, course, faculty, days, startTime, endTime } = payload;
     const isSemesterRegistrationExists = yield semisterRagistration_model_1.SemesterRegistration.findById(payload.semesterRegistration);
     if (!isSemesterRegistrationExists) {
         throw new Error('semesterRegistration not found');
@@ -56,6 +56,27 @@ const createOfferedCourseIntoDB = (payload) => __awaiter(void 0, void 0, void 0,
     if (isSame_SemisterReg_Section_Course) {
         throw new Error(`Offered course with same section is already exist!`);
     }
+    const assignedSchedules = yield OfferedCourse_model_1.OfferedCourse.find({
+        semesterRegistration,
+        faculty,
+        days: { $in: days },
+    }).select('semesterRegistration days startTime endTime');
+    const newSchedule = {
+        days,
+        startTime, endTime
+    };
+    assignedSchedules.forEach((t) => {
+        const existingStarttime = new Date(`2000T${t.startTime}`);
+        const newStarttime = new Date(`2000T${newSchedule.startTime}`);
+        const existingEndtime = new Date(`2000T${t.endTime}`);
+        const newEndtime = new Date(`2000T${newSchedule.endTime}`);
+        // 10:00 12:00 
+        // 10:30   11:00 (new time)
+        //  10:30           12:00              11:00             10:00 
+        if (newStarttime < existingEndtime && newEndtime > existingStarttime) {
+            throw new Error(`This faculty is not available at that time ! Choose other time or day`);
+        }
+    });
     const result = yield OfferedCourse_model_1.OfferedCourse.create(Object.assign(Object.assign({}, payload), { academicSemester }));
     return result;
 });

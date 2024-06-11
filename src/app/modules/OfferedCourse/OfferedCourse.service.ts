@@ -9,7 +9,8 @@ import { OfferedCourse } from "./OfferedCourse.model";
 
 
 const createOfferedCourseIntoDB = async (payload: OfferedCourseInterface) => {
-    const { academicDepartment, academicFaculty, section, semesterRegistration, course } = payload
+    const { academicDepartment, academicFaculty, section, semesterRegistration, course, faculty,
+        days, startTime, endTime } = payload
     const isSemesterRegistrationExists = await SemesterRegistration.findById(payload.semesterRegistration)
     if (!isSemesterRegistrationExists) {
         throw new Error('semesterRegistration not found')
@@ -59,6 +60,40 @@ const createOfferedCourseIntoDB = async (payload: OfferedCourseInterface) => {
         throw new Error(`Offered course with same section is already exist!`)
 
     }
+
+    const assignedSchedules = await OfferedCourse.find({
+        semesterRegistration,
+        faculty,
+        days: { $in: days },
+    }).select('semesterRegistration days startTime endTime');
+
+    const newSchedule = {
+        days,
+        startTime, endTime
+
+    }
+    assignedSchedules.forEach((t) => {
+        const existingStarttime = new Date(`2000T${t.startTime}`)
+        const newStarttime = new Date(`2000T${newSchedule.startTime}`)
+        const existingEndtime = new Date(`2000T${t.endTime}`)
+        const newEndtime = new Date(`2000T${newSchedule.endTime}`)
+
+        // 10:00 12:00 
+        // 10:30   11:00 (new time)
+
+        //  10:30           12:00              11:00             10:00 
+        if (newStarttime < existingEndtime && newEndtime > existingStarttime) {
+            throw new Error(
+                `This faculty is not available at that time ! Choose other time or day`
+            );
+        }
+
+
+    })
+
+
+
+
     const result = await OfferedCourse.create({ ...payload, academicSemester })
 
     return result
