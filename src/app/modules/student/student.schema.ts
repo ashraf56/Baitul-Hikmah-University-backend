@@ -50,16 +50,6 @@ const Studentchema = new Schema<StudentsInfo>({
 
 // document middleware
 
-// Studentchema.pre('save', async function (next) {
-//     const saltNumber = 10
-//     this.password = await bcrypt.hash(this.password, saltNumber)
-//     next()
-// })
-
-// Studentchema.post('save', function (doc, next) {
-//     doc.password = ""
-//     next()
-// })
 
 // //query midleware
 // Studentchema.pre("find", function (next) {
