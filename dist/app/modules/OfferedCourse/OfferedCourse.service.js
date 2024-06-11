@@ -20,25 +20,24 @@ const faculty_model_1 = require("../faculty/faculty.model");
 const semisterRagistration_model_1 = require("../semisterRegistration/semisterRagistration.model");
 const OfferedCourse_model_1 = require("./OfferedCourse.model");
 const createOfferedCourseIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const { semesterRegistration, academicFaculty, academicDepartment, course, section, faculty, days, startTime, endTime, } = payload;
-    const isSemesterRegistrationExists = yield semisterRagistration_model_1.SemesterRegistration.findById(semesterRegistration);
+    const isSemesterRegistrationExists = yield semisterRagistration_model_1.SemesterRegistration.findById(payload.semesterRegistration);
     if (!isSemesterRegistrationExists) {
         throw new Error('semesterRegistration not found');
     }
     const academicSemester = isSemesterRegistrationExists.academicSemester;
-    const isacademicFaculty = yield academicfaculty_model_1.default.findById(academicFaculty);
+    const isacademicFaculty = yield academicfaculty_model_1.default.findById(payload.academicFaculty);
     if (!isacademicFaculty) {
         throw new Error('academicFaculty not found');
     }
-    const isacademicDepartment = yield department_model_1.default.findById(academicDepartment);
+    const isacademicDepartment = yield department_model_1.default.findById(payload.academicDepartment);
     if (!isacademicDepartment) {
         throw new Error('academicDepartment not found');
     }
-    const isacourse = yield course_model_1.Course.findById(course);
+    const isacourse = yield course_model_1.Course.findById(payload.course);
     if (!isacourse) {
         throw new Error('course not found');
     }
-    const isfaculty = yield faculty_model_1.Faculty.findById(faculty);
+    const isfaculty = yield faculty_model_1.Faculty.findById(payload.faculty);
     if (!isfaculty) {
         throw new Error('faculty not found');
     }
