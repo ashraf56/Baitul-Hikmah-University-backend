@@ -20,6 +20,7 @@ const faculty_model_1 = require("../faculty/faculty.model");
 const semisterRagistration_model_1 = require("../semisterRegistration/semisterRagistration.model");
 const OfferedCourse_model_1 = require("./OfferedCourse.model");
 const createOfferedCourseIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { academicDepartment, academicFaculty, section, semesterRegistration, course } = payload;
     const isSemesterRegistrationExists = yield semisterRagistration_model_1.SemesterRegistration.findById(payload.semesterRegistration);
     if (!isSemesterRegistrationExists) {
         throw new Error('semesterRegistration not found');
@@ -42,10 +43,18 @@ const createOfferedCourseIntoDB = (payload) => __awaiter(void 0, void 0, void 0,
         throw new Error('faculty not found');
     }
     // if academic dep is not belog into the academic faculty 
-    const { academicDepartment, academicFaculty } = payload;
-    const isAcademicDepartment_belog_to_academicFaculty = yield department_model_1.default.findOne({ academicDepartment, academicFaculty });
+    const isAcademicDepartment_belog_to_academicFaculty = yield department_model_1.default.findOne({
+        _id: academicDepartment, academicFaculty
+    });
     if (!isAcademicDepartment_belog_to_academicFaculty) {
         throw new Error(`${isacademicDepartment.name} is not belog into ${isacademicFaculty.name}`);
+    }
+    // checking for same section course and semister reg
+    const isSame_SemisterReg_Section_Course = yield OfferedCourse_model_1.OfferedCourse.findOne({
+        section, semesterRegistration, course
+    });
+    if (isSame_SemisterReg_Section_Course) {
+        throw new Error(`Offered course with same section is already exist!`);
     }
     const result = yield OfferedCourse_model_1.OfferedCourse.create(Object.assign(Object.assign({}, payload), { academicSemester }));
     return result;

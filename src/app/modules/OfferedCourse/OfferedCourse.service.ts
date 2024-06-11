@@ -9,7 +9,7 @@ import { OfferedCourse } from "./OfferedCourse.model";
 
 
 const createOfferedCourseIntoDB = async (payload: OfferedCourseInterface) => {
-
+    const { academicDepartment, academicFaculty, section, semesterRegistration, course } = payload
     const isSemesterRegistrationExists = await SemesterRegistration.findById(payload.semesterRegistration)
     if (!isSemesterRegistrationExists) {
         throw new Error('semesterRegistration not found')
@@ -42,13 +42,23 @@ const createOfferedCourseIntoDB = async (payload: OfferedCourseInterface) => {
     }
 
     // if academic dep is not belog into the academic faculty 
-    const { academicDepartment, academicFaculty } = payload
-    const isAcademicDepartment_belog_to_academicFaculty = await AcademicDepartment.findOne({ academicDepartment, academicFaculty })
+
+    const isAcademicDepartment_belog_to_academicFaculty = await AcademicDepartment.findOne(
+        {
+            _id: academicDepartment, academicFaculty
+        })
     if (!isAcademicDepartment_belog_to_academicFaculty) {
         throw new Error(`${isacademicDepartment.name} is not belog into ${isacademicFaculty.name}`)
 
     }
+    // checking for same section course and semister reg
+    const isSame_SemisterReg_Section_Course = await OfferedCourse.findOne({
+        section, semesterRegistration, course
+    })
+    if (isSame_SemisterReg_Section_Course) {
+        throw new Error(`Offered course with same section is already exist!`)
 
+    }
     const result = await OfferedCourse.create({ ...payload, academicSemester })
 
     return result
