@@ -54,15 +54,15 @@ const createAdmin = catchasync(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async (req: Request, res: Response, next: NextFunction) => {
 
-        const { password, payload } = req.body;
+        const { password, admin } = req.body;
 
 
-        const newfaculty = await UserService.createAdminIntoDB(password, payload);
+        const newAdmin = await UserService.createAdminIntoDB(password, admin);
 
         res.status(200).json({
             success: true,
             message: "success",
-            data: newfaculty
+            data: newAdmin
 
         })
 

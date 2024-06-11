@@ -61,7 +61,7 @@ const createOfferedCourseIntoDB = (payload) => __awaiter(void 0, void 0, void 0,
         semesterRegistration,
         faculty,
         days: { $in: days },
-    }).select('semesterRegistration days startTime endTime');
+    }).select(' days startTime endTime');
     const newSchedule = {
         days,
         startTime, endTime
