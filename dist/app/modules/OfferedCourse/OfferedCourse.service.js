@@ -8,9 +8,42 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OfferedCourseServices = void 0;
+const department_model_1 = __importDefault(require("../academicDepartment/department.model"));
+const academicfaculty_model_1 = __importDefault(require("../academicFaculty/academicfaculty.model"));
+const course_model_1 = require("../course/course.model");
+const faculty_model_1 = require("../faculty/faculty.model");
+const semisterRagistration_model_1 = require("../semisterRegistration/semisterRagistration.model");
+const OfferedCourse_model_1 = require("./OfferedCourse.model");
 const createOfferedCourseIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { semesterRegistration, academicFaculty, academicDepartment, course, section, faculty, days, startTime, endTime, } = payload;
+    const isSemesterRegistrationExists = yield semisterRagistration_model_1.SemesterRegistration.findById(semesterRegistration);
+    if (!isSemesterRegistrationExists) {
+        throw new Error('semesterRegistration not found');
+    }
+    const academicSemester = isSemesterRegistrationExists.academicSemester;
+    const isacademicFaculty = yield academicfaculty_model_1.default.findById(academicFaculty);
+    if (!isacademicFaculty) {
+        throw new Error('academicFaculty not found');
+    }
+    const isacademicDepartment = yield department_model_1.default.findById(academicDepartment);
+    if (!isacademicDepartment) {
+        throw new Error('academicDepartment not found');
+    }
+    const isacourse = yield course_model_1.Course.findById(course);
+    if (!isacourse) {
+        throw new Error('course not found');
+    }
+    const isfaculty = yield faculty_model_1.Faculty.findById(faculty);
+    if (!isfaculty) {
+        throw new Error('faculty not found');
+    }
+    const result = yield OfferedCourse_model_1.OfferedCourse.create(Object.assign(Object.assign({}, payload), { academicSemester }));
+    return result;
 });
 exports.OfferedCourseServices = {
     createOfferedCourseIntoDB
