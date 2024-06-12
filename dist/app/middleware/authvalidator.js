@@ -8,16 +8,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const catchAsync_1 = require("../utils/catchAsync");
 const throwError_1 = require("../utils/throwError");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const config_1 = __importDefault(require("../config"));
 const authRequestValidator = () => {
     return (0, catchAsync_1.catchasync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         const token = req.headers.authorization;
         if (!token) {
             (0, throwError_1.throwError)('you are Unauthorized');
         }
-        next();
+        jsonwebtoken_1.default.verify(token, config_1.default.jwt_Token, function (err, decoded) {
+            if (err) {
+                (0, throwError_1.throwError)('you are Unauthorized');
+            }
+            req.user = decoded;
+            next();
+        });
     }));
 };
 exports.default = authRequestValidator;

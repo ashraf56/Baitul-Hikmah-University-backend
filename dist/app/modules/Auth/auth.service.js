@@ -40,7 +40,7 @@ const LoginUSer = (payload) => __awaiter(void 0, void 0, void 0, function* () {
         id: user.id,
         role: user.role
     };
-    const accessToken = jsonwebtoken_1.default.sign(datapayload, config_1.default.jwt_Token, { expiresIn: '1h' });
+    const accessToken = jsonwebtoken_1.default.sign(datapayload, config_1.default.jwt_Token, { expiresIn: '1D' });
     return {
         accessToken,
         needPasswordChange: user === null || user === void 0 ? void 0 : user.needsPasswordChange

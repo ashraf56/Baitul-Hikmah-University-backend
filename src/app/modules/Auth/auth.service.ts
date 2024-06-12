@@ -37,7 +37,7 @@ const datapayload ={
     role:user.role
 }
 
-const accessToken = jwt.sign(datapayload, config.jwt_Token as string, { expiresIn: '1h' });
+const accessToken = jwt.sign(datapayload, config.jwt_Token as string, { expiresIn: '1D' });
 
 
 return{
