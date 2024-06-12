@@ -1,3 +1,5 @@
+import { Model } from "mongoose";
+
 export interface UserInterface {
     id: string;
     password: string;
@@ -9,3 +11,9 @@ export interface UserInterface {
 
 
 }
+
+
+
+export interface UserModel extends Model<UserInterface> {
+    myStaticMethod(): number;
+  }

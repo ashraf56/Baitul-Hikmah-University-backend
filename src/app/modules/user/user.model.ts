@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
-import { UserInterface } from "./user.interface";
+import { UserInterface, UserModel } from "./user.interface";
 import bcrypt from 'bcrypt';
 
-const UserSchema = new Schema<UserInterface>({
+const UserSchema = new Schema<UserInterface,UserModel>({
 
     id: {
         type: String, required: true,unique:true
@@ -47,6 +47,6 @@ UserSchema.post('save', function (doc, next) {
     next()
 })
 
-const User = model<UserInterface>("User", UserSchema)
+const User = model<UserInterface,UserModel>("User", UserSchema)
 
 export default User
