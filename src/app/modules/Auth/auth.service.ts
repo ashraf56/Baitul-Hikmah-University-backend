@@ -10,12 +10,16 @@ const LoginUSer = async (payload: AuthUserInterface) => {
         throw new Error("User not found")
     }
 
-    const isDeletedUser = isUser.isDeleted
+    const isDeletedUser = isUser?.isDeleted
 
     if (isDeletedUser) {
         throwError("User is Deleted")
     }
 
+    const userStatus = isUser?.status
+    if (userStatus === 'blocked') {
+        throwError("User is blocked")
+    }
 
 }
 

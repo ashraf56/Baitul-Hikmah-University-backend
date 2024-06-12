@@ -20,9 +20,13 @@ const LoginUSer = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     if (!isUser) {
         throw new Error("User not found");
     }
-    const isDeletedUser = isUser.isDeleted;
+    const isDeletedUser = isUser === null || isUser === void 0 ? void 0 : isUser.isDeleted;
     if (isDeletedUser) {
         (0, throwError_1.throwError)("User is Deleted");
+    }
+    const userStatus = isUser === null || isUser === void 0 ? void 0 : isUser.status;
+    if (userStatus === 'blocked') {
+        (0, throwError_1.throwError)("User is blocked");
     }
 });
 exports.AuthService = {
