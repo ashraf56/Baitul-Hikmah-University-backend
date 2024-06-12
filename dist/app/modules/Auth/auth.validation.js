@@ -8,6 +8,13 @@ const loginValidationSchema = zod_1.z.object({
         password: zod_1.z.string({ required_error: 'Password is required' }),
     }),
 });
+const changePassValidationSchema = zod_1.z.object({
+    body: zod_1.z.object({
+        oldPassword: zod_1.z.string({ required_error: 'Old Password is required.' }),
+        newpassword: zod_1.z.string({ required_error: 'newPassword is required' }),
+    }),
+});
 exports.Authvalidations = {
-    loginValidationSchema
+    loginValidationSchema,
+    changePassValidationSchema
 };

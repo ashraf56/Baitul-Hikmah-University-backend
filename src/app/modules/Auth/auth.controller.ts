@@ -4,6 +4,7 @@ import { AuthService } from "./auth.service";
 
 const LoginUserController = catchasync(
     async(req,res)=>{
+        
         const result = await AuthService.LoginUSer(req.body)
         res.status(200).json({
             success: true,
@@ -13,8 +14,21 @@ const LoginUserController = catchasync(
     }
 )
 
+const ChangepassController = catchasync(
+    async(req,res)=>{
+        
+        // const result = await AuthService.LoginUSer(req.body)
+        res.status(200).json({
+            success: true,
+            message:"Login success",
+            data:null
+        })
+    }
+)
+
 
 
 export const AuthController = {
-    LoginUserController
+    LoginUserController,
+    ChangepassController
 }

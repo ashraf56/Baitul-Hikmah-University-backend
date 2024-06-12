@@ -8,6 +8,7 @@ const LoginUSer = async (payload: AuthUserInterface) => {
 
     const user = await User.isUserExistsByCustomId(payload.id)
 
+
     if (!user) {
         throwError("User not found")
     }

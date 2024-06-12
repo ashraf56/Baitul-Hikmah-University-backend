@@ -20,6 +20,15 @@ const LoginUserController = (0, catchAsync_1.catchasync)((req, res) => __awaiter
         data: result
     });
 }));
+const ChangepassController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // const result = await AuthService.LoginUSer(req.body)
+    res.status(200).json({
+        success: true,
+        message: "Login success",
+        data: null
+    });
+}));
 exports.AuthController = {
-    LoginUserController
+    LoginUserController,
+    ChangepassController
 };
