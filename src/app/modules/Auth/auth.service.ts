@@ -1,12 +1,22 @@
+import { throwError } from "../../utils/throwError";
 import User from "../user/user.model";
 import { AuthUserInterface } from "./auth.interface";
 
 
-const LoginUSer = async (payload:AuthUserInterface)=>{
+const LoginUSer = async (payload: AuthUserInterface) => {
 
-const isUser =await User.findOne({id:payload.id})
+    const isUser = await User.findOne({ id: payload.id })
+    if (!isUser) {
+        throw new Error("User not found")
+    }
 
-console.log(isUser);
+    const isDeletedUser = isUser.isDeleted
+
+    if (isDeletedUser) {
+        throwError("User is Deleted")
+    }
+
+
 }
 
 

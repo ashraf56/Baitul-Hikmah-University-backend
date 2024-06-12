@@ -13,10 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
+const throwError_1 = require("../../utils/throwError");
 const user_model_1 = __importDefault(require("../user/user.model"));
 const LoginUSer = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const isUser = yield user_model_1.default.findOne({ id: payload.id });
-    console.log(isUser);
+    if (!isUser) {
+        throw new Error("User not found");
+    }
+    const isDeletedUser = isUser.isDeleted;
+    if (isDeletedUser) {
+        (0, throwError_1.throwError)("User is Deleted");
+    }
 });
 exports.AuthService = {
     LoginUSer
