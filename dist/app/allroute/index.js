@@ -11,6 +11,7 @@ const admin_route_1 = require("../modules/admin/admin.route");
 const course_route_1 = require("../modules/course/course.route");
 const semisterRagistration_route_1 = require("../modules/semisterRegistration/semisterRagistration.route");
 const OfferedCourse_route_1 = require("../modules/OfferedCourse/OfferedCourse.route");
+const auth_route_1 = require("../modules/Auth/auth.route");
 const router = (0, express_1.Router)();
 const moduleRoute = [
     {
@@ -52,6 +53,10 @@ const moduleRoute = [
     {
         path: '/offered-course',
         route: OfferedCourse_route_1.OfferedCourseRoute
+    },
+    {
+        path: '/auth',
+        route: auth_route_1.Authroutes
     }
 ];
 moduleRoute.forEach(r => router.use(r.path, r.route));
