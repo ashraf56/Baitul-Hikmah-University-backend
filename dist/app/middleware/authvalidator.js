@@ -10,10 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const catchAsync_1 = require("../utils/catchAsync");
+const throwError_1 = require("../utils/throwError");
 const authRequestValidator = () => {
     return (0, catchAsync_1.catchasync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         const token = req.headers.authorization;
-        console.log(token);
+        if (!token) {
+            (0, throwError_1.throwError)('you are Unauthorized');
+        }
         next();
     }));
 };

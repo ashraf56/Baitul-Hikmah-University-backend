@@ -3,6 +3,7 @@ import express from 'express';
 import { FacultyControllers } from './faculty.controller';
 import validateRequest from '../../middleware/validateRequest';
 import { FacultyValidations } from './faculty.validation';
+import authRequestValidator from '../../middleware/authvalidator';
 
 const router = express.Router();
 
@@ -16,6 +17,6 @@ router.patch(
 
 router.delete('/:id', FacultyControllers.deleteFaculty);
 
-router.get('/', FacultyControllers.getAllFaculties);
+router.get('/', authRequestValidator(), FacultyControllers.getAllFaculties);
 
 export const FacultyRouter = router;
