@@ -13,8 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
+const config_1 = __importDefault(require("../../config"));
 const throwError_1 = require("../../utils/throwError");
 const user_model_1 = __importDefault(require("../user/user.model"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const LoginUSer = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.default.isUserExistsByCustomId(payload.id);
     if (!user) {
@@ -33,6 +35,16 @@ const LoginUSer = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     if (!isPasswordmatch) {
         (0, throwError_1.throwError)('password not matched');
     }
+    // jwt
+    const datapayload = {
+        id: user.id,
+        role: user.role
+    };
+    const accessToken = jsonwebtoken_1.default.sign(datapayload, config_1.default.jwt_Token, { expiresIn: '1h' });
+    return {
+        accessToken,
+        needPasswordChange: user === null || user === void 0 ? void 0 : user.needsPasswordChange
+    };
 });
 exports.AuthService = {
     LoginUSer
