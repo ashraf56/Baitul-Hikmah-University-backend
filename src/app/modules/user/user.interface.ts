@@ -15,7 +15,7 @@ export interface UserInterface {
 }
 
 
-export type UserRoletypes = keyof typeof  UserRoles
+export type UserRoletypes = keyof typeof UserRoles
 
 export interface UserModel extends Model<UserInterface> {
     isUserExistsByCustomId(id: string): Promise<UserInterface>;

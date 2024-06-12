@@ -16,7 +16,7 @@ const catchAsync_1 = require("../utils/catchAsync");
 const throwError_1 = require("../utils/throwError");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../config"));
-const authRequestValidator = () => {
+const authRequestValidator = (...requireRole) => {
     return (0, catchAsync_1.catchasync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         const token = req.headers.authorization;
         if (!token) {
@@ -24,6 +24,9 @@ const authRequestValidator = () => {
         }
         jsonwebtoken_1.default.verify(token, config_1.default.jwt_Token, function (err, decoded) {
             if (err) {
+                (0, throwError_1.throwError)('you are Unauthorized');
+            }
+            if (requireRole && !requireRole.includes(decoded === null || decoded === void 0 ? void 0 : decoded.role)) {
                 (0, throwError_1.throwError)('you are Unauthorized');
             }
             req.user = decoded;

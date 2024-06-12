@@ -3,8 +3,9 @@ import { catchasync } from "../utils/catchAsync"
 import { throwError } from "../utils/throwError"
 import jwt, { JwtPayload } from "jsonwebtoken"
 import config from "../config"
+import { UserRoletypes } from "../modules/user/user.interface"
 
-const authRequestValidator = () => {
+const authRequestValidator = (...requireRole:UserRoletypes[]) => {
     return catchasync(
         async (req: Request, res: Response, next: NextFunction) => {
 
@@ -21,7 +22,11 @@ const authRequestValidator = () => {
                     }
 
 
-                    req.user = decoded as JwtPayload
+                   
+if (requireRole && !requireRole.includes((decoded as JwtPayload)?.role)) {
+    throwError('you are Unauthorized')
+}
+ req.user = decoded as JwtPayload
                     next()
                 }
 

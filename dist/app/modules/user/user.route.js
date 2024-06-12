@@ -10,8 +10,10 @@ const validateRequest_1 = __importDefault(require("../../middleware/validateRequ
 const student_Zod_1 = require("../student/student.Zod");
 const faculty_validation_1 = require("../faculty/faculty.validation");
 const admin_validation_1 = require("../admin/admin.validation");
+const authvalidator_1 = __importDefault(require("../../middleware/authvalidator"));
+const user_constant_1 = require("./user.constant");
 const router = express_1.default.Router();
-router.post('/create-student', (0, validateRequest_1.default)(student_Zod_1.createStudentsInfoZODSchema), user_controller_1.UserController.createUsers);
+router.post('/create-student', (0, authvalidator_1.default)(user_constant_1.UserRoles.admin), (0, validateRequest_1.default)(student_Zod_1.createStudentsInfoZODSchema), user_controller_1.UserController.createUsers);
 router.post('/create-faculty', (0, validateRequest_1.default)(faculty_validation_1.FacultyValidations.createFacultyValidationSchema), user_controller_1.UserController.createFaculty);
 router.post('/create-admin', (0, validateRequest_1.default)(admin_validation_1.AdminValidations.createAdminValidationSchema), user_controller_1.UserController.createAdmin);
 exports.UserRouter = router;
