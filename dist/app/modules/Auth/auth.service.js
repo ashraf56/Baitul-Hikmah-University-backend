@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const throwError_1 = require("../../utils/throwError");
 const user_model_1 = __importDefault(require("../user/user.model"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const LoginUSer = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const isUser = yield user_model_1.default.findOne({ id: payload.id });
     if (!isUser) {
@@ -27,6 +28,11 @@ const LoginUSer = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const userStatus = isUser === null || isUser === void 0 ? void 0 : isUser.status;
     if (userStatus === 'blocked') {
         (0, throwError_1.throwError)("User is blocked");
+    }
+    // cheking password matching
+    const isPasswordmatch = yield bcrypt_1.default.compare(payload.password, isUser.password);
+    if (!isPasswordmatch) {
+        (0, throwError_1.throwError)('password not matched');
     }
 });
 exports.AuthService = {
