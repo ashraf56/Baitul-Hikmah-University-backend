@@ -47,6 +47,14 @@ UserSchema.post('save', function (doc, next) {
     next()
 })
 
+
+UserSchema.statics.isUserExistsByCustomId = async function (id:string) {
+   return await User.findOne({id})
+}
+UserSchema.statics.isPasswordMatch= async function (plainTextPassword,hashpassword) {
+    return await bcrypt.compare(plainTextPassword, hashpassword);
+ }
+
 const User = model<UserInterface,UserModel>("User", UserSchema)
 
 export default User

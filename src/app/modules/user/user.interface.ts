@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Model } from "mongoose";
 
 export interface UserInterface {
@@ -15,5 +16,7 @@ export interface UserInterface {
 
 
 export interface UserModel extends Model<UserInterface> {
-    myStaticMethod(): number;
-  }
+    isUserExistsByCustomId(id: string): Promise<UserInterface>;
+    isPasswordMatch(plainTextPassword: string, hashpassword: string): Promise<boolean>;
+
+}

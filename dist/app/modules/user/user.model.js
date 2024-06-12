@@ -49,5 +49,15 @@ UserSchema.post('save', function (doc, next) {
     doc.password = "";
     next();
 });
+UserSchema.statics.isUserExistsByCustomId = function (id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield User.findOne({ id });
+    });
+};
+UserSchema.statics.isPasswordMatch = function (plainTextPassword, hashpassword) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield bcrypt_1.default.compare(plainTextPassword, hashpassword);
+    });
+};
 const User = (0, mongoose_1.model)("User", UserSchema);
 exports.default = User;
