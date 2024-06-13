@@ -9,6 +9,7 @@ export default {
     dbs: process.env.DATABASE_URL,
     node_Env:process.env.Node_Env,
     jwt_Token:process.env.JWT_sec_Token,
-    saltNumber :process.env.saltNumber 
+    saltNumber :process.env.saltNumber ,
+    JWT_Refresh_token: process.env.JWT_Refresh_token
 
 }
