@@ -42,9 +42,11 @@ const LoginUSer = (payload) => __awaiter(void 0, void 0, void 0, function* () {
         role: user.role
     };
     const accessToken = jsonwebtoken_1.default.sign(datapayload, config_1.default.jwt_Token, { expiresIn: '1D' });
+    const refreshToken = jsonwebtoken_1.default.sign(datapayload, config_1.default.JWT_Refresh_token, { expiresIn: '365D' });
     return {
         accessToken,
-        needPasswordChange: user === null || user === void 0 ? void 0 : user.needsPasswordChange
+        needPasswordChange: user === null || user === void 0 ? void 0 : user.needsPasswordChange,
+        refreshToken
     };
 });
 const changePasswordDB = (userdata, payload) => __awaiter(void 0, void 0, void 0, function* () {

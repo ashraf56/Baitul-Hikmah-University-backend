@@ -40,11 +40,13 @@ const LoginUSer = async (payload: AuthUserInterface) => {
     }
 
     const accessToken = jwt.sign(datapayload, config.jwt_Token as string, { expiresIn: '1D' });
+    const refreshToken = jwt.sign(datapayload, config.JWT_Refresh_token as string, { expiresIn: '365D' });
 
 
     return {
         accessToken,
-        needPasswordChange: user?.needsPasswordChange
+        needPasswordChange: user?.needsPasswordChange,
+        refreshToken
     }
 
 
