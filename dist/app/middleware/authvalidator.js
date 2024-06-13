@@ -16,6 +16,7 @@ const catchAsync_1 = require("../utils/catchAsync");
 const throwError_1 = require("../utils/throwError");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../config"));
+const user_model_1 = __importDefault(require("../modules/user/user.model"));
 const authRequestValidator = (...requireRole) => {
     return (0, catchAsync_1.catchasync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         // retrive token 
@@ -24,17 +25,26 @@ const authRequestValidator = (...requireRole) => {
             (0, throwError_1.throwError)('you are Unauthorized');
         }
         // token  varification
-        jsonwebtoken_1.default.verify(token, config_1.default.jwt_Token, function (err, decoded) {
-            if (err) {
-                (0, throwError_1.throwError)('you are Unauthorized');
-            }
-            // set role based Authorization
-            if (requireRole && !requireRole.includes(decoded === null || decoded === void 0 ? void 0 : decoded.role)) {
-                (0, throwError_1.throwError)('you are Unauthorized');
-            }
-            req.user = decoded;
-            next();
-        });
+        const decoded = jsonwebtoken_1.default.verify(token, config_1.default.jwt_Token);
+        const { id, role } = decoded;
+        const user = yield user_model_1.default.isUserExistsByCustomId(id);
+        if (!user) {
+            (0, throwError_1.throwError)("User not found");
+        }
+        const isDeletedUser = user === null || user === void 0 ? void 0 : user.isDeleted;
+        if (isDeletedUser) {
+            (0, throwError_1.throwError)("User is Deleted");
+        }
+        const userStatus = user === null || user === void 0 ? void 0 : user.status;
+        if (userStatus === 'blocked') {
+            (0, throwError_1.throwError)("User is blocked");
+        }
+        // set role based Authorization
+        if (requireRole && !requireRole.includes(role)) {
+            (0, throwError_1.throwError)('you are Unauthorized');
+        }
+        req.user = decoded;
+        next();
     }));
 };
 exports.default = authRequestValidator;
