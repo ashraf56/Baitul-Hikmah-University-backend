@@ -99,9 +99,51 @@ const changePasswordDB = async (userdata: JwtPayload, payload: { oldPassword: st
 }
 
 
-
+// it will create an accesstoken from Refreshtoken.
 const RefreshTokenDB = async (token:string)=>{
-    return token
+    if (!token) {
+        throwError('you are Unauthorized')
+    }
+
+    // token  varification
+    const decoded = jwt.verify(token, config.JWT_Refresh_token as string) as JwtPayload
+
+    const { id,  iat } = decoded
+
+    const user = await User.isUserExistsByCustomId(id)
+
+
+    if (!user) {
+        throwError("User not found")
+    }
+
+    const isDeletedUser = user?.isDeleted
+
+    if (isDeletedUser) {
+        throwError("User is Deleted")
+    }
+
+    const userStatus = user?.status
+    if (userStatus === 'blocked') {
+        throwError("User is blocked")
+    }
+
+    if (user.passwordChangedAt && User.is_jwt_Issued_Before_Password_Change(
+        user.passwordChangedAt, iat as number
+
+    )) {
+        throwError('you are Unauthorized')
+    }
+
+    const datapayload = {
+        id: user.id,
+        role: user.role
+    }
+
+    const accessToken = jwt.sign(datapayload, config.jwt_Token as string, { expiresIn: '1D' });
+
+
+return accessToken
 }
 
 export const AuthService = {

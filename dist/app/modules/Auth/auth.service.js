@@ -78,8 +78,35 @@ const changePasswordDB = (userdata, payload) => __awaiter(void 0, void 0, void 0
     });
     return null;
 });
+// it will create an accesstoken from Refreshtoken
 const RefreshTokenDB = (token) => __awaiter(void 0, void 0, void 0, function* () {
-    return token;
+    if (!token) {
+        (0, throwError_1.throwError)('you are Unauthorized');
+    }
+    // token  varification
+    const decoded = jsonwebtoken_1.default.verify(token, config_1.default.JWT_Refresh_token);
+    const { id, iat } = decoded;
+    const user = yield user_model_1.default.isUserExistsByCustomId(id);
+    if (!user) {
+        (0, throwError_1.throwError)("User not found");
+    }
+    const isDeletedUser = user === null || user === void 0 ? void 0 : user.isDeleted;
+    if (isDeletedUser) {
+        (0, throwError_1.throwError)("User is Deleted");
+    }
+    const userStatus = user === null || user === void 0 ? void 0 : user.status;
+    if (userStatus === 'blocked') {
+        (0, throwError_1.throwError)("User is blocked");
+    }
+    if (user.passwordChangedAt && user_model_1.default.is_jwt_Issued_Before_Password_Change(user.passwordChangedAt, iat)) {
+        (0, throwError_1.throwError)('you are Unauthorized');
+    }
+    const datapayload = {
+        id: user.id,
+        role: user.role
+    };
+    const accessToken = jsonwebtoken_1.default.sign(datapayload, config_1.default.jwt_Token, { expiresIn: '1D' });
+    return accessToken;
 });
 exports.AuthService = {
     LoginUSer,
