@@ -19,16 +19,28 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
+const config_1 = __importDefault(require("../../config"));
 const catchAsync_1 = require("../../utils/catchAsync");
 const auth_service_1 = require("./auth.service");
 const LoginUserController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield auth_service_1.AuthService.LoginUSer(req.body);
+    const { refreshToken, accessToken, needPasswordChange } = result;
+    res.cookie('refreshToken', refreshToken, {
+        secure: config_1.default.node_Env === 'production',
+        httpOnly: true,
+    });
     res.status(200).json({
         success: true,
         message: "Login success",
-        data: result
+        data: {
+            accessToken,
+            needPasswordChange
+        }
     });
 }));
 const ChangepassController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -40,7 +52,17 @@ const ChangepassController = (0, catchAsync_1.catchasync)((req, res) => __awaite
         data: result
     });
 }));
+const RefreshTokenController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { refreshToken } = req.cookies;
+    const result = yield auth_service_1.AuthService.RefreshTokenDB(refreshToken);
+    res.status(200).json({
+        success: true,
+        message: "Access token is retrieved succesfully!",
+        data: result
+    });
+}));
 exports.AuthController = {
     LoginUserController,
-    ChangepassController
+    ChangepassController,
+    RefreshTokenController
 };
