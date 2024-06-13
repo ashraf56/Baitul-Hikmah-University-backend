@@ -53,7 +53,7 @@ const createFaculty = catchasync(
 const createAdmin = catchasync(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async (req: Request, res: Response, next: NextFunction) => {
-
+ 
         const { password, admin } = req.body;
 
 

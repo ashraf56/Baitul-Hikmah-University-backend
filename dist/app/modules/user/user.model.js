@@ -14,11 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const config_1 = __importDefault(require("../../config"));
 const UserSchema = new mongoose_1.Schema({
     id: {
         type: String, required: true, unique: true
     },
-    password: { type: String, required: true },
+    password: { type: String, required: true, select: 0 },
     needsPasswordChange: { type: Boolean, default: true },
     role: {
         type: String,
@@ -40,8 +41,7 @@ const UserSchema = new mongoose_1.Schema({
 });
 UserSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        const saltNumber = 10;
-        this.password = yield bcrypt_1.default.hash(this.password, saltNumber);
+        this.password = yield bcrypt_1.default.hash(this.password, Number(config_1.default.saltNumber));
         next();
     });
 });
@@ -49,5 +49,15 @@ UserSchema.post('save', function (doc, next) {
     doc.password = "";
     next();
 });
+UserSchema.statics.isUserExistsByCustomId = function (id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield User.findOne({ id }).select('+password');
+    });
+};
+UserSchema.statics.isPasswordMatch = function (plainTextPassword, hashpassword) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield bcrypt_1.default.compare(plainTextPassword, hashpassword);
+    });
+};
 const User = (0, mongoose_1.model)("User", UserSchema);
 exports.default = User;

@@ -1,0 +1,101 @@
+import config from "../../config";
+import { throwError } from "../../utils/throwError";
+import User from "../user/user.model";
+import { AuthUserInterface } from "./auth.interface";
+import jwt, { JwtPayload } from "jsonwebtoken"
+import bcrypt from 'bcrypt';
+
+const LoginUSer = async (payload: AuthUserInterface) => {
+
+    const user = await User.isUserExistsByCustomId(payload.id)
+
+
+    if (!user) {
+        throwError("User not found")
+    }
+
+    const isDeletedUser = user?.isDeleted
+
+    if (isDeletedUser) {
+        throwError("User is Deleted")
+    }
+
+    const userStatus = user?.status
+    if (userStatus === 'blocked') {
+        throwError("User is blocked")
+    }
+
+    // cheking password matching
+
+    const isPasswordmatch = await User.isPasswordMatch(payload?.password, user?.password)
+
+    if (!isPasswordmatch) {
+        throwError('password not matched')
+    }
+    // jwt
+
+    const datapayload = {
+        id: user.id,
+        role: user.role
+    }
+
+    const accessToken = jwt.sign(datapayload, config.jwt_Token as string, { expiresIn: '1D' });
+
+
+    return {
+        accessToken,
+        needPasswordChange: user?.needsPasswordChange
+    }
+
+
+}
+
+
+const changePasswordDB = async (userdata: JwtPayload, payload: { oldPassword: string, newpassword: string }) => {
+
+    const user = await User.isUserExistsByCustomId(userdata.id)
+
+
+    if (!user) {
+        throwError("User not found")
+    }
+
+    const isDeletedUser = user?.isDeleted
+
+    if (isDeletedUser) {
+        throwError("User is Deleted")
+    }
+
+    const userStatus = user?.status
+    if (userStatus === 'blocked') {
+        throwError("User is blocked")
+    }
+
+    // cheking password matching
+
+    const isPasswordmatch = await User.isPasswordMatch(payload?.oldPassword, user?.password)
+
+    if (!isPasswordmatch) {
+        throwError('password not matched')
+    }
+    const newHashpassword = await bcrypt.hash(payload.newpassword, Number(config.saltNumber))
+
+    await User.findOneAndUpdate({
+        id: userdata.id,
+        role: userdata.role
+    },
+        {
+            password: newHashpassword,
+            needsPasswordChange: false
+
+        }
+
+    )
+
+    return null
+}
+
+export const AuthService = {
+    LoginUSer,
+    changePasswordDB
+}
