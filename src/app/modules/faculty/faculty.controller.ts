@@ -13,10 +13,7 @@ const getSingleFaculty = catchasync(async (req, res) => {
 
 });
 
-const getAllFaculties = catchasync(async (req, res) => {
-
-   console.log(req.cookies);
-   
+const getAllFaculties = catchasync(async (req, res) => {   
     
     const result = await FacultyServices.getAllFacultiesFromDB(req.query);
 

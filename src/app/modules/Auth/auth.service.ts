@@ -143,7 +143,7 @@ const RefreshTokenDB = async (token:string)=>{
     const accessToken = jwt.sign(datapayload, config.jwt_Token as string, { expiresIn: '1D' });
 
 
-return accessToken
+return {accessToken}
 }
 
 export const AuthService = {

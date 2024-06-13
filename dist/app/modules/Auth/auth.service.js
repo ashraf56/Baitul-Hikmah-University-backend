@@ -78,7 +78,7 @@ const changePasswordDB = (userdata, payload) => __awaiter(void 0, void 0, void 0
     });
     return null;
 });
-// it will create an accesstoken from Refreshtoken
+// it will create an accesstoken from Refreshtoken.
 const RefreshTokenDB = (token) => __awaiter(void 0, void 0, void 0, function* () {
     if (!token) {
         (0, throwError_1.throwError)('you are Unauthorized');
@@ -106,7 +106,7 @@ const RefreshTokenDB = (token) => __awaiter(void 0, void 0, void 0, function* ()
         role: user.role
     };
     const accessToken = jsonwebtoken_1.default.sign(datapayload, config_1.default.jwt_Token, { expiresIn: '1D' });
-    return accessToken;
+    return { accessToken };
 });
 exports.AuthService = {
     LoginUSer,
