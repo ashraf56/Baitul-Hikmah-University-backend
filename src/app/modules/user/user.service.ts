@@ -75,13 +75,13 @@ const CreateFacultyDB = async (password: string, payload: Facultyinterface) => {
     newUserdata.password = password || 'abc123'
 
     newUserdata.role = 'faculty'
- 
- 
-    const  academicdepartment = await AcademicDepartment.findById(
+
+
+    const academicdepartment = await AcademicDepartment.findById(
         payload.academicdepartment,
     );
-   
-    
+
+
     if (!academicdepartment) {
         throw new Error('academic Department  not found');
 
@@ -96,8 +96,8 @@ const CreateFacultyDB = async (password: string, payload: Facultyinterface) => {
 
         // it will create new user in the user colleciton
         const newUser = await User.create([newUserdata], { session })
-       
-        
+
+
         if (!newUser.length) {
             throw new Error('Failed to create user')
         }
@@ -111,9 +111,9 @@ const CreateFacultyDB = async (password: string, payload: Facultyinterface) => {
         }
         await session.commitTransaction()
         await session.endSession()
-       
-       
-        
+
+
+
         return faculties
 
     } catch (error) {
@@ -130,50 +130,50 @@ const CreateFacultyDB = async (password: string, payload: Facultyinterface) => {
 const createAdminIntoDB = async (password: string, payload: Facultyinterface) => {
     // create a user object
     const userData: Partial<UserInterface> = {};
-  
+
     //if password is not given , use deafult password
     userData.password = password || 'abc123'
-  
+
     //set student role
     userData.role = 'admin';
-  
+
     const session = await mongoose.startSession();
-  
+
     try {
-      session.startTransaction();
-      //set  generated id
-      userData.id = await generateAdminId();
-  
-      // create a user (transaction-1)
-      const newUser = await User.create([userData], { session }); 
-  
-      //create a admin
-      if (!newUser.length) {
-        throw new Error('Failed to create admin');
-      }
-      // set id , _id as user
-      payload.id = newUser[0].id;
-      payload.user = newUser[0]._id; //reference _id
-  
-      // create a admin (transaction-2)
-      const newAdmin = await Admin.create([payload], { session });
-  
-      if (!newAdmin.length) {
-        throw new Error('Failed to create admin');
-      }
-  
-      await session.commitTransaction();
-      await session.endSession();
-  
-      return newAdmin;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        session.startTransaction();
+        //set  generated id
+        userData.id = await generateAdminId();
+
+        // create a user (transaction-1)
+        const newUser = await User.create([userData], { session });
+
+        //create a admin
+        if (!newUser.length) {
+            throw new Error('Failed to create admin');
+        }
+        // set id , _id as user
+        payload.id = newUser[0].id;
+        payload.user = newUser[0]._id; //reference _id
+
+        // create a admin (transaction-2)
+        const newAdmin = await Admin.create([payload], { session });
+
+        if (!newAdmin.length) {
+            throw new Error('Failed to create admin');
+        }
+
+        await session.commitTransaction();
+        await session.endSession();
+
+        return newAdmin;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      await session.abortTransaction();
-      await session.endSession();
-      throw new Error(err);
+        await session.abortTransaction();
+        await session.endSession();
+        throw new Error(err);
     }
-  };
-  
+};
+
 export const UserService = {
-    CreateUserDB, CreateFacultyDB,createAdminIntoDB
+    CreateUserDB, CreateFacultyDB, createAdminIntoDB
 }

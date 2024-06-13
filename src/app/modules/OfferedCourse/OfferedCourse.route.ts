@@ -15,4 +15,4 @@ router.post('/create-offered-course', validateRequest(OfferedCourseValidations.c
 
 
 
-    export const OfferedCourseRoute = router
+export const OfferedCourseRoute = router

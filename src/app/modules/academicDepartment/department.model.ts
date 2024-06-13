@@ -28,12 +28,12 @@ academicDepartmentSChema.pre('save', async function (next) {
 
 })
 
-academicDepartmentSChema.pre('findOneAndUpdate',async function (next) {
+academicDepartmentSChema.pre('findOneAndUpdate', async function (next) {
     const quey = this.getQuery()
 
     const isDepartmentExist = await AcademicDepartment.findOne(quey)
     if (!isDepartmentExist) {
-        throw new Error ('this department is not exist')
+        throw new Error('this department is not exist')
     }
     next()
 })

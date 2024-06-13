@@ -34,7 +34,7 @@ const GlobalErrorhandller: ErrorRequestHandler = ((error, req, res, next) => {
         message,
         errorsource,
         stack: config.node_Env === 'development' ? error?.stack : null
-     })
+    })
 
 
 

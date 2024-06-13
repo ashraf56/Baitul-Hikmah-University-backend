@@ -1,4 +1,4 @@
-export type AuthUserInterface= {
-    id:string;
-    password:string
+export type AuthUserInterface = {
+    id: string;
+    password: string
 }

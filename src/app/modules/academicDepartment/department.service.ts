@@ -10,7 +10,7 @@ const createAcademicDepartmentintoDB = async (payload: AcademicDepartmentInterfa
 
 const getAllAcademicDepartmentsFromDB = async () => {
     const result = await AcademicDepartment.find().populate('academicFaculty');
-    
+
     return result;
 };
 
@@ -38,5 +38,5 @@ const updateAcademicDepartmentIntoDB = async (
 export const academicDepartmentService = {
     createAcademicDepartmentintoDB,
     getAllAcademicDepartmentsFromDB,
-    getSingleAcademicDepartmentFromDB,updateAcademicDepartmentIntoDB
+    getSingleAcademicDepartmentFromDB, updateAcademicDepartmentIntoDB
 }

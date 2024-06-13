@@ -13,26 +13,26 @@ export type TBloodGroup =
   | 'O-';
 
 export type TUserName = {
-    firstName: string;
-    middleName: string;
-    lastName: string;
-  };
+  firstName: string;
+  middleName: string;
+  lastName: string;
+};
 
 
 export type Facultyinterface = {
-    id: string;
-    user: Types.ObjectId;
-    designation: string;
-    name: TUserName;
-    gender: TGender;
-    dateOfBirth?: Date;
-    email: string;
-    contactNo: string;
-    emergencyContactNo: string;
-    bloodGroup?: TBloodGroup;
-    presentAddress: string;
-    permanentAddress: string;
-    profileImg?: string;
-    academicdepartment: Types.ObjectId;
-    isDeleted: boolean;
-  };
+  id: string;
+  user: Types.ObjectId;
+  designation: string;
+  name: TUserName;
+  gender: TGender;
+  dateOfBirth?: Date;
+  email: string;
+  contactNo: string;
+  emergencyContactNo: string;
+  bloodGroup?: TBloodGroup;
+  presentAddress: string;
+  permanentAddress: string;
+  profileImg?: string;
+  academicdepartment: Types.ObjectId;
+  isDeleted: boolean;
+};

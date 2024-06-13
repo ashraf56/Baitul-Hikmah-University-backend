@@ -46,7 +46,7 @@ const genarateSudentID = (payload) => __awaiter(void 0, void 0, void 0, function
     /*
     It's will check the  last Year and code with current Year and Code. if the condition returns true
    then it returns currentID =  0001
-  
+   
    if no stududent exist then the conditon will  return fasle.
    if ( undefined && undefined === 2032 && undefined ===03 ) {  currentID = 0  }
     
@@ -56,15 +56,15 @@ const genarateSudentID = (payload) => __awaiter(void 0, void 0, void 0, function
     the id will be 2032030001
       
   after second time
-  
+   
    if ( 203203001 && 2032 === 2032 && 03 ===03 ) {  currentID = 1  }
-
-       let incrementedID = (Number(1) + 1).toString().padStart(4, '0') // 2
   
+       let incrementedID = (Number(1) + 1).toString().padStart(4, '0') // 2
+   
        incrementedID will be 2
       incrementedID = `${2032}${03}${2}`
       the id will be 2032030002 df
-  
+   
       */
     if (lastStudentID && lastsemisterYear === currentYear && lastsemistercode === currentcode) {
         currentID = lastStudentID === null || lastStudentID === void 0 ? void 0 : lastStudentID.substring(6); // 0001
