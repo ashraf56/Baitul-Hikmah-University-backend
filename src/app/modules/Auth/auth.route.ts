@@ -20,7 +20,7 @@ router.post('/change-pass',
 )
 router.post('/refresh-token',
     validateRequest(Authvalidations.RefreshTokenvalidation),
-    AuthController.ChangepassController
+    AuthController.RefreshTokenController
 )
 
 

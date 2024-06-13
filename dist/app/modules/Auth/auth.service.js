@@ -78,7 +78,11 @@ const changePasswordDB = (userdata, payload) => __awaiter(void 0, void 0, void 0
     });
     return null;
 });
+const RefreshTokenDB = (token) => __awaiter(void 0, void 0, void 0, function* () {
+    return token;
+});
 exports.AuthService = {
     LoginUSer,
-    changePasswordDB
+    changePasswordDB,
+    RefreshTokenDB
 };

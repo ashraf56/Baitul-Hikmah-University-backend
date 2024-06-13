@@ -4,21 +4,21 @@ import { AuthService } from "./auth.service";
 
 
 const LoginUserController = catchasync(
-    async(req,res)=>{
-        
+    async (req, res) => {
+
         const result = await AuthService.LoginUSer(req.body)
 
         const { refreshToken, accessToken, needPasswordChange } = result;
 
         res.cookie('refreshToken', refreshToken, {
-          secure: config.node_Env === 'production',
-          httpOnly: true,
+            secure: config.node_Env === 'production',
+            httpOnly: true,
         });
 
         res.status(200).json({
             success: true,
-            message:"Login success",
-            data:{
+            message: "Login success",
+            data: {
                 accessToken,
                 needPasswordChange
             }
@@ -27,15 +27,29 @@ const LoginUserController = catchasync(
 )
 
 const ChangepassController = catchasync(
-    async(req,res)=>{
-      
-        const {...password}  = req.body
-        const result = await AuthService.changePasswordDB(req.user,password)
+    async (req, res) => {
+
+        const { ...password } = req.body
+        const result = await AuthService.changePasswordDB(req.user, password)
         res.status(200).json({
             success: true,
-            message:"Password changed success",
-            data:result
+            message: "Password changed success",
+            data: result
         })
+    }
+)
+
+
+const RefreshTokenController = catchasync(
+    async (req, res) => {
+        const { refreshToken } = req.cookies
+        const result = await AuthService.RefreshTokenDB(refreshToken)
+        res.status(200).json({
+            success: true,
+            message: "Access token is retrieved succesfully!",
+            data: result
+        })
+
     }
 )
 
@@ -43,5 +57,6 @@ const ChangepassController = catchasync(
 
 export const AuthController = {
     LoginUserController,
-    ChangepassController
+    ChangepassController,
+    RefreshTokenController
 }

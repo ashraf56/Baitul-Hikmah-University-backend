@@ -98,7 +98,14 @@ const changePasswordDB = async (userdata: JwtPayload, payload: { oldPassword: st
     return null
 }
 
+
+
+const RefreshTokenDB = async (token:string)=>{
+    return token
+}
+
 export const AuthService = {
     LoginUSer,
-    changePasswordDB
+    changePasswordDB,
+    RefreshTokenDB
 }

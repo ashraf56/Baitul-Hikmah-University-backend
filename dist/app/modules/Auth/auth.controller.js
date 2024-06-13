@@ -52,7 +52,17 @@ const ChangepassController = (0, catchAsync_1.catchasync)((req, res) => __awaite
         data: result
     });
 }));
+const RefreshTokenController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { refreshToken } = req.cookies;
+    const result = yield auth_service_1.AuthService.RefreshTokenDB(refreshToken);
+    res.status(200).json({
+        success: true,
+        message: "Access token is retrieved succesfully!",
+        data: result
+    });
+}));
 exports.AuthController = {
     LoginUserController,
-    ChangepassController
+    ChangepassController,
+    RefreshTokenController
 };
