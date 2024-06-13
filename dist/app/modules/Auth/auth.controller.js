@@ -39,7 +39,7 @@ const LoginUserController = (0, catchAsync_1.catchasync)((req, res) => __awaiter
         message: "Login success",
         data: {
             accessToken,
-            needsPasswordChange
+            needPasswordChange
         }
     });
 }));

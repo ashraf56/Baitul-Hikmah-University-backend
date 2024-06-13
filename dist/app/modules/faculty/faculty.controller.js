@@ -22,6 +22,7 @@ const getSingleFaculty = (0, catchAsync_1.catchasync)((req, res) => __awaiter(vo
     });
 }));
 const getAllFaculties = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.cookies);
     const result = yield faculty_service_1.FacultyServices.getAllFacultiesFromDB(req.query);
     res.status(200).json({
         success: true,
