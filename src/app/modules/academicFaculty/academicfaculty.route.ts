@@ -7,8 +7,8 @@ import { AcdemicFacultyValidation } from "./academicfaculty.validation";
 const router = Router()
 
 
-router.post('/create-academicfaculty', 
-validateRequest(AcdemicFacultyValidation.createAcdemicFacultyValidationSchema),
+router.post('/create-academicfaculty',
+    validateRequest(AcdemicFacultyValidation.createAcdemicFacultyValidationSchema),
     AcademicFacultyControllers.createAcdemicFacultyController)
 
 router.get('/', AcademicFacultyControllers.getAllAcademicFacultyController)

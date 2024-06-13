@@ -31,11 +31,11 @@ const createFaculty = catchasync(
         const { password, faculty } = req.body;
 
 
-    
-       
+
+
         const newfaculty = await UserService.CreateFacultyDB(password, faculty);
-      
-       
+
+
         res.status(200).json({
             success: true,
             message: "success",
@@ -53,7 +53,7 @@ const createFaculty = catchasync(
 const createAdmin = catchasync(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async (req: Request, res: Response, next: NextFunction) => {
- 
+
         const { password, admin } = req.body;
 
 
@@ -73,5 +73,5 @@ const createAdmin = catchasync(
 
 
 export const UserController = {
-    createUsers,createFaculty,createAdmin
+    createUsers, createFaculty, createAdmin
 }

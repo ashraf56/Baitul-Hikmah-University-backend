@@ -9,4 +9,4 @@ export type TGenericErrorResponse = {
     statuscode: number;
     message: string;
     errorsource: ErrorSource;
-  };
+};

@@ -100,7 +100,7 @@ const changePasswordDB = async (userdata: JwtPayload, payload: { oldPassword: st
 
 
 // it will create an accesstoken from Refreshtoken.
-const RefreshTokenDB = async (token:string)=>{
+const RefreshTokenDB = async (token: string) => {
     if (!token) {
         throwError('you are Unauthorized')
     }
@@ -108,7 +108,7 @@ const RefreshTokenDB = async (token:string)=>{
     // token  varification
     const decoded = jwt.verify(token, config.JWT_Refresh_token as string) as JwtPayload
 
-    const { id,  iat } = decoded
+    const { id, iat } = decoded
 
     const user = await User.isUserExistsByCustomId(id)
 
@@ -143,7 +143,7 @@ const RefreshTokenDB = async (token:string)=>{
     const accessToken = jwt.sign(datapayload, config.jwt_Token as string, { expiresIn: '1D' });
 
 
-return {accessToken}
+    return { accessToken }
 }
 
 export const AuthService = {

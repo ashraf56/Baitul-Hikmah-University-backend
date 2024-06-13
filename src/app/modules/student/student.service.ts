@@ -61,22 +61,22 @@ const getStudentsFromDB = async (query: Record<string, unknown>) => {
     // return fieldQuery;
 
 
-    
-  const studentQuery = new QueryBuilder(
-    Student.find(),
-    query,
-  )
-    .search(searchablefeild)
-    .filter()
-    .sort()
-    .paginate()
-    .fields()
-    
 
-   
+    const studentQuery = new QueryBuilder(
+        Student.find(),
+        query,
+    )
+        .search(searchablefeild)
+        .filter()
+        .sort()
+        .paginate()
+        .fields()
 
-  const result = await studentQuery.modelQuery
-  return result;
+
+
+
+    const result = await studentQuery.modelQuery
+    return result;
 
 
 
@@ -111,10 +111,10 @@ const deleteStudentFromDB = async (id: string) => {
     }
 }
 
-const updatestudentDataintoDB = async()=>{
+const updatestudentDataintoDB = async () => {
     // see modeule 13.12 video
 }
 
 export const StudentService = {
-    getStudentsFromDB, deleteStudentFromDB,updatestudentDataintoDB
+    getStudentsFromDB, deleteStudentFromDB, updatestudentDataintoDB
 }
