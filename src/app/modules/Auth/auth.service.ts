@@ -86,7 +86,8 @@ const changePasswordDB = async (userdata: JwtPayload, payload: { oldPassword: st
     },
         {
             password: newHashpassword,
-            needsPasswordChange: false
+            needsPasswordChange: false,
+            passwordChangedAt: new Date()
 
         }
 

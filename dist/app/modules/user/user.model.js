@@ -21,6 +21,7 @@ const UserSchema = new mongoose_1.Schema({
     },
     password: { type: String, required: true, select: 0 },
     needsPasswordChange: { type: Boolean, default: true },
+    passwordChangedAt: { type: Date },
     role: {
         type: String,
         enum: ['student', 'faculty', 'admin']

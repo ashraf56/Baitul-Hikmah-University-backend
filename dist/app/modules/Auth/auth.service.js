@@ -71,7 +71,8 @@ const changePasswordDB = (userdata, payload) => __awaiter(void 0, void 0, void 0
         role: userdata.role
     }, {
         password: newHashpassword,
-        needsPasswordChange: false
+        needsPasswordChange: false,
+        passwordChangedAt: new Date()
     });
     return null;
 });
