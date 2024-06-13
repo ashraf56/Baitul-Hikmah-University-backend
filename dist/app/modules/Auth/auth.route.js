@@ -13,4 +13,5 @@ const user_constant_1 = require("../user/user.constant");
 const router = (0, express_1.Router)();
 router.post('/login', (0, validateRequest_1.default)(auth_validation_1.Authvalidations.loginValidationSchema), auth_controller_1.AuthController.LoginUserController);
 router.post('/change-pass', (0, authvalidator_1.default)(user_constant_1.UserRoles.admin, user_constant_1.UserRoles.faculty, user_constant_1.UserRoles.student), (0, validateRequest_1.default)(auth_validation_1.Authvalidations.changePassValidationSchema), auth_controller_1.AuthController.ChangepassController);
+router.post('/refresh-token', (0, validateRequest_1.default)(auth_validation_1.Authvalidations.RefreshTokenvalidation), auth_controller_1.AuthController.ChangepassController);
 exports.Authroutes = router;

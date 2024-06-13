@@ -18,6 +18,11 @@ router.post('/change-pass',
     validateRequest(Authvalidations.changePassValidationSchema),
     AuthController.ChangepassController
 )
+router.post('/refresh-token',
+    validateRequest(Authvalidations.RefreshTokenvalidation),
+    AuthController.ChangepassController
+)
+
 
 
 export const Authroutes = router;
