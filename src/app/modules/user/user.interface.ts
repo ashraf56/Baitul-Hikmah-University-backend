@@ -21,5 +21,5 @@ export type UserRoletypes = keyof typeof UserRoles
 export interface UserModel extends Model<UserInterface> {
     isUserExistsByCustomId(id: string): Promise<UserInterface>;
     isPasswordMatch(plainTextPassword: string, hashpassword: string): Promise<boolean>;
-
+    is_jwt_Issued_Before_Password_Change(passwordChangeTime: Date, jwtIssueTime: number): boolean;
 }
