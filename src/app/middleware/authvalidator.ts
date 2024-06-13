@@ -21,7 +21,7 @@ const authRequestValidator = (...requireRole: UserRoletypes[]) => {
             // token  varification
             const decoded = jwt.verify(token, config.jwt_Token as string) as JwtPayload
 
-            const { id, role } = decoded
+            const { id, role, iat } = decoded
 
             const user = await User.isUserExistsByCustomId(id)
 
@@ -41,7 +41,12 @@ const authRequestValidator = (...requireRole: UserRoletypes[]) => {
                 throwError("User is blocked")
             }
 
+            if (user.passwordChangedAt && User.is_jwt_Issued_Before_Password_Change(
+                user.passwordChangedAt, iat as number
 
+            )) {
+                throwError('you are Unauthorized')
+            }
 
             // set role based Authorization
             if (requireRole && !requireRole.includes(role)) {

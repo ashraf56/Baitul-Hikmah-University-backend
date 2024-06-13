@@ -3,15 +3,15 @@ import { UserInterface, UserModel } from "./user.interface";
 import bcrypt from 'bcrypt';
 import config from "../../config";
 
-const UserSchema = new Schema<UserInterface,UserModel>({
+const UserSchema = new Schema<UserInterface, UserModel>({
 
     id: {
-        type: String, required: true,unique:true
+        type: String, required: true, unique: true
     }
     ,
-    password: { type: String, required: true, select:0 },
+    password: { type: String, required: true, select: 0 },
     needsPasswordChange: { type: Boolean, default: true },
-    passwordChangedAt:{type:Date},
+    passwordChangedAt: { type: Date },
     role: {
         type: String,
         enum: ['student', 'faculty', 'admin']
@@ -49,13 +49,22 @@ UserSchema.post('save', function (doc, next) {
 })
 
 
-UserSchema.statics.isUserExistsByCustomId = async function (id:string) {
-   return await User.findOne({id}).select('+password')
+UserSchema.statics.isUserExistsByCustomId = async function (id: string) {
+    return await User.findOne({ id }).select('+password')
 }
-UserSchema.statics.isPasswordMatch= async function (plainTextPassword,hashpassword) {
+UserSchema.statics.isPasswordMatch = async function (plainTextPassword, hashpassword) {
     return await bcrypt.compare(plainTextPassword, hashpassword);
- }
+}
 
-const User = model<UserInterface,UserModel>("User", UserSchema)
+// this method will check if user password is  changed then the current issued token will be unauthroized
+UserSchema.statics.is_jwt_Issued_Before_Password_Change = function (
+    passwordChangeTime: Date, jwtIssueTime: number
+) {
+    // convert time into mili sec
+    const password_Change_Times = new Date(passwordChangeTime).getTime() / 1000;
+    return password_Change_Times > jwtIssueTime
+
+}
+const User = model<UserInterface, UserModel>("User", UserSchema)
 
 export default User

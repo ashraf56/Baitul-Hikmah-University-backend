@@ -26,7 +26,7 @@ const authRequestValidator = (...requireRole) => {
         }
         // token  varification
         const decoded = jsonwebtoken_1.default.verify(token, config_1.default.jwt_Token);
-        const { id, role } = decoded;
+        const { id, role, iat } = decoded;
         const user = yield user_model_1.default.isUserExistsByCustomId(id);
         if (!user) {
             (0, throwError_1.throwError)("User not found");
@@ -38,6 +38,9 @@ const authRequestValidator = (...requireRole) => {
         const userStatus = user === null || user === void 0 ? void 0 : user.status;
         if (userStatus === 'blocked') {
             (0, throwError_1.throwError)("User is blocked");
+        }
+        if (user.passwordChangedAt && user_model_1.default.is_jwt_Issued_Before_Password_Change(user.passwordChangedAt, iat)) {
+            (0, throwError_1.throwError)('you are Unauthorized');
         }
         // set role based Authorization
         if (requireRole && !requireRole.includes(role)) {

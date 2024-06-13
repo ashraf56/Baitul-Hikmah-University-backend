@@ -60,5 +60,11 @@ UserSchema.statics.isPasswordMatch = function (plainTextPassword, hashpassword) 
         return yield bcrypt_1.default.compare(plainTextPassword, hashpassword);
     });
 };
+// this method will check if user password is  changed then the current issued token will be unauthroized
+UserSchema.statics.is_jwt_Issued_Before_Password_Change = function (passwordChangeTime, jwtIssueTime) {
+    // convert time into mili sec
+    const password_Change_Times = new Date(passwordChangeTime).getTime() / 1000;
+    return password_Change_Times > jwtIssueTime;
+};
 const User = (0, mongoose_1.model)("User", UserSchema);
 exports.default = User;
