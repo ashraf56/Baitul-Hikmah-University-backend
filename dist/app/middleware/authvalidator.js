@@ -24,6 +24,7 @@ const authRequestValidator = (...requireRole) => {
         if (!token) {
             (0, throwError_1.throwError)('you are Unauthorized');
         }
+        //
         // token  varification
         const decoded = jsonwebtoken_1.default.verify(token, config_1.default.jwt_Token);
         const { id, role, iat } = decoded;
