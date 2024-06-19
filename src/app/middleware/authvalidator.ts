@@ -11,12 +11,14 @@ const authRequestValidator = (...requireRole: UserRoletypes[]) => {
         async (req: Request, res: Response, next: NextFunction) => {
             // retrive token 
             const token = req.headers.authorization as string
-
+           
+           
             if (!token) {
                 throwError('you are Unauthorized')
             }
-
-
+            
+          
+            //
 
             // token  varification
             const decoded = jwt.verify(token, config.jwt_Token as string) as JwtPayload
