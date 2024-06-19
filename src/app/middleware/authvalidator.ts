@@ -11,17 +11,25 @@ const authRequestValidator = (...requireRole: UserRoletypes[]) => {
         async (req: Request, res: Response, next: NextFunction) => {
             // retrive token 
             const token = req.headers.authorization as string
-           
-           
-            if (!token) {
+
+
+
+
+            if (!token || !token.startsWith('Bearer')) {
                 throwError('you are Unauthorized')
             }
-            
-          
-            //
+
+
+
+            const tokenFormated = token.startsWith('Bearer') ? token : `Bearer${token}`
+
+            const accessToken = tokenFormated.split(' ')[1]
+            if (!accessToken) {
+                throwError('you are Unauthorized')
+            }
 
             // token  varification
-            const decoded = jwt.verify(token, config.jwt_Token as string) as JwtPayload
+            const decoded = jwt.verify(accessToken, config.jwt_Token as string) as JwtPayload
 
             const { id, role, iat } = decoded
 
