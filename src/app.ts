@@ -7,14 +7,14 @@ import router from './app/allroute';
 import cookieParser from 'cookie-parser';
 const app = express()
 
-app.use(cors())
+
 app.use(express.json())
 app.use(cookieParser())
+app.use(cors({origin:['http://localhost:5173'], credentials:true}))
 app.use('/api/v1', router)
 
-
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello Muslim World!')
+  res.send('Hello  World!')
 })
 
 app.use(GlobalErrorhandller)
