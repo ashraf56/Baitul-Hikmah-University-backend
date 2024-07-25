@@ -41,7 +41,7 @@ const LoginUSer = (payload) => __awaiter(void 0, void 0, void 0, function* () {
         id: user.id,
         role: user.role
     };
-    const accessToken = jsonwebtoken_1.default.sign(datapayload, config_1.default.jwt_Token, { expiresIn: '1D' });
+    const accessToken = jsonwebtoken_1.default.sign(datapayload, config_1.default.jwt_Token, { expiresIn: '20s' });
     const refreshToken = jsonwebtoken_1.default.sign(datapayload, config_1.default.JWT_Refresh_token, { expiresIn: '365D' });
     return {
         accessToken,

@@ -11,7 +11,8 @@ const config_1 = __importDefault(require("../config"));
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const GlobalErrorhandller = ((error, req, res, next) => {
-    let statuscode = error.statuscode || 500;
+    let statuscode = error.statusCode || 500;
+    console.log(error.statusCode);
     let message = error.message || "something error";
     let errorsource = [
         {
