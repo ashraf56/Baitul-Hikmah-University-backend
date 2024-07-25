@@ -9,7 +9,12 @@ import config from "../config";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const GlobalErrorhandller: ErrorRequestHandler = ((error, req, res, next) => {
 
-    let statuscode = error.statuscode || 500
+
+    let statuscode = error.statusCode || 500
+    console.log(error.statusCode);
+    
+    
+    
     let message = error.message || "something error"
 
 

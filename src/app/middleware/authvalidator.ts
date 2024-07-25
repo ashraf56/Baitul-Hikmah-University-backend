@@ -5,18 +5,20 @@ import jwt, { JwtPayload } from "jsonwebtoken"
 import config from "../config"
 import { UserRoletypes } from "../modules/user/user.interface"
 import User from "../modules/user/user.model"
+import httpStatus from "http-status"
+import ErrorApp from "../errors/ErrorApp"
 
-const authRequestValidator = (...requireRole: UserRoletypes[]) => {
+const authRequestValidator =  (...requireRole: UserRoletypes[]) => {
     return catchasync(
         async (req: Request, res: Response, next: NextFunction) => {
             // retrive token 
             const token = req.headers.authorization as string
 
-
+         
 
 
             if (!token || !token.startsWith('Bearer')) {
-                throwError('you are Unauthorized')
+                throw new ErrorApp( 401,"you are Unauthorized")
             }
 
 
@@ -25,13 +27,22 @@ const authRequestValidator = (...requireRole: UserRoletypes[]) => {
 
             const accessToken = tokenFormated.split(' ')[1]
             if (!accessToken) {
-                throwError('you are Unauthorized')
+                throw new ErrorApp( httpStatus.UNAUTHORIZED,"you are Unauthorized")
             }
 
             // token  varification
-            const decoded = jwt.verify(accessToken, config.jwt_Token as string) as JwtPayload
+         let decoded;
+          try {
+              decoded = jwt.verify(accessToken, config.jwt_Token as string) as JwtPayload
+        
+           
+          } catch (error) {
+            throw new ErrorApp( httpStatus.UNAUTHORIZED,"you are Unauthorized")
 
-            const { id, role, iat } = decoded
+          }
+           
+           
+            const { id, role, iat } = decoded!
 
             const user = await User.isUserExistsByCustomId(id)
 

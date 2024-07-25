@@ -3,7 +3,6 @@ import validateRequest from "../../middleware/validateRequest";
 import { Authvalidations } from "./auth.validation";
 import { AuthController } from "./auth.controller";
 import authRequestValidator from "../../middleware/authvalidator";
-import { UserRoles } from "../user/user.constant";
 
 
 
@@ -14,7 +13,7 @@ router.post('/login', validateRequest(Authvalidations.loginValidationSchema),
     AuthController.LoginUserController
 )
 router.post('/change-pass',
-    authRequestValidator(UserRoles.admin, UserRoles.faculty, UserRoles.student),
+    authRequestValidator('admin','faculty','student'),
     validateRequest(Authvalidations.changePassValidationSchema),
     AuthController.ChangepassController
 )
