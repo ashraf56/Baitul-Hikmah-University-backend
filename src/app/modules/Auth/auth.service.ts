@@ -39,7 +39,7 @@ const LoginUSer = async (payload: AuthUserInterface) => {
         role: user.role
     }
 
-    const accessToken = jwt.sign(datapayload, config.jwt_Token as string, { expiresIn: '20s' });
+    const accessToken = jwt.sign(datapayload, config.jwt_Token as string, { expiresIn: '10D' });
     const refreshToken = jwt.sign(datapayload, config.JWT_Refresh_token as string, { expiresIn: '365D' });
 
 
