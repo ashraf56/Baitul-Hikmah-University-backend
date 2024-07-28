@@ -25,7 +25,7 @@ const createAcademicSemesterIntoDB = (payload) => __awaiter(void 0, void 0, void
     return result;
 });
 const getAllAcademicSemestersFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const AcademicSemisterQuery = new QueryBuilder_1.default(academicsemister_model_1.AcademicSemester.find(), query).filter().sort().paginate().fields();
+    const AcademicSemisterQuery = new QueryBuilder_1.default(academicsemister_model_1.AcademicSemester.find(), query).search(academicsemister_constant_1.AcademicSemesterSearchableFields).filter().sort().paginate().fields();
     const result = yield AcademicSemisterQuery.modelQuery;
     return result;
 });
