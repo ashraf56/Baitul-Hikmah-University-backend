@@ -1,4 +1,3 @@
-import { Request, Response } from "express";
 import { catchasync } from "../../utils/catchAsync";
 import { AcademicSemesterServices } from "./academicsemister.service";
 
@@ -6,7 +5,7 @@ import { AcademicSemesterServices } from "./academicsemister.service";
 
 
 const createAcademicSemesterController = catchasync(
-  async (req: Request, res: Response,) => {
+  async (req, res) => {
     const acamedicData = req.body;
     const result = await AcademicSemesterServices.createAcademicSemesterIntoDB(acamedicData)
 
@@ -19,15 +18,19 @@ const createAcademicSemesterController = catchasync(
   }
 )
 
-const getAllAcademicSemesters = catchasync(async (req: Request, res: Response) => {
-  const result = await AcademicSemesterServices.getAllAcademicSemestersFromDB();
+const getAllAcademicSemesters = catchasync(
+  async (req, res) => {
 
-  res.status(200).json({
-    success: true,
-    message: "Academic semester is retrieved succesfully",
-    data: result
-  })
-});
+    const payload = req.query
+    const result = await AcademicSemesterServices.getAllAcademicSemestersFromDB(payload);
+  
+   
+    res.status(200).json({
+      success: true,
+      message: "Academic semester is retrieved succesfully",
+      data: result
+    })
+  });
 
 const getSingleAcademicSemester = catchasync(async (req, res) => {
   const { semesterId } = req.params;
