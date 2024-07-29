@@ -72,11 +72,12 @@ const forgetPasswordController = (0, catchAsync_1.catchasync)((req, res) => __aw
     });
 }));
 const resetPasswordController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const token = req.headers.authorization;
+    var _a;
+    const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(' ')[1];
     const result = yield auth_service_1.AuthService.resetPasswordDB(req.body, token);
     res.status(http_status_1.default.OK).json({
         success: true,
-        message: "Reset link is generated succesfully!",
+        message: "Password reset succesfully!",
         data: result
     });
 }));

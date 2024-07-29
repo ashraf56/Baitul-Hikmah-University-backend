@@ -19,6 +19,8 @@ const user_model_1 = __importDefault(require("../user/user.model"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const sendEmil_1 = require("../../utils/sendEmil");
+const ErrorApp_1 = __importDefault(require("../../errors/ErrorApp"));
+const http_status_1 = __importDefault(require("http-status"));
 const LoginUSer = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.default.isUserExistsByCustomId(payload.id);
     if (!user) {
@@ -132,7 +134,6 @@ const forgetPasswordDB = (id) => __awaiter(void 0, void 0, void 0, function* () 
 });
 const resetPasswordDB = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.default.isUserExistsByCustomId(payload.id);
-    console.log(token);
     if (!user) {
         (0, throwError_1.throwError)("User not found");
     }
@@ -144,6 +145,20 @@ const resetPasswordDB = (payload, token) => __awaiter(void 0, void 0, void 0, fu
     if (userStatus === 'blocked') {
         (0, throwError_1.throwError)("User is blocked");
     }
+    const decoded = jsonwebtoken_1.default.verify(token, config_1.default.jwt_Token);
+    if (payload.id !== decoded.id) {
+        throw new ErrorApp_1.default(http_status_1.default.FORBIDDEN, 'You are forbidden!');
+    }
+    // new reset password 
+    const newresetpassword = yield bcrypt_1.default.hash(payload.newpassword, Number(config_1.default.saltNumber));
+    yield user_model_1.default.findOneAndUpdate({
+        id: decoded.id,
+        role: decoded.role
+    }, {
+        password: newresetpassword,
+        needsPasswordChange: false,
+        passwordChangedAt: new Date()
+    });
 });
 exports.AuthService = {
     LoginUSer,

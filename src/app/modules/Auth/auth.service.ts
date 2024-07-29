@@ -5,6 +5,8 @@ import { AuthUserInterface } from "./auth.interface";
 import jwt, { JwtPayload } from "jsonwebtoken"
 import bcrypt from 'bcrypt';
 import { sendEmail } from "../../utils/sendEmil";
+import ErrorApp from "../../errors/ErrorApp";
+import httpStatus from "http-status";
 
 const LoginUSer = async (payload: AuthUserInterface) => {
 
@@ -182,7 +184,6 @@ const resetPasswordDB = async (payload:{id:string,newpassword:string},token:stri
 
     const user = await User.isUserExistsByCustomId(payload.id)
 
-   console.log(token);
    
     if (!user) {
         throwError("User not found")
@@ -199,7 +200,27 @@ const resetPasswordDB = async (payload:{id:string,newpassword:string},token:stri
         throwError("User is blocked")
     }
 
-   
+    const decoded = jwt.verify(token, config.jwt_Token as string) as JwtPayload
+    
+    if (payload.id !== decoded.id) {
+        throw new ErrorApp(httpStatus.FORBIDDEN, 'You are forbidden!');
+      }
+    
+   // new reset password 
+   const newresetpassword = await bcrypt.hash(payload.newpassword, Number(config.saltNumber))
+
+   await User.findOneAndUpdate({
+       id: decoded.id,
+       role: decoded.role
+   },
+       {
+           password: newresetpassword,
+           needsPasswordChange: false,
+           passwordChangedAt: new Date()
+
+       }
+
+   )
 
 
 

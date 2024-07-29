@@ -67,12 +67,13 @@ const forgetPasswordController = catchasync(async (req, res) => {
 });
 const resetPasswordController = catchasync(async (req, res) => {
   
-    const token = req.headers.authorization as string
+    const token = req.headers.authorization?.split(' ')[1] as string
+    
     const result = await AuthService.resetPasswordDB(req.body,token);
 
     res.status(httpStatus.OK).json({
         success: true,
-        message: "Reset link is generated succesfully!",
+        message: "Password reset succesfully!",
         data: result
     })
 
