@@ -10,6 +10,7 @@ export default {
     node_Env: process.env.Node_Env,
     jwt_Token: process.env.JWT_sec_Token,
     saltNumber: process.env.saltNumber,
-    JWT_Refresh_token: process.env.JWT_Refresh_token
+    JWT_Refresh_token: process.env.JWT_Refresh_token,
+    FrogetPassUr: process.env.FrogetPassURL
 
 }

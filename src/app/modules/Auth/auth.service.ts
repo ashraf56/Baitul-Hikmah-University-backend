@@ -4,6 +4,7 @@ import User from "../user/user.model";
 import { AuthUserInterface } from "./auth.interface";
 import jwt, { JwtPayload } from "jsonwebtoken"
 import bcrypt from 'bcrypt';
+import { sendEmail } from "../../utils/sendEmil";
 
 const LoginUSer = async (payload: AuthUserInterface) => {
 
@@ -146,7 +147,7 @@ const RefreshTokenDB = async (token: string) => {
     return { accessToken }
 }
 
-const forgetPasswordDB = async (id:string)=>{
+const forgetPasswordDB = async (id: string) => {
     const user = await User.isUserExistsByCustomId(id)
 
 
@@ -172,8 +173,9 @@ const forgetPasswordDB = async (id:string)=>{
 
     const accessToken = jwt.sign(datapayload, config.jwt_Token as string, { expiresIn: '10M' });
 
-const resetULlink = `httlocalhost:3000?id=${user.id}&token=${accessToken}`
-console.log(resetULlink);
+    const resetULlink = `${config.FrogetPassUr}?id=${user.id}&token=${accessToken}`
+    sendEmail(user.email, resetULlink)
+
 
 }
 

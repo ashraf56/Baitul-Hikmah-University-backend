@@ -18,6 +18,7 @@ const throwError_1 = require("../../utils/throwError");
 const user_model_1 = __importDefault(require("../user/user.model"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const sendEmil_1 = require("../../utils/sendEmil");
 const LoginUSer = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.default.isUserExistsByCustomId(payload.id);
     if (!user) {
@@ -126,8 +127,8 @@ const forgetPasswordDB = (id) => __awaiter(void 0, void 0, void 0, function* () 
         role: user.role
     };
     const accessToken = jsonwebtoken_1.default.sign(datapayload, config_1.default.jwt_Token, { expiresIn: '10M' });
-    const resetULlink = `httlocalhost:3000?id=${user.id}&token=${accessToken}`;
-    console.log(resetULlink);
+    const resetULlink = `${config_1.default.FrogetPassUr}?id=${user.id}&token=${accessToken}`;
+    (0, sendEmil_1.sendEmail)(user.email, resetULlink);
 });
 exports.AuthService = {
     LoginUSer,
