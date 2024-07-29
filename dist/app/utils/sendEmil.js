@@ -31,7 +31,6 @@ const sendEmail = (to, html) => __awaiter(void 0, void 0, void 0, function* () {
         text: "You can reset your password through this link ", // plain text body
         html, // html body
     });
-    console.log("Message sent: %s");
     // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
 });
 exports.sendEmail = sendEmail;

@@ -14,4 +14,5 @@ router.post('/login', (0, validateRequest_1.default)(auth_validation_1.Authvalid
 router.post('/change-pass', (0, authvalidator_1.default)('admin', 'faculty', 'student'), (0, validateRequest_1.default)(auth_validation_1.Authvalidations.changePassValidationSchema), auth_controller_1.AuthController.ChangepassController);
 router.post('/refresh-token', (0, validateRequest_1.default)(auth_validation_1.Authvalidations.RefreshTokenvalidation), auth_controller_1.AuthController.RefreshTokenController);
 router.post('/forget-password', (0, validateRequest_1.default)(auth_validation_1.Authvalidations.forgetPasswordValidationSchema), auth_controller_1.AuthController.forgetPasswordController);
+router.post('/reset-password', (0, validateRequest_1.default)(auth_validation_1.Authvalidations.resetPasswordValidationSchema), auth_controller_1.AuthController.resetPasswordController);
 exports.Authroutes = router;

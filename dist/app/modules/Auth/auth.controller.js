@@ -71,9 +71,19 @@ const forgetPasswordController = (0, catchAsync_1.catchasync)((req, res) => __aw
         data: result
     });
 }));
+const resetPasswordController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const token = req.headers.authorization;
+    const result = yield auth_service_1.AuthService.resetPasswordDB(req.body, token);
+    res.status(http_status_1.default.OK).json({
+        success: true,
+        message: "Reset link is generated succesfully!",
+        data: result
+    });
+}));
 exports.AuthController = {
     LoginUserController,
     ChangepassController,
     RefreshTokenController,
-    forgetPasswordController
+    forgetPasswordController,
+    resetPasswordController
 };

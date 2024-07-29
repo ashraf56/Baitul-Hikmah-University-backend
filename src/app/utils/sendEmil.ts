@@ -21,7 +21,6 @@ export const sendEmail = async(to:string,html:string)=>{
           html, // html body
         });
       
-        console.log("Message sent: %s");
         // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
      
 }

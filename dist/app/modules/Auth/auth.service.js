@@ -126,13 +126,29 @@ const forgetPasswordDB = (id) => __awaiter(void 0, void 0, void 0, function* () 
         id: user.id,
         role: user.role
     };
-    const accessToken = jsonwebtoken_1.default.sign(datapayload, config_1.default.jwt_Token, { expiresIn: '10M' });
+    const accessToken = jsonwebtoken_1.default.sign(datapayload, config_1.default.jwt_Token, { expiresIn: '1h' });
     const resetULlink = `${config_1.default.FrogetPassUr}?id=${user.id}&token=${accessToken}`;
     (0, sendEmil_1.sendEmail)(user.email, resetULlink);
+});
+const resetPasswordDB = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.default.isUserExistsByCustomId(payload.id);
+    console.log(token);
+    if (!user) {
+        (0, throwError_1.throwError)("User not found");
+    }
+    const isDeletedUser = user === null || user === void 0 ? void 0 : user.isDeleted;
+    if (isDeletedUser) {
+        (0, throwError_1.throwError)("User is Deleted");
+    }
+    const userStatus = user === null || user === void 0 ? void 0 : user.status;
+    if (userStatus === 'blocked') {
+        (0, throwError_1.throwError)("User is blocked");
+    }
 });
 exports.AuthService = {
     LoginUSer,
     changePasswordDB,
     RefreshTokenDB,
-    forgetPasswordDB
+    forgetPasswordDB,
+    resetPasswordDB
 };

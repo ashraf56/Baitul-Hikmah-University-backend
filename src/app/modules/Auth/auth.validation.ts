@@ -31,11 +31,22 @@ const forgetPasswordValidationSchema = z.object({
     }),
   }),
 });
+const resetPasswordValidationSchema = z.object({
+  body: z.object({
+    id: z.string({
+      required_error: 'User id is required!',
+    }),
+    newpassword: z.string({
+      required_error: 'User id is required!',
+    }),
+  }),
+});
 
 
 export const Authvalidations = {
   loginValidationSchema,
   changePassValidationSchema,
   RefreshTokenvalidation,
-  forgetPasswordValidationSchema
+  forgetPasswordValidationSchema,
+  resetPasswordValidationSchema
 }

@@ -171,10 +171,36 @@ const forgetPasswordDB = async (id: string) => {
         role: user.role
     }
 
-    const accessToken = jwt.sign(datapayload, config.jwt_Token as string, { expiresIn: '10M' });
+    const accessToken = jwt.sign(datapayload, config.jwt_Token as string, { expiresIn: '1h' });
 
     const resetULlink = `${config.FrogetPassUr}?id=${user.id}&token=${accessToken}`
     sendEmail(user.email, resetULlink)
+
+
+}
+const resetPasswordDB = async (payload:{id:string,newpassword:string},token:string) => {
+
+    const user = await User.isUserExistsByCustomId(payload.id)
+
+   console.log(token);
+   
+    if (!user) {
+        throwError("User not found")
+    }
+
+    const isDeletedUser = user?.isDeleted
+
+    if (isDeletedUser) {
+        throwError("User is Deleted")
+    }
+
+    const userStatus = user?.status
+    if (userStatus === 'blocked') {
+        throwError("User is blocked")
+    }
+
+   
+
 
 
 }
@@ -185,5 +211,6 @@ export const AuthService = {
     LoginUSer,
     changePasswordDB,
     RefreshTokenDB,
-    forgetPasswordDB
+    forgetPasswordDB,
+    resetPasswordDB
 }
