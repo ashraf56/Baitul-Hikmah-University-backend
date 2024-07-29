@@ -130,6 +130,19 @@ const createAdminIntoDB = (password, payload) => __awaiter(void 0, void 0, void 
         throw new Error(err);
     }
 });
+const getMe = (id, role) => __awaiter(void 0, void 0, void 0, function* () {
+    let result = null;
+    if (role === 'student') {
+        result = yield student_schema_1.default.findOne({ id: id }).populate('user');
+    }
+    if (role === 'admin') {
+        result = yield admin_model_1.Admin.findOne({ id: id }).populate('user');
+    }
+    if (role === 'faculty') {
+        result = yield faculty_model_1.Faculty.findOne({ id: id }).populate('user');
+    }
+    return result;
+});
 exports.UserService = {
-    CreateUserDB, CreateFacultyDB, createAdminIntoDB
+    CreateUserDB, CreateFacultyDB, createAdminIntoDB, getMe
 };

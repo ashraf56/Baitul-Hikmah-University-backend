@@ -93,6 +93,10 @@ const deleteStudentFromDB = (id) => __awaiter(void 0, void 0, void 0, function* 
 const updatestudentDataintoDB = () => __awaiter(void 0, void 0, void 0, function* () {
     // see modeule 13.12 video
 });
+const getSingleStudentFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield student_schema_1.default.findById(id).populate('admissionSemester');
+    return result;
+});
 exports.StudentService = {
-    getStudentsFromDB, deleteStudentFromDB, updatestudentDataintoDB
+    getStudentsFromDB, deleteStudentFromDB, updatestudentDataintoDB, getSingleStudentFromDB
 };

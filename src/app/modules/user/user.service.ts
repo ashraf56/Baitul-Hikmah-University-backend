@@ -176,6 +176,29 @@ const createAdminIntoDB = async (password: string, payload: Facultyinterface) =>
     }
 };
 
+
+const getMe = async (id:string,role:string)=>{
+
+
+    let result = null;
+    if (role === 'student') {
+      result = await Student.findOne({ id: id }).populate('user');
+    }
+    if (role === 'admin') {
+      result = await Admin.findOne({ id: id }).populate('user');
+    }
+  
+    if (role === 'faculty') {
+      result = await Faculty.findOne({ id: id }).populate('user');
+    }
+  
+    return result;
+
+}
+
+
+
+
 export const UserService = {
-    CreateUserDB, CreateFacultyDB, createAdminIntoDB
+    CreateUserDB, CreateFacultyDB, createAdminIntoDB,getMe
 }

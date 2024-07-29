@@ -13,13 +13,14 @@ import { UserRoles } from "./user.constant"
 const router = express.Router()
 
 
-router.post('/create-student', authRequestValidator(UserRoles.admin),
+router.post('/create-student', authRequestValidator('admin'), authRequestValidator(UserRoles.admin),
     validateRequest(createStudentsInfoZODSchema),
     UserController.createUsers)
-router.post('/create-faculty',
+router.post('/create-faculty',authRequestValidator('admin'),
     validateRequest(FacultyValidations.createFacultyValidationSchema),
     UserController.createFaculty)
 router.post('/create-admin', validateRequest(AdminValidations.createAdminValidationSchema),
     UserController.createAdmin)
+    router.get('/me', authRequestValidator('student', 'faculty', 'admin'), UserController.getMeCOntroller);
 
 export const UserRouter = router

@@ -8,10 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StudentController = void 0;
 const student_service_1 = require("./student.service");
 const catchAsync_1 = require("../../utils/catchAsync");
+const http_status_1 = __importDefault(require("http-status"));
 // const createStudents = async (req: Request, res: Response) => {
 //     try {
 //         const student = req.body;
@@ -43,6 +47,14 @@ const deletStudentController = (0, catchAsync_1.catchasync)((req, res) => __awai
         data: result
     });
 }));
+const getSingleStudentController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield student_service_1.StudentService.getSingleStudentFromDB(id);
+    res.status(http_status_1.default.OK).json({
+        message: "Single Student data retrive successfully",
+        data: result
+    });
+}));
 const getAllstudent = (0, catchAsync_1.catchasync)(
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -50,5 +62,5 @@ const getAllstudent = (0, catchAsync_1.catchasync)(
     res.status(200).json({ result });
 }));
 exports.StudentController = {
-    getAllstudent, deletStudentController
+    getAllstudent, deletStudentController, getSingleStudentController
 };
