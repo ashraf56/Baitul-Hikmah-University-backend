@@ -12,16 +12,16 @@ import { Faculty } from "../faculty/faculty.model";
 import { Admin } from "../admin/admin.model";
 
 
-const CreateUserDB = async (password: string, student: StudentsInfo) => {
+const CreateUserDB = async (password: string, payload: StudentsInfo) => {
 
     const newUserdata: Partial<UserInterface> = {}
 
     newUserdata.password = password || 'abc123'
 
     newUserdata.role = 'student'
-
+    newUserdata.email= payload.email
     const admissionSemester = await AcademicSemester.findById(
-        student.admissionSemester
+        payload.admissionSemester
     );
     if (!admissionSemester) {
         throw new Error('Admission semester not found');
@@ -41,10 +41,10 @@ const CreateUserDB = async (password: string, student: StudentsInfo) => {
             throw new Error('Failed to create user')
         }
 
-        student.id = newUser[0].id
-        student.userid = newUser[0]._id
+        payload.id = newUser[0].id
+        payload.userid = newUser[0]._id
         // it will create student in the strudents collection
-        const students = await Student.create([student], { session })
+        const students = await Student.create([payload], { session })
         if (!students.length) {
             throw new Error('Failed to create student')
         }
@@ -75,7 +75,7 @@ const CreateFacultyDB = async (password: string, payload: Facultyinterface) => {
     newUserdata.password = password || 'abc123'
 
     newUserdata.role = 'faculty'
-
+   newUserdata.email =payload.email
 
     const academicdepartment = await AcademicDepartment.findById(
         payload.academicdepartment,
@@ -134,8 +134,10 @@ const createAdminIntoDB = async (password: string, payload: Facultyinterface) =>
     //if password is not given , use deafult password
     userData.password = password || 'abc123'
 
-    //set student role
+    //set admin role
     userData.role = 'admin';
+    //set admin email
+    userData.email = payload.email
 
     const session = await mongoose.startSession();
 

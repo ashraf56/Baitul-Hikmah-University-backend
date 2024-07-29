@@ -21,11 +21,12 @@ const user_utils_1 = require("./user.utils");
 const department_model_1 = __importDefault(require("../academicDepartment/department.model"));
 const faculty_model_1 = require("../faculty/faculty.model");
 const admin_model_1 = require("../admin/admin.model");
-const CreateUserDB = (password, student) => __awaiter(void 0, void 0, void 0, function* () {
+const CreateUserDB = (password, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const newUserdata = {};
     newUserdata.password = password || 'abc123';
     newUserdata.role = 'student';
-    const admissionSemester = yield academicsemister_model_1.AcademicSemester.findById(student.admissionSemester);
+    newUserdata.email = payload.email;
+    const admissionSemester = yield academicsemister_model_1.AcademicSemester.findById(payload.admissionSemester);
     if (!admissionSemester) {
         throw new Error('Admission semester not found');
     }
@@ -38,10 +39,10 @@ const CreateUserDB = (password, student) => __awaiter(void 0, void 0, void 0, fu
         if (!newUser.length) {
             throw new Error('Failed to create user');
         }
-        student.id = newUser[0].id;
-        student.userid = newUser[0]._id;
+        payload.id = newUser[0].id;
+        payload.userid = newUser[0]._id;
         // it will create student in the strudents collection
-        const students = yield student_schema_1.default.create([student], { session });
+        const students = yield student_schema_1.default.create([payload], { session });
         if (!students.length) {
             throw new Error('Failed to create student');
         }
@@ -59,6 +60,7 @@ const CreateFacultyDB = (password, payload) => __awaiter(void 0, void 0, void 0,
     const newUserdata = {};
     newUserdata.password = password || 'abc123';
     newUserdata.role = 'faculty';
+    newUserdata.email = payload.email;
     const academicdepartment = yield department_model_1.default.findById(payload.academicdepartment);
     if (!academicdepartment) {
         throw new Error('academic Department  not found');
@@ -94,8 +96,10 @@ const createAdminIntoDB = (password, payload) => __awaiter(void 0, void 0, void 
     const userData = {};
     //if password is not given , use deafult password
     userData.password = password || 'abc123';
-    //set student role
+    //set admin role
     userData.role = 'admin';
+    //set admin email
+    userData.email = payload.email;
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();
