@@ -1,5 +1,6 @@
 import { ZodError, ZodIssue } from "zod";
 import { ErrorSource, TGenericErrorResponse } from "../publicInterface/Terrorsource";
+import httpStatus from "http-status";
 
 
 const handlezodvalidationerror = (error: ZodError): TGenericErrorResponse => {
@@ -9,9 +10,9 @@ const handlezodvalidationerror = (error: ZodError): TGenericErrorResponse => {
             message: issue.message
         }
     })
-    const statuscode = 400
+    const statusCode = httpStatus.BAD_REQUEST
     return {
-        statuscode,
+        statusCode,
         message: "our validation error",
         errorsource
     }

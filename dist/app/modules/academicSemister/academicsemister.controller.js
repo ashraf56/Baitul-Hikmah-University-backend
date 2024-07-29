@@ -22,7 +22,8 @@ const createAcademicSemesterController = (0, catchAsync_1.catchasync)((req, res)
     });
 }));
 const getAllAcademicSemesters = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield academicsemister_service_1.AcademicSemesterServices.getAllAcademicSemestersFromDB();
+    const payload = req.query;
+    const result = yield academicsemister_service_1.AcademicSemesterServices.getAllAcademicSemestersFromDB(payload);
     res.status(200).json({
         success: true,
         message: "Academic semester is retrieved succesfully",

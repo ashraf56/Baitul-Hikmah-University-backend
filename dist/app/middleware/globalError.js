@@ -12,7 +12,6 @@ const config_1 = __importDefault(require("../config"));
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const GlobalErrorhandller = ((error, req, res, next) => {
     let statuscode = error.statusCode || 500;
-    console.log(error.statusCode);
     let message = error.message || "something error";
     let errorsource = [
         {
@@ -22,7 +21,7 @@ const GlobalErrorhandller = ((error, req, res, next) => {
     ];
     if (error instanceof zod_1.ZodError) {
         const simplifiederror = (0, handlezodvalidationerror_1.default)(error);
-        statuscode = simplifiederror === null || simplifiederror === void 0 ? void 0 : simplifiederror.statuscode;
+        statuscode = simplifiederror === null || simplifiederror === void 0 ? void 0 : simplifiederror.statusCode;
         message = simplifiederror === null || simplifiederror === void 0 ? void 0 : simplifiederror.message;
         errorsource = simplifiederror === null || simplifiederror === void 0 ? void 0 : simplifiederror.errorsource;
     }

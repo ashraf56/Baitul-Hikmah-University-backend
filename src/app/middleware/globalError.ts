@@ -11,7 +11,6 @@ const GlobalErrorhandller: ErrorRequestHandler = ((error, req, res, next) => {
 
 
     let statuscode = error.statusCode || 500
-    console.log(error.statusCode);
     
     
     
@@ -29,7 +28,7 @@ const GlobalErrorhandller: ErrorRequestHandler = ((error, req, res, next) => {
 
     if (error instanceof ZodError) {
         const simplifiederror = handlezodvalidationerror(error);
-        statuscode = simplifiederror?.statuscode;
+        statuscode = simplifiederror?.statusCode;
         message = simplifiederror?.message;
         errorsource = simplifiederror?.errorsource
     }

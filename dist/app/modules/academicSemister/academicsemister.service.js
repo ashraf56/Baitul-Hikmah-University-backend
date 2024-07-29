@@ -8,8 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AcademicSemesterServices = void 0;
+const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const academicsemister_constant_1 = require("./academicsemister.constant");
 const academicsemister_model_1 = require("./academicsemister.model");
 const createAcademicSemesterIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -20,8 +24,9 @@ const createAcademicSemesterIntoDB = (payload) => __awaiter(void 0, void 0, void
     const result = yield academicsemister_model_1.AcademicSemester.create(payload);
     return result;
 });
-const getAllAcademicSemestersFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield academicsemister_model_1.AcademicSemester.find();
+const getAllAcademicSemestersFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const AcademicSemisterQuery = new QueryBuilder_1.default(academicsemister_model_1.AcademicSemester.find(), query).search(academicsemister_constant_1.AcademicSemesterSearchableFields).filter().sort().paginate().fields();
+    const result = yield AcademicSemisterQuery.modelQuery;
     return result;
 });
 const getSingleAcademicSemesterFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
