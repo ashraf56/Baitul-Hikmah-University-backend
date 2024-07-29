@@ -146,8 +146,42 @@ const RefreshTokenDB = async (token: string) => {
     return { accessToken }
 }
 
+const forgetPasswordDB = async (id:string)=>{
+    const user = await User.isUserExistsByCustomId(id)
+
+
+    if (!user) {
+        throwError("User not found")
+    }
+
+    const isDeletedUser = user?.isDeleted
+
+    if (isDeletedUser) {
+        throwError("User is Deleted")
+    }
+
+    const userStatus = user?.status
+    if (userStatus === 'blocked') {
+        throwError("User is blocked")
+    }
+
+    const datapayload = {
+        id: user.id,
+        role: user.role
+    }
+
+    const accessToken = jwt.sign(datapayload, config.jwt_Token as string, { expiresIn: '10M' });
+
+const resetULlink = `httlocalhost:3000?id=${user.id}&token=${accessToken}`
+console.log(resetULlink);
+
+}
+
+
+
 export const AuthService = {
     LoginUSer,
     changePasswordDB,
-    RefreshTokenDB
+    RefreshTokenDB,
+    forgetPasswordDB
 }

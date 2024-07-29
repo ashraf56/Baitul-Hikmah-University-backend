@@ -21,6 +21,10 @@ router.post('/refresh-token',
     validateRequest(Authvalidations.RefreshTokenvalidation),
     AuthController.RefreshTokenController
 )
+router.post('/forget-password',
+    validateRequest(Authvalidations.forgetPasswordValidationSchema),
+    AuthController.forgetPasswordController
+)
 
 
 

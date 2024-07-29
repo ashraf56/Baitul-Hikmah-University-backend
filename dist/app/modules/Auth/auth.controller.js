@@ -24,6 +24,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
+const http_status_1 = __importDefault(require("http-status"));
 const config_1 = __importDefault(require("../../config"));
 const catchAsync_1 = require("../../utils/catchAsync");
 const auth_service_1 = require("./auth.service");
@@ -61,8 +62,18 @@ const RefreshTokenController = (0, catchAsync_1.catchasync)((req, res) => __awai
         data: result
     });
 }));
+const forgetPasswordController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.body.id;
+    const result = yield auth_service_1.AuthService.forgetPasswordDB(userId);
+    res.status(http_status_1.default.OK).json({
+        success: true,
+        message: "Reset link is generated succesfully!",
+        data: result
+    });
+}));
 exports.AuthController = {
     LoginUserController,
     ChangepassController,
-    RefreshTokenController
+    RefreshTokenController,
+    forgetPasswordController
 };

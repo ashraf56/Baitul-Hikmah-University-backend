@@ -108,8 +108,30 @@ const RefreshTokenDB = (token) => __awaiter(void 0, void 0, void 0, function* ()
     const accessToken = jsonwebtoken_1.default.sign(datapayload, config_1.default.jwt_Token, { expiresIn: '1D' });
     return { accessToken };
 });
+const forgetPasswordDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.default.isUserExistsByCustomId(id);
+    if (!user) {
+        (0, throwError_1.throwError)("User not found");
+    }
+    const isDeletedUser = user === null || user === void 0 ? void 0 : user.isDeleted;
+    if (isDeletedUser) {
+        (0, throwError_1.throwError)("User is Deleted");
+    }
+    const userStatus = user === null || user === void 0 ? void 0 : user.status;
+    if (userStatus === 'blocked') {
+        (0, throwError_1.throwError)("User is blocked");
+    }
+    const datapayload = {
+        id: user.id,
+        role: user.role
+    };
+    const accessToken = jsonwebtoken_1.default.sign(datapayload, config_1.default.jwt_Token, { expiresIn: '10M' });
+    const resetULlink = `httlocalhost:3000?id=${user.id}&token=${accessToken}`;
+    console.log(resetULlink);
+});
 exports.AuthService = {
     LoginUSer,
     changePasswordDB,
-    RefreshTokenDB
+    RefreshTokenDB,
+    forgetPasswordDB
 };
