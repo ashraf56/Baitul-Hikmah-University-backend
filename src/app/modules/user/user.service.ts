@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 import { TAcademicSemester } from "../academicSemister/academicsemister.interface";
 import { AcademicSemester } from "../academicSemister/academicsemister.model";
@@ -14,28 +15,32 @@ import { sendImageTOcloudinary } from "../../utils/sendImageTOCloudinary";
 
 
 
-const CreateUserDB = async (password: string, payload: StudentsInfo) => {
+const CreateUserDB = async (file: any, password: string, payload: StudentsInfo) => {
 
     const newUserdata: Partial<UserInterface> = {}
 
     newUserdata.password = password || 'abc123'
 
     newUserdata.role = 'student'
-    newUserdata.email= payload.email
+    newUserdata.email = payload.email
     const admissionSemester = await AcademicSemester.findById(
         payload.admissionSemester
     );
     if (!admissionSemester) {
         throw new Error('Admission semester not found');
     }
- 
+
     const session = await mongoose.startSession()
 
     try {
         session.startTransaction()
         newUserdata.id = await genarateSudentID(admissionSemester as TAcademicSemester)
 
-         sendImageTOcloudinary() 
+        // sending image into cloudinary 
+        const imageName = `UsersID${newUserdata.id}`;
+        const path = file?.path
+        const { secure_url } = await sendImageTOcloudinary(imageName, path) as any
+
         // it will create new user in the user colleciton
         const newUser = await User.create([newUserdata], { session })
 
@@ -43,8 +48,11 @@ const CreateUserDB = async (password: string, payload: StudentsInfo) => {
             throw new Error('Failed to create user')
         }
 
+
         payload.id = newUser[0].id
         payload.userid = newUser[0]._id
+        // set cloudinary image url link in the profile image 
+        payload.profileImg = secure_url
         // it will create student in the strudents collection
         const students = await Student.create([payload], { session })
         if (!students.length) {
@@ -77,7 +85,7 @@ const CreateFacultyDB = async (password: string, payload: Facultyinterface) => {
     newUserdata.password = password || 'abc123'
 
     newUserdata.role = 'faculty'
-   newUserdata.email =payload.email
+    newUserdata.email = payload.email
 
     const academicdepartment = await AcademicDepartment.findById(
         payload.academicdepartment,
@@ -179,21 +187,21 @@ const createAdminIntoDB = async (password: string, payload: Facultyinterface) =>
 };
 
 
-const getMe = async (id:string,role:string)=>{
+const getMe = async (id: string, role: string) => {
 
 
     let result = null;
     if (role === 'student') {
-      result = await Student.findOne({ id: id }).populate('user');
+        result = await Student.findOne({ id: id }).populate('user');
     }
     if (role === 'admin') {
-      result = await Admin.findOne({ id: id }).populate('user');
+        result = await Admin.findOne({ id: id }).populate('user');
     }
-  
+
     if (role === 'faculty') {
-      result = await Faculty.findOne({ id: id }).populate('user');
+        result = await Faculty.findOne({ id: id }).populate('user');
     }
-  
+
     return result;
 
 }
@@ -202,5 +210,5 @@ const getMe = async (id:string,role:string)=>{
 
 
 export const UserService = {
-    CreateUserDB, CreateFacultyDB, createAdminIntoDB,getMe
+    CreateUserDB, CreateFacultyDB, createAdminIntoDB, getMe
 }

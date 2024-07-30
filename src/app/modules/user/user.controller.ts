@@ -6,13 +6,11 @@ import httpStatus from "http-status";
 
 
 const createUsers = catchasync(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req, res) => {
 
-        const { password, student } = req.body;
-
-
-        const newusers = await UserService.CreateUserDB(password, student);
+      const { password, student } = req.body;
+             
+       const newusers = await UserService.CreateUserDB(req.file,password, student);
 
         res.status(200).json({
             success: true,

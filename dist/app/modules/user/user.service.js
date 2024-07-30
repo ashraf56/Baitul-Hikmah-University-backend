@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const mongoose_1 = __importDefault(require("mongoose"));
 const academicsemister_model_1 = require("../academicSemister/academicsemister.model");
 const student_schema_1 = __importDefault(require("../student/student.schema"));
@@ -22,7 +23,7 @@ const department_model_1 = __importDefault(require("../academicDepartment/depart
 const faculty_model_1 = require("../faculty/faculty.model");
 const admin_model_1 = require("../admin/admin.model");
 const sendImageTOCloudinary_1 = require("../../utils/sendImageTOCloudinary");
-const CreateUserDB = (password, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const CreateUserDB = (file, password, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const newUserdata = {};
     newUserdata.password = password || 'abc123';
     newUserdata.role = 'student';
@@ -35,7 +36,10 @@ const CreateUserDB = (password, payload) => __awaiter(void 0, void 0, void 0, fu
     try {
         session.startTransaction();
         newUserdata.id = yield (0, user_utils_1.genarateSudentID)(admissionSemester);
-        (0, sendImageTOCloudinary_1.sendImageTOcloudinary)();
+        // sending image into cloudinary 
+        const imageName = `UsersID${newUserdata.id}`;
+        const path = file === null || file === void 0 ? void 0 : file.path;
+        const { secure_url } = yield (0, sendImageTOCloudinary_1.sendImageTOcloudinary)(imageName, path);
         // it will create new user in the user colleciton
         const newUser = yield user_model_1.default.create([newUserdata], { session });
         if (!newUser.length) {
@@ -43,6 +47,8 @@ const CreateUserDB = (password, payload) => __awaiter(void 0, void 0, void 0, fu
         }
         payload.id = newUser[0].id;
         payload.userid = newUser[0]._id;
+        // set cloudinary image url link in the profile image 
+        payload.profileImg = secure_url;
         // it will create student in the strudents collection
         const students = yield student_schema_1.default.create([payload], { session });
         if (!students.length) {

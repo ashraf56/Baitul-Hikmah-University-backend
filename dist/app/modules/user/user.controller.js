@@ -16,11 +16,9 @@ exports.UserController = void 0;
 const user_service_1 = require("./user.service");
 const catchAsync_1 = require("../../utils/catchAsync");
 const http_status_1 = __importDefault(require("http-status"));
-const createUsers = (0, catchAsync_1.catchasync)(
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-(req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const createUsers = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { password, student } = req.body;
-    const newusers = yield user_service_1.UserService.CreateUserDB(password, student);
+    const newusers = yield user_service_1.UserService.CreateUserDB(req.file, password, student);
     res.status(200).json({
         success: true,
         message: "success",
