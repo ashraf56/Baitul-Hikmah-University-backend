@@ -41,7 +41,8 @@ const Studentchema = new Schema<StudentsInfo>({
     isDeleted: {
         type: Boolean,
         default: false
-    }
+    },
+    profileImg: { type: String }
 
 
 }, {

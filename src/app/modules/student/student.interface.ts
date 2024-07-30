@@ -23,7 +23,8 @@ export interface StudentsInfo {
     gardian?: Gardian;
     gender: "male" | "female";
     admissionSemester: Types.ObjectId;
-    isDeleted: boolean
+    isDeleted: boolean;
+    profileImg?:string
 
 
 }

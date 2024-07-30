@@ -21,6 +21,7 @@ const user_utils_1 = require("./user.utils");
 const department_model_1 = __importDefault(require("../academicDepartment/department.model"));
 const faculty_model_1 = require("../faculty/faculty.model");
 const admin_model_1 = require("../admin/admin.model");
+const sendImageTOCloudinary_1 = require("../../utils/sendImageTOCloudinary");
 const CreateUserDB = (password, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const newUserdata = {};
     newUserdata.password = password || 'abc123';
@@ -34,6 +35,7 @@ const CreateUserDB = (password, payload) => __awaiter(void 0, void 0, void 0, fu
     try {
         session.startTransaction();
         newUserdata.id = yield (0, user_utils_1.genarateSudentID)(admissionSemester);
+        (0, sendImageTOCloudinary_1.sendImageTOcloudinary)();
         // it will create new user in the user colleciton
         const newUser = yield user_model_1.default.create([newUserdata], { session });
         if (!newUser.length) {

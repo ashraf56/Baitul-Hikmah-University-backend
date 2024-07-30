@@ -10,6 +10,8 @@ import { Facultyinterface } from "../faculty/faculty.interface";
 import AcademicDepartment from "../academicDepartment/department.model";
 import { Faculty } from "../faculty/faculty.model";
 import { Admin } from "../admin/admin.model";
+import { sendImageTOcloudinary } from "../../utils/sendImageTOCloudinary";
+
 
 
 const CreateUserDB = async (password: string, payload: StudentsInfo) => {
@@ -26,14 +28,14 @@ const CreateUserDB = async (password: string, payload: StudentsInfo) => {
     if (!admissionSemester) {
         throw new Error('Admission semester not found');
     }
-
+ 
     const session = await mongoose.startSession()
 
     try {
         session.startTransaction()
         newUserdata.id = await genarateSudentID(admissionSemester as TAcademicSemester)
 
-
+         sendImageTOcloudinary() 
         // it will create new user in the user colleciton
         const newUser = await User.create([newUserdata], { session })
 
