@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 import { TAcademicSemester } from "../academicSemister/academicsemister.interface";
 import { AcademicSemester } from "../academicSemister/academicsemister.model";
@@ -10,18 +11,20 @@ import { Facultyinterface } from "../faculty/faculty.interface";
 import AcademicDepartment from "../academicDepartment/department.model";
 import { Faculty } from "../faculty/faculty.model";
 import { Admin } from "../admin/admin.model";
+import { sendImageTOcloudinary } from "../../utils/sendImageTOCloudinary";
 
 
-const CreateUserDB = async (password: string, student: StudentsInfo) => {
+
+const CreateUserDB = async (file: any, password: string, payload: StudentsInfo) => {
 
     const newUserdata: Partial<UserInterface> = {}
 
     newUserdata.password = password || 'abc123'
 
     newUserdata.role = 'student'
-
+    newUserdata.email = payload.email
     const admissionSemester = await AcademicSemester.findById(
-        student.admissionSemester
+        payload.admissionSemester
     );
     if (!admissionSemester) {
         throw new Error('Admission semester not found');
@@ -33,6 +36,10 @@ const CreateUserDB = async (password: string, student: StudentsInfo) => {
         session.startTransaction()
         newUserdata.id = await genarateSudentID(admissionSemester as TAcademicSemester)
 
+        // sending image into cloudinary 
+        const imageName = `UsersID${newUserdata.id}`;
+        const path = file?.path
+        const { secure_url } = await sendImageTOcloudinary(imageName, path) as any
 
         // it will create new user in the user colleciton
         const newUser = await User.create([newUserdata], { session })
@@ -41,10 +48,13 @@ const CreateUserDB = async (password: string, student: StudentsInfo) => {
             throw new Error('Failed to create user')
         }
 
-        student.id = newUser[0].id
-        student.userid = newUser[0]._id
+
+        payload.id = newUser[0].id
+        payload.userid = newUser[0]._id
+        // set cloudinary image url link in the profile image 
+        payload.profileImg = secure_url
         // it will create student in the strudents collection
-        const students = await Student.create([student], { session })
+        const students = await Student.create([payload], { session })
         if (!students.length) {
             throw new Error('Failed to create student')
         }
@@ -75,7 +85,7 @@ const CreateFacultyDB = async (password: string, payload: Facultyinterface) => {
     newUserdata.password = password || 'abc123'
 
     newUserdata.role = 'faculty'
-
+    newUserdata.email = payload.email
 
     const academicdepartment = await AcademicDepartment.findById(
         payload.academicdepartment,
@@ -134,8 +144,10 @@ const createAdminIntoDB = async (password: string, payload: Facultyinterface) =>
     //if password is not given , use deafult password
     userData.password = password || 'abc123'
 
-    //set student role
+    //set admin role
     userData.role = 'admin';
+    //set admin email
+    userData.email = payload.email
 
     const session = await mongoose.startSession();
 
@@ -174,6 +186,29 @@ const createAdminIntoDB = async (password: string, payload: Facultyinterface) =>
     }
 };
 
+
+const getMe = async (id: string, role: string) => {
+
+
+    let result = null;
+    if (role === 'student') {
+        result = await Student.findOne({ id: id }).populate('user');
+    }
+    if (role === 'admin') {
+        result = await Admin.findOne({ id: id }).populate('user');
+    }
+
+    if (role === 'faculty') {
+        result = await Faculty.findOne({ id: id }).populate('user');
+    }
+
+    return result;
+
+}
+
+
+
+
 export const UserService = {
-    CreateUserDB, CreateFacultyDB, createAdminIntoDB
+    CreateUserDB, CreateFacultyDB, createAdminIntoDB, getMe
 }

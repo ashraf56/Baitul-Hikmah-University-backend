@@ -115,6 +115,16 @@ const updatestudentDataintoDB = async () => {
     // see modeule 13.12 video
 }
 
+
+
+const getSingleStudentFromDB = async (id: string) => {
+    const result = await Student.findById(id).populate('admissionSemester')
+    
+    return result;
+  };
+  
+
+
 export const StudentService = {
-    getStudentsFromDB, deleteStudentFromDB, updatestudentDataintoDB
+    getStudentsFromDB, deleteStudentFromDB, updatestudentDataintoDB,getSingleStudentFromDB
 }

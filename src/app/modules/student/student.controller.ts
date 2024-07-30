@@ -1,6 +1,7 @@
 import { RequestHandler, } from "express";
 import { StudentService } from "./student.service";
 import { catchasync } from "../../utils/catchAsync";
+import httpStatus from "http-status";
 
 
 // const createStudents = async (req: Request, res: Response) => {
@@ -45,6 +46,16 @@ const deletStudentController = catchasync(
         })
     }
 )
+const getSingleStudentController = catchasync(
+    async (req, res) => {
+        const { id } = req.params;
+        const result = await StudentService.getSingleStudentFromDB(id)
+        res.status(httpStatus.OK).json({
+            message: "Single Student data retrive successfully",
+            data: result
+        })
+    }
+)
 
 const getAllstudent: RequestHandler = catchasync(
 
@@ -58,5 +69,5 @@ const getAllstudent: RequestHandler = catchasync(
 )
 
 export const StudentController = {
-    getAllstudent, deletStudentController
+    getAllstudent, deletStudentController,getSingleStudentController
 }

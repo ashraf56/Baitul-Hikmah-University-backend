@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const mongoose_1 = __importDefault(require("mongoose"));
 const academicsemister_model_1 = require("../academicSemister/academicsemister.model");
 const student_schema_1 = __importDefault(require("../student/student.schema"));
@@ -21,11 +22,13 @@ const user_utils_1 = require("./user.utils");
 const department_model_1 = __importDefault(require("../academicDepartment/department.model"));
 const faculty_model_1 = require("../faculty/faculty.model");
 const admin_model_1 = require("../admin/admin.model");
-const CreateUserDB = (password, student) => __awaiter(void 0, void 0, void 0, function* () {
+const sendImageTOCloudinary_1 = require("../../utils/sendImageTOCloudinary");
+const CreateUserDB = (file, password, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const newUserdata = {};
     newUserdata.password = password || 'abc123';
     newUserdata.role = 'student';
-    const admissionSemester = yield academicsemister_model_1.AcademicSemester.findById(student.admissionSemester);
+    newUserdata.email = payload.email;
+    const admissionSemester = yield academicsemister_model_1.AcademicSemester.findById(payload.admissionSemester);
     if (!admissionSemester) {
         throw new Error('Admission semester not found');
     }
@@ -33,15 +36,21 @@ const CreateUserDB = (password, student) => __awaiter(void 0, void 0, void 0, fu
     try {
         session.startTransaction();
         newUserdata.id = yield (0, user_utils_1.genarateSudentID)(admissionSemester);
+        // sending image into cloudinary 
+        const imageName = `UsersID${newUserdata.id}`;
+        const path = file === null || file === void 0 ? void 0 : file.path;
+        const { secure_url } = yield (0, sendImageTOCloudinary_1.sendImageTOcloudinary)(imageName, path);
         // it will create new user in the user colleciton
         const newUser = yield user_model_1.default.create([newUserdata], { session });
         if (!newUser.length) {
             throw new Error('Failed to create user');
         }
-        student.id = newUser[0].id;
-        student.userid = newUser[0]._id;
+        payload.id = newUser[0].id;
+        payload.userid = newUser[0]._id;
+        // set cloudinary image url link in the profile image 
+        payload.profileImg = secure_url;
         // it will create student in the strudents collection
-        const students = yield student_schema_1.default.create([student], { session });
+        const students = yield student_schema_1.default.create([payload], { session });
         if (!students.length) {
             throw new Error('Failed to create student');
         }
@@ -59,6 +68,7 @@ const CreateFacultyDB = (password, payload) => __awaiter(void 0, void 0, void 0,
     const newUserdata = {};
     newUserdata.password = password || 'abc123';
     newUserdata.role = 'faculty';
+    newUserdata.email = payload.email;
     const academicdepartment = yield department_model_1.default.findById(payload.academicdepartment);
     if (!academicdepartment) {
         throw new Error('academic Department  not found');
@@ -94,8 +104,10 @@ const createAdminIntoDB = (password, payload) => __awaiter(void 0, void 0, void 
     const userData = {};
     //if password is not given , use deafult password
     userData.password = password || 'abc123';
-    //set student role
+    //set admin role
     userData.role = 'admin';
+    //set admin email
+    userData.email = payload.email;
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();
@@ -126,6 +138,19 @@ const createAdminIntoDB = (password, payload) => __awaiter(void 0, void 0, void 
         throw new Error(err);
     }
 });
+const getMe = (id, role) => __awaiter(void 0, void 0, void 0, function* () {
+    let result = null;
+    if (role === 'student') {
+        result = yield student_schema_1.default.findOne({ id: id }).populate('user');
+    }
+    if (role === 'admin') {
+        result = yield admin_model_1.Admin.findOne({ id: id }).populate('user');
+    }
+    if (role === 'faculty') {
+        result = yield faculty_model_1.Faculty.findOne({ id: id }).populate('user');
+    }
+    return result;
+});
 exports.UserService = {
-    CreateUserDB, CreateFacultyDB, createAdminIntoDB
+    CreateUserDB, CreateFacultyDB, createAdminIntoDB, getMe
 };

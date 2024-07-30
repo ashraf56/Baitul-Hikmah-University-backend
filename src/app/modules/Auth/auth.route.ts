@@ -13,13 +13,21 @@ router.post('/login', validateRequest(Authvalidations.loginValidationSchema),
     AuthController.LoginUserController
 )
 router.post('/change-pass',
-    authRequestValidator('admin','faculty','student'),
+    authRequestValidator('admin', 'faculty', 'student'),
     validateRequest(Authvalidations.changePassValidationSchema),
     AuthController.ChangepassController
 )
 router.post('/refresh-token',
     validateRequest(Authvalidations.RefreshTokenvalidation),
     AuthController.RefreshTokenController
+)
+router.post('/forget-password',
+    validateRequest(Authvalidations.forgetPasswordValidationSchema),
+    AuthController.forgetPasswordController
+)
+router.post('/reset-password',
+    validateRequest(Authvalidations.resetPasswordValidationSchema),
+    AuthController.resetPasswordController
 )
 
 

@@ -1,3 +1,4 @@
+import httpStatus from "http-status";
 import config from "../../config";
 import { catchasync } from "../../utils/catchAsync";
 import { AuthService } from "./auth.service";
@@ -53,10 +54,35 @@ const RefreshTokenController = catchasync(
     }
 )
 
+const forgetPasswordController = catchasync(async (req, res) => {
+    const userId = req.body.id;
+    const result = await AuthService.forgetPasswordDB(userId);
 
+    res.status(httpStatus.OK).json({
+        success: true,
+        message: "Reset link is generated succesfully!",
+        data: result
+    })
+
+});
+const resetPasswordController = catchasync(async (req, res) => {
+  
+    const token = req.headers.authorization?.split(' ')[1] as string
+    
+    const result = await AuthService.resetPasswordDB(req.body,token);
+
+    res.status(httpStatus.OK).json({
+        success: true,
+        message: "Password reset succesfully!",
+        data: result
+    })
+
+});
 
 export const AuthController = {
     LoginUserController,
     ChangepassController,
-    RefreshTokenController
+    RefreshTokenController,
+    forgetPasswordController,
+    resetPasswordController
 }

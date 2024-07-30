@@ -40,7 +40,8 @@ const Studentchema = new mongoose_1.Schema({
     isDeleted: {
         type: Boolean,
         default: false
-    }
+    },
+    profileImg: { type: String }
 }, {
     timestamps: true
 });

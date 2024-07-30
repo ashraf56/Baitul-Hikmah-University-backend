@@ -4,6 +4,9 @@ import User from "../user/user.model";
 import { AuthUserInterface } from "./auth.interface";
 import jwt, { JwtPayload } from "jsonwebtoken"
 import bcrypt from 'bcrypt';
+import { sendEmail } from "../../utils/sendEmil";
+import ErrorApp from "../../errors/ErrorApp";
+import httpStatus from "http-status";
 
 const LoginUSer = async (payload: AuthUserInterface) => {
 
@@ -146,8 +149,91 @@ const RefreshTokenDB = async (token: string) => {
     return { accessToken }
 }
 
+const forgetPasswordDB = async (id: string) => {
+    const user = await User.isUserExistsByCustomId(id)
+
+
+    if (!user) {
+        throwError("User not found")
+    }
+
+    const isDeletedUser = user?.isDeleted
+
+    if (isDeletedUser) {
+        throwError("User is Deleted")
+    }
+
+    const userStatus = user?.status
+    if (userStatus === 'blocked') {
+        throwError("User is blocked")
+    }
+
+    const datapayload = {
+        id: user.id,
+        role: user.role
+    }
+
+    const accessToken = jwt.sign(datapayload, config.jwt_Token as string, { expiresIn: '1h' });
+
+    const resetULlink = `${config.FrogetPassUr}?id=${user.id}&token=${accessToken}`
+    sendEmail(user.email, resetULlink)
+
+
+}
+const resetPasswordDB = async (payload:{id:string,newpassword:string},token:string) => {
+
+    const user = await User.isUserExistsByCustomId(payload.id)
+
+   
+    if (!user) {
+        throwError("User not found")
+    }
+
+    const isDeletedUser = user?.isDeleted
+
+    if (isDeletedUser) {
+        throwError("User is Deleted")
+    }
+
+    const userStatus = user?.status
+    if (userStatus === 'blocked') {
+        throwError("User is blocked")
+    }
+
+    const decoded = jwt.verify(token, config.jwt_Token as string) as JwtPayload
+    
+    if (payload.id !== decoded.id) {
+        throw new ErrorApp(httpStatus.FORBIDDEN, 'You are forbidden!');
+      }
+    
+   // new reset password 
+   const newresetpassword = await bcrypt.hash(payload.newpassword, Number(config.saltNumber))
+
+   await User.findOneAndUpdate({
+       id: decoded.id,
+       role: decoded.role
+   },
+       {
+           password: newresetpassword,
+           needsPasswordChange: false,
+           passwordChangedAt: new Date()
+
+       }
+
+   )
+
+
+
+}
+
+
+
+
+
 export const AuthService = {
     LoginUSer,
     changePasswordDB,
-    RefreshTokenDB
+    RefreshTokenDB,
+    forgetPasswordDB,
+    resetPasswordDB
 }

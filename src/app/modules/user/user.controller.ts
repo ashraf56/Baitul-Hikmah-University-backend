@@ -2,16 +2,15 @@
 import { NextFunction, Request, Response } from "express";
 import { UserService } from "./user.service";
 import { catchasync } from "../../utils/catchAsync";
+import httpStatus from "http-status";
 
 
 const createUsers = catchasync(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req, res) => {
 
-        const { password, student } = req.body;
-
-
-        const newusers = await UserService.CreateUserDB(password, student);
+      const { password, student } = req.body;
+             
+       const newusers = await UserService.CreateUserDB(req.file,password, student);
 
         res.status(200).json({
             success: true,
@@ -71,7 +70,24 @@ const createAdmin = catchasync(
     }
 )
 
+const getMeCOntroller = catchasync(
+    async (req, res) => {
+        const { id, role } = req.user;
+
+        const result = await UserService.getMe(id, role)
+
+        res.status(httpStatus.OK).json({
+            success: true,
+            message: "success",
+            data: result
+
+        })
+
+    }
+)
+
+
 
 export const UserController = {
-    createUsers, createFaculty, createAdmin
+    createUsers, createFaculty, createAdmin, getMeCOntroller
 }
