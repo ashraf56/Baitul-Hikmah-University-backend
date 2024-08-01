@@ -5,35 +5,35 @@ import { Grade } from "./enrollCourese.constant";
 
 const courseMarksSchema = new Schema<TEnrolledCourseMarks>(
     {
-      classTest1: {
-        type: Number,
-        min: 0,
-        max: 10,
-        default: 0,
-      },
-      midTerm: {
-        type: Number,
-        min: 0,
-        max: 30,
-        default: 0,
-      },
-      classTest2: {
-        type: Number,
-        min: 0,
-        max: 10,
-        default: 0,
-      },
-      finalTerm: {
-        type: Number,
-        min: 0,
-        max: 50,
-        default: 0,
-      },
+        classTest1: {
+            type: Number,
+            min: 0,
+            max: 10,
+            default: 0,
+        },
+        midTerm: {
+            type: Number,
+            min: 0,
+            max: 30,
+            default: 0,
+        },
+        classTest2: {
+            type: Number,
+            min: 0,
+            max: 10,
+            default: 0,
+        },
+        finalTerm: {
+            type: Number,
+            min: 0,
+            max: 50,
+            default: 0,
+        },
     },
     {
-      _id: false,
+        _id: false,
     },
-  );
+);
 const enrollCoureseSchema = new Schema<enrollCoureseInterface>({
     semisterRegistration: {
         type: Schema.Types.ObjectId,
@@ -82,27 +82,27 @@ const enrollCoureseSchema = new Schema<enrollCoureseInterface>({
     courseMarks: {
         type: courseMarksSchema,
         default: {},
-      },
-      grade: {
+    },
+    grade: {
         type: String,
         enum: Grade,
         default: 'NA',
-      },
-      gradePoints: {
+    },
+    gradePoints: {
         type: Number,
         min: 0,
         max: 4,
         default: 0,
-      },
-      isCompleted: {
+    },
+    isCompleted: {
         type: Boolean,
         default: false,
-      },
+    },
 })
 
 
 
-const EnrollCourese = model<enrollCoureseInterface>('EnrollCourese',enrollCoureseSchema)
+const EnrollCourese = model<enrollCoureseInterface>('EnrollCourese', enrollCoureseSchema)
 
 
 export default EnrollCourese
