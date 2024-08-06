@@ -13,7 +13,7 @@ export interface enrollCoureseInterface {
     academicSemister: Types.ObjectId;
     academicFaculty: Types.ObjectId;
     academicDepartment: Types.ObjectId;
-    OfferedCourse: Types.ObjectId;
+    offeredCourse: Types.ObjectId;
     course: Types.ObjectId;
     student: Types.ObjectId;
     faculty: Types.ObjectId;

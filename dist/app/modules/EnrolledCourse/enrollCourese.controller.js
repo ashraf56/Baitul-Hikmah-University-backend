@@ -17,7 +17,8 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = require("../../utils/catchAsync");
 const enrollCourese_service_1 = require("./enrollCourese.service");
 const createEnrolledCourseController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield enrollCourese_service_1.EnrollCoureseService.createEnrolledCourseIntoDB();
+    const id = req.user.id;
+    const result = yield enrollCourese_service_1.EnrollCoureseService.createEnrolledCourseIntoDB(id, req.body);
     res.status(http_status_1.default.OK).json({
         success: true,
         message: 'Student is enrolled succesfully',

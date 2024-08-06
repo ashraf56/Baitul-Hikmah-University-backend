@@ -51,7 +51,7 @@ const enrollCoureseSchema = new mongoose_1.Schema({
         ref: 'AcademicDepartment',
         required: true,
     },
-    OfferedCourse: {
+    offeredCourse: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'OfferedCourse',
         required: true,

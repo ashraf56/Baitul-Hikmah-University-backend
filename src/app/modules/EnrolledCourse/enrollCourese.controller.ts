@@ -3,8 +3,8 @@ import { catchasync } from "../../utils/catchAsync";
 import { EnrollCoureseService } from "./enrollCourese.service";
 
 const createEnrolledCourseController = catchasync(async (req, res) => {
-
-    const result = await EnrollCoureseService.createEnrolledCourseIntoDB();
+ const id =req.user.id
+    const result = await EnrollCoureseService.createEnrolledCourseIntoDB(id,req.body);
 
     res.status(httpStatus.OK).json({
         success: true,

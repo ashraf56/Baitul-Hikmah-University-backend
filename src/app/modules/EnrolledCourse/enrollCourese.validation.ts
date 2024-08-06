@@ -2,14 +2,14 @@ import { z } from "zod";
 
 const createEnrolledCourseValidationZodSchema = z.object({
     body: z.object({
-        OfferedCourse: z.string(),
+        offeredCourse: z.string(),
     }),
 });
 
 const updateEnrolledCourseMarksValidationZodSchema = z.object({
     body: z.object({
         semisterRegistration: z.string(),
-        OfferedCourse: z.string(),
+        offeredCourse: z.string(),
         student: z.string(),
         courseMarks: z.object({
             classTest1: z.number().optional(),

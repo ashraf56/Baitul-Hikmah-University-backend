@@ -60,7 +60,7 @@ const moduleRoute = [
         route: auth_route_1.Authroutes
     },
     {
-        path: '/enrollCourese',
+        path: '/enroll-courese',
         route: enrollCourese_route_1.EnrollCourseRoutes
     }
 ];

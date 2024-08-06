@@ -62,7 +62,7 @@ const moduleRoute = [
         route: Authroutes
     },
     {
-        path: '/enrollCourese',
+        path: '/enroll-courese',
         route: EnrollCourseRoutes
     }
 ]

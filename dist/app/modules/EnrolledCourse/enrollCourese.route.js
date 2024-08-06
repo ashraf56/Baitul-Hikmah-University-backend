@@ -10,5 +10,5 @@ const enrollCourese_validation_1 = require("./enrollCourese.validation");
 const validateRequest_1 = __importDefault(require("../../middleware/validateRequest"));
 const authvalidator_1 = __importDefault(require("../../middleware/authvalidator"));
 const router = (0, express_1.Router)();
-router.post('/create-enrolled-course', (0, authvalidator_1.default)('student'), (0, validateRequest_1.default)(enrollCourese_validation_1.EnrolledCourseValidations.createEnrolledCourseValidationZodSchema), enrollCourese_controller_1.EnrollCoureseController.createEnrolledCourseController);
+router.post('/create-enroll-course', (0, authvalidator_1.default)('student'), (0, validateRequest_1.default)(enrollCourese_validation_1.EnrolledCourseValidations.createEnrolledCourseValidationZodSchema), enrollCourese_controller_1.EnrollCoureseController.createEnrolledCourseController);
 exports.EnrollCourseRoutes = router;

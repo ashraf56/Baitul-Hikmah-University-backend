@@ -4,13 +4,13 @@ exports.EnrolledCourseValidations = void 0;
 const zod_1 = require("zod");
 const createEnrolledCourseValidationZodSchema = zod_1.z.object({
     body: zod_1.z.object({
-        OfferedCourse: zod_1.z.string(),
+        offeredCourse: zod_1.z.string(),
     }),
 });
 const updateEnrolledCourseMarksValidationZodSchema = zod_1.z.object({
     body: zod_1.z.object({
         semisterRegistration: zod_1.z.string(),
-        OfferedCourse: zod_1.z.string(),
+        offeredCourse: zod_1.z.string(),
         student: zod_1.z.string(),
         courseMarks: zod_1.z.object({
             classTest1: zod_1.z.number().optional(),

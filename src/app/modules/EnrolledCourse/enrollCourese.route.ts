@@ -7,7 +7,7 @@ import authRequestValidator from "../../middleware/authvalidator";
 const router = Router();
 
 router.post(
-    '/create-enrolled-course',
+    '/create-enroll-course',
     authRequestValidator('student'),
     validateRequest(
       EnrolledCourseValidations.createEnrolledCourseValidationZodSchema,

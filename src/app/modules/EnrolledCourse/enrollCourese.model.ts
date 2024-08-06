@@ -55,7 +55,7 @@ const enrollCoureseSchema = new Schema<enrollCoureseInterface>({
         ref: 'AcademicDepartment',
         required: true,
     },
-    OfferedCourse: {
+    offeredCourse: {
         type: Schema.Types.ObjectId,
         ref: 'OfferedCourse',
         required: true,
