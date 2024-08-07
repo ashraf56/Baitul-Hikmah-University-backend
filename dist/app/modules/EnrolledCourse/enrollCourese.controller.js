@@ -25,6 +25,15 @@ const createEnrolledCourseController = (0, catchAsync_1.catchasync)((req, res) =
         data: result,
     });
 }));
+const updateEnrolledCourseMarks = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield enrollCourese_service_1.EnrollCoureseService.updateEnrolledCourseMarksIntoDB(req.user.id, req.body);
+    res.status(http_status_1.default.OK).json({
+        success: true,
+        message: 'Marks is updated succesfully',
+        data: result,
+    });
+}));
 exports.EnrollCoureseController = {
-    createEnrolledCourseController
+    createEnrolledCourseController,
+    updateEnrolledCourseMarks
 };

@@ -22,6 +22,7 @@ const enrollCourese_model_1 = __importDefault(require("./enrollCourese.model"));
 const course_model_1 = require("../course/course.model");
 const semisterRagistration_model_1 = require("../semisterRegistration/semisterRagistration.model");
 const mongoose_1 = require("mongoose");
+const faculty_model_1 = require("../faculty/faculty.model");
 const createEnrolledCourseIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { offeredCourse } = payload;
     const isOfferedCourseExists = yield OfferedCourse_model_1.OfferedCourse.findById(offeredCourse);
@@ -80,7 +81,6 @@ const createEnrolledCourseIntoDB = (id, payload) => __awaiter(void 0, void 0, vo
             },
         },
     ]);
-    console.log(enrolledCourses);
     //  total enrolled credits + new enrolled course credit > maxCredit
     const totalCredits = enrolledCourses.length > 0 ? enrolledCourses[0].totalEnrolledCredits : 0;
     if (totalCredits && maxCredit && totalCredits + currentCredit > maxCredit) {
@@ -119,6 +119,58 @@ const createEnrolledCourseIntoDB = (id, payload) => __awaiter(void 0, void 0, vo
         throw new Error(err);
     }
 });
+const updateEnrolledCourseMarksIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { semisterRegistration, offeredCourse, student, courseMarks } = payload;
+    const isSemesterRegistrationExists = yield semisterRagistration_model_1.SemesterRegistration.findById(semisterRegistration);
+    if (!isSemesterRegistrationExists) {
+        throw new ErrorApp_1.default(http_status_1.default.NOT_FOUND, 'Semester registration not found !');
+    }
+    const isOfferedCourseExists = yield OfferedCourse_model_1.OfferedCourse.findById(offeredCourse);
+    if (!isOfferedCourseExists) {
+        throw new ErrorApp_1.default(http_status_1.default.NOT_FOUND, 'Offered course not found !');
+    }
+    const isStudentExists = yield student_schema_1.default.findById(student);
+    if (!isStudentExists) {
+        throw new ErrorApp_1.default(http_status_1.default.NOT_FOUND, 'Student not found !');
+    }
+    const faculty = yield faculty_model_1.Faculty.findOne({ id: id }, { _id: 1 });
+    if (!faculty) {
+        throw new ErrorApp_1.default(http_status_1.default.NOT_FOUND, 'Faculty not found !');
+    }
+    const isCourseBelongToFaculty = yield enrollCourese_model_1.default.findOne({
+        semisterRegistration,
+        offeredCourse,
+        student,
+        faculty: faculty._id,
+    });
+    if (!isCourseBelongToFaculty) {
+        throw new ErrorApp_1.default(http_status_1.default.FORBIDDEN, 'You are forbidden! !');
+    }
+    const modifiedData = Object.assign({}, courseMarks);
+    // if (courseMarks?.finalTerm) {
+    //   const { classTest1, classTest2, midTerm, finalTerm } =
+    //     isCourseBelongToFaculty.courseMarks;
+    //   const totalMarks =
+    //     Math.ceil(classTest1 * 0.1) +
+    //     Math.ceil(midTerm * 0.3) +
+    //     Math.ceil(classTest2 * 0.1) +
+    //     Math.ceil(finalTerm * 0.5);
+    //   const result = calculateGradeAndPoints(totalMarks);
+    //   modifiedData.grade = result.grade;
+    //   modifiedData.gradePoints = result.gradePoints;
+    //   modifiedData.isCompleted = true;
+    // }
+    if (courseMarks && Object.keys(courseMarks).length) {
+        for (const [key, value] of Object.entries(courseMarks)) {
+            modifiedData[`courseMarks.${key}`] = value;
+        }
+    }
+    const result = yield enrollCourese_model_1.default.findByIdAndUpdate(isCourseBelongToFaculty._id, modifiedData, {
+        new: true,
+    });
+    return result;
+});
 exports.EnrollCoureseService = {
-    createEnrolledCourseIntoDB
+    createEnrolledCourseIntoDB,
+    updateEnrolledCourseMarksIntoDB
 };
