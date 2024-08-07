@@ -9,6 +9,7 @@ import { Course } from "../course/course.model";
 import { SemesterRegistration } from "../semisterRegistration/semisterRagistration.model";
 import { startSession } from "mongoose";
 import { Faculty } from "../faculty/faculty.model";
+import { calculateGradeAndPoints } from "./enrollCourse.utill";
 
 const createEnrolledCourseIntoDB = async (id: string, payload: enrollCoureseInterface) => {
 
@@ -192,22 +193,24 @@ const updateEnrolledCourseMarksIntoDB = async (
     ...courseMarks,
   };
 
-  // if (courseMarks?.finalTerm) {
-  //   const { classTest1, classTest2, midTerm, finalTerm } =
-  //     isCourseBelongToFaculty.courseMarks;
+  if (courseMarks?.finalTerm) {
+    const { classTest1, classTest2, midTerm, finalTerm } =
+      isCourseBelongToFaculty.courseMarks;
 
-  //   const totalMarks =
-  //     Math.ceil(classTest1 * 0.1) +
-  //     Math.ceil(midTerm * 0.3) +
-  //     Math.ceil(classTest2 * 0.1) +
-  //     Math.ceil(finalTerm * 0.5);
+    const totalMarks =
+      Math.ceil(classTest1 * 0.1) +
+      Math.ceil(midTerm * 0.3) +
+      Math.ceil(classTest2 * 0.1) +
+      Math.ceil(finalTerm * 0.5);
 
-  //   const result = calculateGradeAndPoints(totalMarks);
-
-  //   modifiedData.grade = result.grade;
-  //   modifiedData.gradePoints = result.gradePoints;
-  //   modifiedData.isCompleted = true;
-  // }
+    const result = calculateGradeAndPoints(totalMarks);
+  console.log({totalMarks});
+  console.log({result});
+  
+    modifiedData.grade = result.grade;
+    modifiedData.gradePoints = result.gradePoints;
+    modifiedData.isCompleted = true;
+  }
 
   if (courseMarks && Object.keys(courseMarks).length) {
     for (const [key, value] of Object.entries(courseMarks)) {

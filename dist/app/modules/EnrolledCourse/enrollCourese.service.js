@@ -23,6 +23,7 @@ const course_model_1 = require("../course/course.model");
 const semisterRagistration_model_1 = require("../semisterRegistration/semisterRagistration.model");
 const mongoose_1 = require("mongoose");
 const faculty_model_1 = require("../faculty/faculty.model");
+const enrollCourse_utill_1 = require("./enrollCourse.utill");
 const createEnrolledCourseIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { offeredCourse } = payload;
     const isOfferedCourseExists = yield OfferedCourse_model_1.OfferedCourse.findById(offeredCourse);
@@ -147,19 +148,19 @@ const updateEnrolledCourseMarksIntoDB = (id, payload) => __awaiter(void 0, void 
         throw new ErrorApp_1.default(http_status_1.default.FORBIDDEN, 'You are forbidden! !');
     }
     const modifiedData = Object.assign({}, courseMarks);
-    // if (courseMarks?.finalTerm) {
-    //   const { classTest1, classTest2, midTerm, finalTerm } =
-    //     isCourseBelongToFaculty.courseMarks;
-    //   const totalMarks =
-    //     Math.ceil(classTest1 * 0.1) +
-    //     Math.ceil(midTerm * 0.3) +
-    //     Math.ceil(classTest2 * 0.1) +
-    //     Math.ceil(finalTerm * 0.5);
-    //   const result = calculateGradeAndPoints(totalMarks);
-    //   modifiedData.grade = result.grade;
-    //   modifiedData.gradePoints = result.gradePoints;
-    //   modifiedData.isCompleted = true;
-    // }
+    if (courseMarks === null || courseMarks === void 0 ? void 0 : courseMarks.finalTerm) {
+        const { classTest1, classTest2, midTerm, finalTerm } = isCourseBelongToFaculty.courseMarks;
+        const totalMarks = Math.ceil(classTest1 * 0.1) +
+            Math.ceil(midTerm * 0.3) +
+            Math.ceil(classTest2 * 0.1) +
+            Math.ceil(finalTerm * 0.5);
+        const result = (0, enrollCourse_utill_1.calculateGradeAndPoints)(totalMarks);
+        console.log({ totalMarks });
+        console.log({ result });
+        modifiedData.grade = result.grade;
+        modifiedData.gradePoints = result.gradePoints;
+        modifiedData.isCompleted = true;
+    }
     if (courseMarks && Object.keys(courseMarks).length) {
         for (const [key, value] of Object.entries(courseMarks)) {
             modifiedData[`courseMarks.${key}`] = value;
