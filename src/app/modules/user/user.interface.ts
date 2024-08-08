@@ -7,7 +7,7 @@ export interface UserInterface {
     email:string;
     password: string;
     needsPasswordChange: boolean;
-    role: 'admin' | 'student' | 'faculty';
+    role: 'super-admin' |'admin' | 'student' | 'faculty';
     status: 'in-progress' | 'blocked';
     isDeleted: boolean;
     passwordChangedAt?: Date;

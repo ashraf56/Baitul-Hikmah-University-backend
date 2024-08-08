@@ -12,28 +12,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const app_1 = __importDefault(require("./app"));
-const mongoose_1 = __importDefault(require("mongoose"));
-const config_1 = __importDefault(require("./app/config"));
-const DB_1 = __importDefault(require("./app/DB"));
-function main() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield mongoose_1.default.connect(`${config_1.default.dbs}`);
-            (0, DB_1.default)();
-            app_1.default.listen(config_1.default.port, () => {
-                console.log(`app is listening on Port ${config_1.default.port}`);
-            });
-        }
-        catch (error) {
-            console.log(error);
-        }
-    });
-}
-main();
-// async function bootstrap() {
-//   server = app.listen(config.port, () => {
-//     console.log(`app is listening on Port ${config.port}`);
-//   });
-// }
-// bootstrap();
+const config_1 = __importDefault(require("../config"));
+const user_constant_1 = require("../modules/user/user.constant");
+const user_model_1 = __importDefault(require("../modules/user/user.model"));
+const superUser = {
+    id: '0001',
+    email: 'ashrafulfahim@gmail.com',
+    password: config_1.default.Super_admin_Pass,
+    needsPasswordChange: false,
+    role: user_constant_1.UserRoles.superAdmin,
+    status: 'in-progress',
+    isDeleted: false,
+};
+const seedSuperAdmin = () => __awaiter(void 0, void 0, void 0, function* () {
+    //when database is connected, we will check is there any user who is super admin
+    const isSuperAdminExits = yield user_model_1.default.findOne({ role: user_constant_1.UserRoles.superAdmin });
+    if (!isSuperAdminExits) {
+        yield user_model_1.default.create(superUser);
+    }
+});
+exports.default = seedSuperAdmin;

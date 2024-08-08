@@ -16,5 +16,6 @@ exports.default = {
     FrogetPassUr: process.env.FrogetPassURL,
     Cloud_Name: process.env.Cloud_name,
     Api_key: process.env.Api_key,
-    Api_Secret: process.env.Api_Secret
+    Api_Secret: process.env.Api_Secret,
+    Super_admin_Pass: process.env.Super_adminPass
 };
