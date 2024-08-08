@@ -32,7 +32,7 @@ const createFaculty = catchasync(
 
 
 
-        const newfaculty = await UserService.CreateFacultyDB(password, faculty);
+        const newfaculty = await UserService.CreateFacultyDB(req.file,password, faculty);
 
 
         res.status(200).json({
@@ -56,7 +56,7 @@ const createAdmin = catchasync(
         const { password, admin } = req.body;
 
 
-        const newAdmin = await UserService.createAdminIntoDB(password, admin);
+        const newAdmin = await UserService.createAdminIntoDB(req.file,password, admin);
 
         res.status(200).json({
             success: true,

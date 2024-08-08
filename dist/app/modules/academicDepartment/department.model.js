@@ -20,6 +20,8 @@ const academicDepartmentSChema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.ObjectId,
         ref: "AcademicFaculty"
     }
+}, {
+    timestamps: true
 });
 academicDepartmentSChema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {

@@ -13,6 +13,8 @@ const academicDepartmentSChema = new Schema<AcademicDepartmentInterface>({
         ref: "AcademicFaculty"
 
     }
+}, {
+    timestamps: true
 })
 
 

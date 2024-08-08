@@ -37,11 +37,19 @@ const Studentchema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'AcademicSemester',
     },
+    academicDepartment: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'AcademicDepartment',
+    },
+    academicFaculty: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'AcademicFaculty',
+    },
     isDeleted: {
         type: Boolean,
         default: false
     },
-    profileImg: { type: String }
+    profileImg: { type: String, default: '' }
 }, {
     timestamps: true
 });

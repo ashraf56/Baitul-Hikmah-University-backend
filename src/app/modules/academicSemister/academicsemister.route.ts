@@ -8,24 +8,24 @@ import authRequestValidator from "../../middleware/authvalidator";
 const router = Router()
 
 
-router.post('/create-semister',authRequestValidator("admin"),
+router.post('/create-semister', authRequestValidator('superAdmin', "admin"),
     validateRequest(AcademicSemesterValidation.createAcdemicSemesterValidationSchema),
     AcademicSemesterControllers.createAcademicSemesterController
 )
 router.get(
-    '/:semesterId',authRequestValidator("admin"),
+    '/:semesterId', authRequestValidator("superAdmin", "admin"),
     AcademicSemesterControllers.getSingleAcademicSemester,
 );
 
 router.patch(
-    '/:semesterId',authRequestValidator("admin"),
+    '/:semesterId', authRequestValidator("superAdmin", "admin"),
     validateRequest(
         AcademicSemesterValidation.updateAcademicSemesterValidationSchema,
     ),
     AcademicSemesterControllers.updateAcademicSemester,
 );
 
-router.get('/', authRequestValidator("admin"),AcademicSemesterControllers.getAllAcademicSemesters);
+router.get('/', authRequestValidator("superAdmin", "admin"), AcademicSemesterControllers.getAllAcademicSemesters);
 
 
 export const AcademicSemesterRouter = router

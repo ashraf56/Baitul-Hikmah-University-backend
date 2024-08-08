@@ -77,7 +77,7 @@ const Facultyshcema = new Schema<Facultyinterface>({
     type: String,
     required: [true, 'Permanent address is required'],
   },
-  profileImg: { type: String },
+  profileImg: { type: String , default:''},
   academicdepartment: {
     type: Schema.Types.ObjectId,
     ref: 'AcademicDepartment',
@@ -91,7 +91,8 @@ const Facultyshcema = new Schema<Facultyinterface>({
   {
     toJSON: {
       virtuals: true
-    }
+    },
+    timestamps:true
   }
 
 )

@@ -77,7 +77,7 @@ const AdminSchema = new Schema<Admininterface>({
     type: String,
     required: [true, 'Permanent address is required'],
   },
-  profileImg: { type: String },
+  profileImg: { type: String , default:''},
   isDeleted: {
     type: Boolean,
     default: false,
@@ -87,6 +87,7 @@ const AdminSchema = new Schema<Admininterface>({
     toJSON: {
       virtuals: true,
     },
+    timestamps:true
   },)
 
 
