@@ -80,6 +80,10 @@ const Facultyshcema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'AcademicDepartment',
     },
+    academicFaculty: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'AcademicFaculty',
+    },
     isDeleted: {
         type: Boolean,
         default: false,

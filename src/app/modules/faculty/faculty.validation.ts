@@ -28,7 +28,6 @@ export const createFacultyValidationSchema = z.object({
       presentAddress: z.string(),
       permanentAddress: z.string(),
       academicdepartment: z.string(),
-      profileImg: z.string().optional(),
     }),
   }),
 });

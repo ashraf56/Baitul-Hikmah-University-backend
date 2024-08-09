@@ -105,10 +105,10 @@ const CreateFacultyDB = async (file: any, password: string, payload: Facultyinte
 
 
     if (!academicdepartment) {
-        throw new Error('academic Department  not found');
+        throw new ErrorApp(httpStatus.NOT_FOUND, 'academic Department  not found');
 
     }
-
+    payload.academicFaculty = academicdepartment.academicFaculty
     const session = await mongoose.startSession()
 
     try {
@@ -135,7 +135,7 @@ const CreateFacultyDB = async (file: any, password: string, payload: Facultyinte
         // it will create student in the strudents collection
         const faculties = await Faculty.create([payload], { session })
         if (!faculties.length) {
-            throw new Error('Failed to create student')
+            throw new Error('Failed to create faculty')
         }
         await session.commitTransaction()
         await session.endSession()

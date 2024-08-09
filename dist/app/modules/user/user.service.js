@@ -79,8 +79,9 @@ const CreateFacultyDB = (file, password, payload) => __awaiter(void 0, void 0, v
     newUserdata.email = payload.email;
     const academicdepartment = yield department_model_1.default.findById(payload.academicdepartment);
     if (!academicdepartment) {
-        throw new Error('academic Department  not found');
+        throw new ErrorApp_1.default(http_status_1.default.NOT_FOUND, 'academic Department  not found');
     }
+    payload.academicFaculty = academicdepartment.academicFaculty;
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();
@@ -102,7 +103,7 @@ const CreateFacultyDB = (file, password, payload) => __awaiter(void 0, void 0, v
         // it will create student in the strudents collection
         const faculties = yield faculty_model_1.Faculty.create([payload], { session });
         if (!faculties.length) {
-            throw new Error('Failed to create student');
+            throw new Error('Failed to create faculty');
         }
         yield session.commitTransaction();
         yield session.endSession();

@@ -82,6 +82,10 @@ const Facultyshcema = new Schema<Facultyinterface>({
     type: Schema.Types.ObjectId,
     ref: 'AcademicDepartment',
   },
+  academicFaculty: {
+    type: Schema.Types.ObjectId,
+    ref: 'AcademicFaculty',
+  },
   isDeleted: {
     type: Boolean,
     default: false,
