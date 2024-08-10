@@ -16,6 +16,7 @@ router.delete('/:id', (0, authvalidator_1.default)('admin', 'superAdmin'), cours
 router.get('/', (0, authvalidator_1.default)('admin', 'superAdmin', 'student', 'faculty'), course_controller_1.CourseControllers.getAllCourseController);
 router.patch('/:id', (0, authvalidator_1.default)('admin', 'superAdmin'), (0, validateRequest_1.default)(course_validation_1.CourseValidations.updateCourseValidationSchema), course_controller_1.CourseControllers.getUpdateCourseController);
 // Course Faculty route
-router.delete('/:courseID/remove-course', (0, validateRequest_1.default)(course_validation_1.CourseValidations.facultiesWithCourseValidationSchema), course_controller_1.CourseControllers.RemoveCourseFacultyController);
-router.put('/:courseID/assign-course', (0, validateRequest_1.default)(course_validation_1.CourseValidations.facultiesWithCourseValidationSchema), course_controller_1.CourseControllers.AssignCourseFacultyController);
+router.delete('/:courseID/remove-course', (0, authvalidator_1.default)('superAdmin', 'admin'), (0, validateRequest_1.default)(course_validation_1.CourseValidations.facultiesWithCourseValidationSchema), course_controller_1.CourseControllers.RemoveCourseFacultyController);
+router.put('/:courseID/assign-course', (0, authvalidator_1.default)('superAdmin', 'admin'), (0, validateRequest_1.default)(course_validation_1.CourseValidations.facultiesWithCourseValidationSchema), course_controller_1.CourseControllers.AssignCourseFacultyController);
+router.get('/:courseId/get-course-faculty', (0, authvalidator_1.default)('superAdmin', 'admin'), course_controller_1.CourseControllers.getFacultiesWithCourseController);
 exports.CourseRouter = router;

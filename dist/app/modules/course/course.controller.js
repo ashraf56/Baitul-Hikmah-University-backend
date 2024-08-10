@@ -77,6 +77,15 @@ const RemoveCourseFacultyController = (0, catchAsync_1.catchasync)((req, res) =>
         data: assignRes
     });
 }));
+const getFacultiesWithCourseController = (0, catchAsync_1.catchasync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { courseId } = req.params;
+    const result = yield course_service_1.CourseServices.getFacultiesWithCourseFromDB(courseId);
+    res.status(200).json({
+        success: true,
+        message: "Faculties retrieved succesfully",
+        data: result
+    });
+}));
 exports.CourseControllers = {
     createCourseController,
     getAllCourseController,
@@ -84,5 +93,6 @@ exports.CourseControllers = {
     deleteCourseController,
     getUpdateCourseController,
     AssignCourseFacultyController,
-    RemoveCourseFacultyController
+    RemoveCourseFacultyController,
+    getFacultiesWithCourseController
 };

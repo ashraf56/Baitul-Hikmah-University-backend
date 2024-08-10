@@ -22,13 +22,19 @@ router.patch('/:id',authRequestValidator('admin','superAdmin'), validateRequest(
 
 
 // Course Faculty route
-router.delete('/:courseID/remove-course',
+router.delete('/:courseID/remove-course', 
+    authRequestValidator('superAdmin','admin'),
     validateRequest(CourseValidations.facultiesWithCourseValidationSchema),
     CourseControllers.RemoveCourseFacultyController
 )
 
 router.put('/:courseID/assign-course',
+    authRequestValidator('superAdmin','admin'),
     validateRequest(CourseValidations.facultiesWithCourseValidationSchema),
     CourseControllers.AssignCourseFacultyController)
+
+router.get('/:courseId/get-course-faculty',
+    authRequestValidator('superAdmin','admin'),
+    CourseControllers.getFacultiesWithCourseController)
 
 export const CourseRouter = router;
