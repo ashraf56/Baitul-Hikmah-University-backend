@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.upload = exports.sendImageTOcloudinary = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const cloudinary_1 = require("cloudinary");
 const config_1 = __importDefault(require("../config"));
 const multer_1 = __importDefault(require("multer"));

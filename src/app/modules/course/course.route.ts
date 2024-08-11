@@ -2,32 +2,39 @@ import { Router } from "express";
 import validateRequest from "../../middleware/validateRequest";
 import { CourseValidations } from "./course.validation";
 import { CourseControllers } from "./course.controller";
+import authRequestValidator from "../../middleware/authvalidator";
 
 const router = Router();
 
 router.post(
-    '/create-course',
+    '/create-course',authRequestValidator('admin','superAdmin'),
     validateRequest(CourseValidations.createCourseValidationSchema),
     CourseControllers.createCourseController,
 );
 
-router.get('/:id', CourseControllers.getSingleCourseController);
+router.get('/:id', authRequestValidator('admin','superAdmin','student','faculty'),CourseControllers.getSingleCourseController);
 
-router.delete('/:id', CourseControllers.deleteCourseController);
+router.delete('/:id', authRequestValidator('admin','superAdmin'), CourseControllers.deleteCourseController);
 
-router.get('/', CourseControllers.getAllCourseController);
-router.patch('/:id', validateRequest(CourseValidations.updateCourseValidationSchema),
+router.get('/', authRequestValidator('admin','superAdmin','student','faculty'), CourseControllers.getAllCourseController);
+router.patch('/:id',authRequestValidator('admin','superAdmin'), validateRequest(CourseValidations.updateCourseValidationSchema),
     CourseControllers.getUpdateCourseController)
 
 
 // Course Faculty route
-router.delete('/:courseID/remove-course',
+router.delete('/:courseID/remove-course', 
+    authRequestValidator('superAdmin','admin'),
     validateRequest(CourseValidations.facultiesWithCourseValidationSchema),
     CourseControllers.RemoveCourseFacultyController
 )
 
 router.put('/:courseID/assign-course',
+    authRequestValidator('superAdmin','admin'),
     validateRequest(CourseValidations.facultiesWithCourseValidationSchema),
     CourseControllers.AssignCourseFacultyController)
+
+router.get('/:courseId/get-course-faculty',
+    authRequestValidator('superAdmin','admin'),
+    CourseControllers.getFacultiesWithCourseController)
 
 export const CourseRouter = router;

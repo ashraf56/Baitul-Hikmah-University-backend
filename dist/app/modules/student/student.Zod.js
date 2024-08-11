@@ -17,7 +17,6 @@ exports.createStudentsInfoZODSchema = zod_1.z.object({
             country: zod_1.z.string().trim().optional(),
             gender: zod_1.z.enum(['male', 'female']).optional(),
             gardian: exports.GardianSchema.optional(),
-            // profileImg:z.string().optional()
         })
     })
 });

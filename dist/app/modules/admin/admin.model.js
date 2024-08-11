@@ -75,7 +75,7 @@ const AdminSchema = new mongoose_1.Schema({
         type: String,
         required: [true, 'Permanent address is required'],
     },
-    profileImg: { type: String },
+    profileImg: { type: String, default: '' },
     isDeleted: {
         type: Boolean,
         default: false,
@@ -84,6 +84,7 @@ const AdminSchema = new mongoose_1.Schema({
     toJSON: {
         virtuals: true,
     },
+    timestamps: true
 });
 AdminSchema.pre('find', function (next) {
     this.find({ isDeleted: { $ne: true } });

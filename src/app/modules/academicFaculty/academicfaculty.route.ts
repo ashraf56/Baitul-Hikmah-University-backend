@@ -8,13 +8,13 @@ import authRequestValidator from "../../middleware/authvalidator";
 const router = Router()
 
 
-router.post('/create-academicfaculty',authRequestValidator('admin'),
+router.post('/create-academicfaculty',authRequestValidator('superAdmin','admin'),
     validateRequest(AcdemicFacultyValidation.createAcdemicFacultyValidationSchema),
     AcademicFacultyControllers.createAcdemicFacultyController)
 
-router.get('/',authRequestValidator('admin','faculty','student'), AcademicFacultyControllers.getAllAcademicFacultyController)
-router.get('/:id',authRequestValidator('admin','faculty','student') ,AcademicFacultyControllers.getSingleAcademicFacultyController)
-router.patch('/:id',authRequestValidator('admin'), AcademicFacultyControllers.updateAcademicFacultyController)
+router.get('/',authRequestValidator('admin','faculty','student','superAdmin'), AcademicFacultyControllers.getAllAcademicFacultyController)
+router.get('/:id',authRequestValidator('admin','faculty','student','superAdmin') ,AcademicFacultyControllers.getSingleAcademicFacultyController)
+router.patch('/:id',authRequestValidator('admin','superAdmin'), AcademicFacultyControllers.updateAcademicFacultyController)
 
 
 

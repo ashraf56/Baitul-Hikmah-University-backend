@@ -65,8 +65,9 @@ const getStudentsFromDB = (query) => __awaiter(void 0, void 0, void 0, function*
         .sort()
         .paginate()
         .fields();
+    const meta = yield studentQuery.metaCount();
     const result = yield studentQuery.modelQuery;
-    return result;
+    return { meta, result };
 });
 const deleteStudentFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const session = yield (0, mongoose_1.startSession)();

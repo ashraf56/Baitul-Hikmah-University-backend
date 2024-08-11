@@ -23,6 +23,8 @@ const department_model_1 = __importDefault(require("../academicDepartment/depart
 const faculty_model_1 = require("../faculty/faculty.model");
 const admin_model_1 = require("../admin/admin.model");
 const sendImageTOCloudinary_1 = require("../../utils/sendImageTOCloudinary");
+const ErrorApp_1 = __importDefault(require("../../errors/ErrorApp"));
+const http_status_1 = __importDefault(require("http-status"));
 const CreateUserDB = (file, password, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const newUserdata = {};
     newUserdata.password = password || 'abc123';
@@ -32,14 +34,22 @@ const CreateUserDB = (file, password, payload) => __awaiter(void 0, void 0, void
     if (!admissionSemester) {
         throw new Error('Admission semester not found');
     }
+    const academicDepartment = yield department_model_1.default.findById(payload.academicDepartment);
+    if (!academicDepartment) {
+        throw new ErrorApp_1.default(http_status_1.default.NOT_FOUND, 'AcademicDepartment not found');
+    }
+    payload.academicFaculty = academicDepartment.academicFaculty;
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();
         newUserdata.id = yield (0, user_utils_1.genarateSudentID)(admissionSemester);
         // sending image into cloudinary 
-        const imageName = `UsersID${newUserdata.id}`;
-        const path = file === null || file === void 0 ? void 0 : file.path;
-        const { secure_url } = yield (0, sendImageTOCloudinary_1.sendImageTOcloudinary)(imageName, path);
+        if (file) {
+            const imageName = `UsersID${newUserdata.id}`;
+            const path = file === null || file === void 0 ? void 0 : file.path;
+            const { secure_url } = yield (0, sendImageTOCloudinary_1.sendImageTOcloudinary)(imageName, path);
+            payload.profileImg = secure_url; // set cloudinary image url link in the profile image 
+        }
         // it will create new user in the user colleciton
         const newUser = yield user_model_1.default.create([newUserdata], { session });
         if (!newUser.length) {
@@ -47,8 +57,6 @@ const CreateUserDB = (file, password, payload) => __awaiter(void 0, void 0, void
         }
         payload.id = newUser[0].id;
         payload.userid = newUser[0]._id;
-        // set cloudinary image url link in the profile image 
-        payload.profileImg = secure_url;
         // it will create student in the strudents collection
         const students = yield student_schema_1.default.create([payload], { session });
         if (!students.length) {
@@ -64,19 +72,27 @@ const CreateUserDB = (file, password, payload) => __awaiter(void 0, void 0, void
         throw new Error('Failed to complete transition');
     }
 });
-const CreateFacultyDB = (password, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const CreateFacultyDB = (file, password, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const newUserdata = {};
     newUserdata.password = password || 'abc123';
     newUserdata.role = 'faculty';
     newUserdata.email = payload.email;
     const academicdepartment = yield department_model_1.default.findById(payload.academicdepartment);
     if (!academicdepartment) {
-        throw new Error('academic Department  not found');
+        throw new ErrorApp_1.default(http_status_1.default.NOT_FOUND, 'academic Department  not found');
     }
+    payload.academicFaculty = academicdepartment.academicFaculty;
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();
         newUserdata.id = yield (0, user_utils_1.generateFacultyId)();
+        // sending image into cloudinary 
+        if (file) {
+            const imageName = `UsersID${newUserdata.id}`;
+            const path = file === null || file === void 0 ? void 0 : file.path;
+            const { secure_url } = yield (0, sendImageTOCloudinary_1.sendImageTOcloudinary)(imageName, path);
+            payload.profileImg = secure_url; // set cloudinary image url link in the profile image 
+        }
         // it will create new user in the user colleciton
         const newUser = yield user_model_1.default.create([newUserdata], { session });
         if (!newUser.length) {
@@ -87,7 +103,7 @@ const CreateFacultyDB = (password, payload) => __awaiter(void 0, void 0, void 0,
         // it will create student in the strudents collection
         const faculties = yield faculty_model_1.Faculty.create([payload], { session });
         if (!faculties.length) {
-            throw new Error('Failed to create student');
+            throw new Error('Failed to create faculty');
         }
         yield session.commitTransaction();
         yield session.endSession();
@@ -99,7 +115,7 @@ const CreateFacultyDB = (password, payload) => __awaiter(void 0, void 0, void 0,
         throw new Error('Failed to complete transition');
     }
 });
-const createAdminIntoDB = (password, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const createAdminIntoDB = (file, password, payload) => __awaiter(void 0, void 0, void 0, function* () {
     // create a user object
     const userData = {};
     //if password is not given , use deafult password
@@ -113,6 +129,13 @@ const createAdminIntoDB = (password, payload) => __awaiter(void 0, void 0, void 
         session.startTransaction();
         //set  generated id
         userData.id = yield (0, user_utils_1.generateAdminId)();
+        // sending image into cloudinary 
+        if (file) {
+            const imageName = `UsersID${userData.id}`;
+            const path = file === null || file === void 0 ? void 0 : file.path;
+            const { secure_url } = yield (0, sendImageTOCloudinary_1.sendImageTOcloudinary)(imageName, path);
+            payload.profileImg = secure_url; // set cloudinary image url link in the profile image 
+        }
         // create a user (transaction-1)
         const newUser = yield user_model_1.default.create([userData], { session });
         //create a admin

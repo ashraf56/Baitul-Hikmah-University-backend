@@ -4,5 +4,6 @@ exports.UserRoles = void 0;
 exports.UserRoles = {
     admin: 'admin',
     student: 'student',
-    faculty: 'faculty'
+    faculty: 'faculty',
+    superAdmin: 'superAdmin'
 };

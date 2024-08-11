@@ -75,10 +75,14 @@ const Facultyshcema = new mongoose_1.Schema({
         type: String,
         required: [true, 'Permanent address is required'],
     },
-    profileImg: { type: String },
+    profileImg: { type: String, default: '' },
     academicdepartment: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'AcademicDepartment',
+    },
+    academicFaculty: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'AcademicFaculty',
     },
     isDeleted: {
         type: Boolean,
@@ -87,6 +91,7 @@ const Facultyshcema = new mongoose_1.Schema({
 }, {
     toJSON: {
         virtuals: true
-    }
+    },
+    timestamps: true
 });
 exports.Faculty = (0, mongoose_1.model)('Faculty', Facultyshcema);

@@ -12,6 +12,9 @@ import AcademicDepartment from "../academicDepartment/department.model";
 import { Faculty } from "../faculty/faculty.model";
 import { Admin } from "../admin/admin.model";
 import { sendImageTOcloudinary } from "../../utils/sendImageTOCloudinary";
+import ErrorApp from "../../errors/ErrorApp";
+import httpStatus from "http-status";
+import { Admininterface } from "../admin/admin.interface";
 
 
 
@@ -29,6 +32,12 @@ const CreateUserDB = async (file: any, password: string, payload: StudentsInfo) 
     if (!admissionSemester) {
         throw new Error('Admission semester not found');
     }
+    const academicDepartment = await AcademicDepartment.findById(payload.academicDepartment)
+
+    if (!academicDepartment) {
+        throw new ErrorApp(httpStatus.NOT_FOUND, 'AcademicDepartment not found')
+    }
+    payload.academicFaculty = academicDepartment.academicFaculty;
 
     const session = await mongoose.startSession()
 
@@ -37,9 +46,12 @@ const CreateUserDB = async (file: any, password: string, payload: StudentsInfo) 
         newUserdata.id = await genarateSudentID(admissionSemester as TAcademicSemester)
 
         // sending image into cloudinary 
-        const imageName = `UsersID${newUserdata.id}`;
-        const path = file?.path
-        const { secure_url } = await sendImageTOcloudinary(imageName, path) as any
+        if (file) {
+            const imageName = `UsersID${newUserdata.id}`;
+            const path = file?.path
+            const { secure_url } = await sendImageTOcloudinary(imageName, path)
+            payload.profileImg = secure_url as string   // set cloudinary image url link in the profile image 
+        }
 
         // it will create new user in the user colleciton
         const newUser = await User.create([newUserdata], { session })
@@ -51,8 +63,8 @@ const CreateUserDB = async (file: any, password: string, payload: StudentsInfo) 
 
         payload.id = newUser[0].id
         payload.userid = newUser[0]._id
-        // set cloudinary image url link in the profile image 
-        payload.profileImg = secure_url
+
+
         // it will create student in the strudents collection
         const students = await Student.create([payload], { session })
         if (!students.length) {
@@ -78,7 +90,7 @@ const CreateUserDB = async (file: any, password: string, payload: StudentsInfo) 
 
 
 
-const CreateFacultyDB = async (password: string, payload: Facultyinterface) => {
+const CreateFacultyDB = async (file: any, password: string, payload: Facultyinterface) => {
 
     const newUserdata: Partial<UserInterface> = {}
 
@@ -93,16 +105,22 @@ const CreateFacultyDB = async (password: string, payload: Facultyinterface) => {
 
 
     if (!academicdepartment) {
-        throw new Error('academic Department  not found');
+        throw new ErrorApp(httpStatus.NOT_FOUND, 'academic Department  not found');
 
     }
-
+    payload.academicFaculty = academicdepartment.academicFaculty
     const session = await mongoose.startSession()
 
     try {
         session.startTransaction()
         newUserdata.id = await generateFacultyId()
-
+        // sending image into cloudinary 
+        if (file) {
+            const imageName = `UsersID${newUserdata.id}`;
+            const path = file?.path
+            const { secure_url } = await sendImageTOcloudinary(imageName, path)
+            payload.profileImg = secure_url as string   // set cloudinary image url link in the profile image 
+        }
 
         // it will create new user in the user colleciton
         const newUser = await User.create([newUserdata], { session })
@@ -117,7 +135,7 @@ const CreateFacultyDB = async (password: string, payload: Facultyinterface) => {
         // it will create student in the strudents collection
         const faculties = await Faculty.create([payload], { session })
         if (!faculties.length) {
-            throw new Error('Failed to create student')
+            throw new Error('Failed to create faculty')
         }
         await session.commitTransaction()
         await session.endSession()
@@ -137,7 +155,7 @@ const CreateFacultyDB = async (password: string, payload: Facultyinterface) => {
 }
 
 
-const createAdminIntoDB = async (password: string, payload: Facultyinterface) => {
+const createAdminIntoDB = async (file: any, password: string, payload: Admininterface) => {
     // create a user object
     const userData: Partial<UserInterface> = {};
 
@@ -155,6 +173,14 @@ const createAdminIntoDB = async (password: string, payload: Facultyinterface) =>
         session.startTransaction();
         //set  generated id
         userData.id = await generateAdminId();
+
+        // sending image into cloudinary 
+        if (file) {
+            const imageName = `UsersID${userData.id}`;
+            const path = file?.path
+            const { secure_url } = await sendImageTOcloudinary(imageName, path)
+            payload.profileImg = secure_url as string   // set cloudinary image url link in the profile image 
+        }
 
         // create a user (transaction-1)
         const newUser = await User.create([userData], { session });

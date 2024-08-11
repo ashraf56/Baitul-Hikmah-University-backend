@@ -6,7 +6,6 @@ import { createStudentsInfoZODSchema } from "../student/student.Zod"
 import { FacultyValidations } from "../faculty/faculty.validation"
 import { AdminValidations } from "../admin/admin.validation"
 import authRequestValidator from "../../middleware/authvalidator"
-import { UserRoles } from "./user.constant"
 import { upload } from "../../utils/sendImageTOCloudinary"
 
 
@@ -15,7 +14,7 @@ const router = express.Router()
 
 
 router.post('/create-student',
-    authRequestValidator(UserRoles.admin),
+    authRequestValidator('superAdmin', 'admin'),
     upload.single('file'),
     (req: Request, res: Response, next: NextFunction) => {
         req.body = JSON.parse(req.body.data);
@@ -24,11 +23,23 @@ router.post('/create-student',
     validateRequest(createStudentsInfoZODSchema),
     UserController.createUsers)
 
-router.post('/create-faculty', authRequestValidator('admin'),
+router.post('/create-faculty', authRequestValidator('superAdmin', 'admin'),
+    upload.single('file'),
+    (req: Request, res: Response, next: NextFunction) => {
+        req.body = JSON.parse(req.body.data);
+        next();
+    },
     validateRequest(FacultyValidations.createFacultyValidationSchema),
     UserController.createFaculty)
-router.post('/create-admin', validateRequest(AdminValidations.createAdminValidationSchema),
+router.post('/create-admin',
+    authRequestValidator('superAdmin'),
+    upload.single('file'),
+    (req: Request, res: Response, next: NextFunction) => {
+        req.body = JSON.parse(req.body.data);
+        next();
+    },
+    validateRequest(AdminValidations.createAdminValidationSchema),
     UserController.createAdmin)
-router.get('/me', authRequestValidator('student', 'faculty', 'admin'), UserController.getMeCOntroller);
+router.get('/me', authRequestValidator('superAdmin', 'student', 'faculty', 'admin'), UserController.getMeCOntroller);
 
 export const UserRouter = router

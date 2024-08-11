@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { v2 as cloudinary } from 'cloudinary';
 import config from '../config';
 import multer from 'multer';
@@ -10,7 +11,7 @@ cloudinary.config({
   api_secret: config.Api_Secret
 });
 
-export const sendImageTOcloudinary = async (imageName: string, path: string) => {
+export const sendImageTOcloudinary = async (imageName: string, path: string): Promise<string| unknown|any> => {
 
 
   try {

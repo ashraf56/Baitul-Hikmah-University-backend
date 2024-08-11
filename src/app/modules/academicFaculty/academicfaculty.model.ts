@@ -8,6 +8,8 @@ const AcademicFacultySchema = new Schema<AcademicFacultyInterface>({
     }
 
 
+}, {
+    timestamps: true
 })
 
 

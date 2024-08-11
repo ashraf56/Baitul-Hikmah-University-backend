@@ -74,9 +74,9 @@ const getStudentsFromDB = async (query: Record<string, unknown>) => {
 
 
 
-
+    const meta = await studentQuery.metaCount()
     const result = await studentQuery.modelQuery
-    return result;
+    return { meta, result };
 
 
 
@@ -119,12 +119,12 @@ const updatestudentDataintoDB = async () => {
 
 const getSingleStudentFromDB = async (id: string) => {
     const result = await Student.findById(id).populate('admissionSemester')
-    
+
     return result;
-  };
-  
+};
+
 
 
 export const StudentService = {
-    getStudentsFromDB, deleteStudentFromDB, updatestudentDataintoDB,getSingleStudentFromDB
+    getStudentsFromDB, deleteStudentFromDB, updatestudentDataintoDB, getSingleStudentFromDB
 }

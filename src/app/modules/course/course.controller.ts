@@ -101,6 +101,20 @@ const RemoveCourseFacultyController = catchasync(
     }
 )
 
+const getFacultiesWithCourseController = catchasync(async (req, res) => {
+    const { courseId } = req.params;
+  
+    const result = await CourseServices.getFacultiesWithCourseFromDB(courseId);
+  
+    
+    res.status(200).json({
+        success: true,
+        message: "Faculties retrieved succesfully",
+        data: result
+    })
+ 
+  });
+  
 
 export const CourseControllers = {
     createCourseController,
@@ -109,5 +123,6 @@ export const CourseControllers = {
     deleteCourseController,
     getUpdateCourseController,
     AssignCourseFacultyController,
-    RemoveCourseFacultyController
+    RemoveCourseFacultyController,
+    getFacultiesWithCourseController
 }

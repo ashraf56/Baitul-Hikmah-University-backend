@@ -38,11 +38,19 @@ const Studentchema = new Schema<StudentsInfo>({
         type: Schema.Types.ObjectId,
         ref: 'AcademicSemester',
     },
+    academicDepartment: {
+        type: Schema.Types.ObjectId,
+        ref: 'AcademicDepartment',
+      },
+      academicFaculty: {
+        type: Schema.Types.ObjectId,
+        ref: 'AcademicFaculty',
+      },
     isDeleted: {
         type: Boolean,
         default: false
     },
-    profileImg: { type: String }
+    profileImg: { type: String , default:''}
 
 
 }, {
