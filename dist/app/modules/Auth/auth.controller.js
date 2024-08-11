@@ -34,6 +34,8 @@ const LoginUserController = (0, catchAsync_1.catchasync)((req, res) => __awaiter
     res.cookie('refreshToken', refreshToken, {
         secure: config_1.default.node_Env === 'production',
         httpOnly: true,
+        sameSite: 'none',
+        maxAge: 1000 * 60 * 60 * 24 * 365,
     });
     res.status(200).json({
         success: true,

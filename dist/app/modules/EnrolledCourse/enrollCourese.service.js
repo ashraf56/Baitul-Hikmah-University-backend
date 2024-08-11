@@ -154,9 +154,7 @@ const updateEnrolledCourseMarksIntoDB = (id, payload) => __awaiter(void 0, void 
             Math.ceil(midTerm) +
             Math.ceil(classTest2) +
             Math.ceil(finalTerm);
-        console.log({ totalMarks });
         const result = (0, enrollCourse_utill_1.calculateGradeAndPoints)(totalMarks);
-        console.log({ result });
         modifiedData.grade = result.grade;
         modifiedData.gradePoints = result.gradePoints;
         modifiedData.isCompleted = true;
