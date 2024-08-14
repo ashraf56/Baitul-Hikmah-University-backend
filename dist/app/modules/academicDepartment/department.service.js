@@ -13,8 +13,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.academicDepartmentService = void 0;
+const http_status_1 = __importDefault(require("http-status"));
+const ErrorApp_1 = __importDefault(require("../../errors/ErrorApp"));
 const department_model_1 = __importDefault(require("./department.model"));
 const createAcademicDepartmentintoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const existDep = yield department_model_1.default.findOne({ name: payload.name });
+    if (existDep) {
+        throw new ErrorApp_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, 'Department aready exist');
+    }
     const insertDep = yield department_model_1.default.create(payload);
     return insertDep;
 });
