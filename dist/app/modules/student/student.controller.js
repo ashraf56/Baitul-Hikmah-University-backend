@@ -59,7 +59,11 @@ const getAllstudent = (0, catchAsync_1.catchasync)(
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield student_service_1.StudentService.getStudentsFromDB(req.query);
-    res.status(200).json({ result });
+    res.status(http_status_1.default.OK).json({
+        message: "Students data retrive successfully",
+        meta: result.meta,
+        data: result.result
+    });
 }));
 exports.StudentController = {
     getAllstudent, deletStudentController, getSingleStudentController

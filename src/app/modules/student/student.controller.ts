@@ -63,11 +63,16 @@ const getAllstudent: RequestHandler = catchasync(
     async (req, res, next) => {
 
         const result = await StudentService.getStudentsFromDB(req.query)
-        res.status(200).json({ result })
+
+        res.status(httpStatus.OK).json({
+            message: "Students data retrive successfully",
+            meta: result.meta,
+            data: result.result
+        })
 
     }
 )
 
 export const StudentController = {
-    getAllstudent, deletStudentController,getSingleStudentController
+    getAllstudent, deletStudentController, getSingleStudentController
 }
