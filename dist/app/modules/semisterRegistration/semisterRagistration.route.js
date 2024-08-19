@@ -12,4 +12,6 @@ const authvalidator_1 = __importDefault(require("../../middleware/authvalidator"
 const router = express_1.default.Router();
 router.post('/create-semester-registration', (0, authvalidator_1.default)('superAdmin', 'admin'), (0, validateRequest_1.default)(semisterRagistration_validation_1.semisterRagistrationValidation.createSemesterRegistrationValidationSchema), semisterRagistration_controller_1.SemesterRegistrationController.createSemesterRegistrationController);
 router.get('/', (0, authvalidator_1.default)('superAdmin', 'admin', 'faculty', 'student'), semisterRagistration_controller_1.SemesterRegistrationController.getAllSemesterRegistrationsController);
+router.get('/:id', (0, authvalidator_1.default)('superAdmin', 'admin'), semisterRagistration_controller_1.SemesterRegistrationController.getSingleSemesterRegistrationsController);
+router.patch('/:id', (0, authvalidator_1.default)('superAdmin', 'admin'), semisterRagistration_controller_1.SemesterRegistrationController.updateSemisterRegitrationController);
 exports.SemisterRagistrationroute = router;

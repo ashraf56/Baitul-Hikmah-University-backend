@@ -13,7 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.semisterRagistrationService = void 0;
+const http_status_1 = __importDefault(require("http-status"));
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
+const ErrorApp_1 = __importDefault(require("../../errors/ErrorApp"));
 const academicsemister_model_1 = require("../academicSemister/academicsemister.model");
 const semisterRagistration_constants_1 = require("./semisterRagistration.constants");
 const semisterRagistration_model_1 = require("./semisterRagistration.model");
@@ -45,10 +47,45 @@ const getAllSemesterRegistrationsFromDB = (query) => __awaiter(void 0, void 0, v
         .sort()
         .paginate()
         .fields();
+    const meta = yield semesterRegistrationQuery.metaCount();
     const result = yield semesterRegistrationQuery.modelQuery;
+    return {
+        meta,
+        result
+    };
+});
+const getSinglesemesterRegistrationDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield semisterRagistration_model_1.SemesterRegistration.findById(id);
+    return result;
+});
+const SemesterRegistrationUpdate = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const isSemesterRegistrationExists = yield semisterRagistration_model_1.SemesterRegistration.findById(id);
+    if (!isSemesterRegistrationExists) {
+        throw new ErrorApp_1.default(http_status_1.default.NOT_FOUND, 'This semester is not found !');
+    }
+    const currentSemesterStatus = isSemesterRegistrationExists === null || isSemesterRegistrationExists === void 0 ? void 0 : isSemesterRegistrationExists.status;
+    const requestedStatus = payload === null || payload === void 0 ? void 0 : payload.status;
+    if (currentSemesterStatus === semisterRagistration_constants_1.RegistrationStatus.ENDED) {
+        throw new ErrorApp_1.default(http_status_1.default.BAD_REQUEST, `This semester is already ${currentSemesterStatus}`);
+    }
+    // UPCOMING --> ONGOING --> ENDED
+    if (currentSemesterStatus === semisterRagistration_constants_1.RegistrationStatus.UPCOMING &&
+        requestedStatus === semisterRagistration_constants_1.RegistrationStatus.ENDED) {
+        throw new ErrorApp_1.default(http_status_1.default.BAD_REQUEST, `You can not directly change status from ${currentSemesterStatus} to ${requestedStatus}`);
+    }
+    if (currentSemesterStatus === semisterRagistration_constants_1.RegistrationStatus.ONGOING &&
+        requestedStatus === semisterRagistration_constants_1.RegistrationStatus.UPCOMING) {
+        throw new ErrorApp_1.default(http_status_1.default.BAD_REQUEST, `You can not directly change status from ${currentSemesterStatus} to ${requestedStatus}`);
+    }
+    const result = yield semisterRagistration_model_1.SemesterRegistration.findByIdAndUpdate(id, payload, {
+        new: true,
+        runValidators: true,
+    });
     return result;
 });
 exports.semisterRagistrationService = {
     createSemesterRegistrationDB,
-    getAllSemesterRegistrationsFromDB
+    getAllSemesterRegistrationsFromDB,
+    SemesterRegistrationUpdate,
+    getSinglesemesterRegistrationDB
 };
